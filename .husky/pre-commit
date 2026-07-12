@@ -1,6 +1,15 @@
-# Enforce branch naming: main | develop | <type>/<short-desc>
 branch="$(git branch --show-current)"
-valid_ref='^(main|develop)$|^(feat|fix|chore|docs|refactor|test|style|perf|ci|build|revert)/[a-z0-9][a-z0-9._/-]*$'
+
+# Never commit directly to main — work must happen on a feature branch.
+if [ "$branch" = "main" ]; then
+  echo "✗ Direct commits to \"main\" are blocked."
+  echo "  Create a properly named branch for your changes first, e.g.:"
+  echo "    git switch -c feat/<short-desc>"
+  exit 1
+fi
+
+# Enforce branch naming: develop | <type>/<short-desc>
+valid_ref='^develop$|^(feat|fix|chore|docs|refactor|test|style|perf|ci|build|revert)/[a-z0-9][a-z0-9._/-]*$'
 if [ -n "$branch" ] && ! printf '%s' "$branch" | grep -Eq "$valid_ref"; then
   echo "✗ Branch \"$branch\" doesn't match the naming convention."
   echo "  Use: <type>/<short-desc>  e.g. feat/sanity-studio, fix/login-redirect"
