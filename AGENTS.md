@@ -26,8 +26,25 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - `Col` spans use `span` / `md` / `lg` props (1–12). Do not build
   `col-span-${n}` strings — Tailwind won't detect them; extend the static maps
   in `grid.tsx` if new spans are needed.
-- Public site pages live under `src/app/(site)/` and get the header/footer shell
-  from `src/app/(site)/layout.tsx`. `/studio` stays on the bare root layout —
-  do NOT add site chrome to the root `layout.tsx`.
+- Public site pages live under `src/app/[locale]/(site)/` and get the
+  header/footer shell from that group's `layout.tsx`. `/studio` has its own bare
+  root layout — do NOT add site chrome to it.
 - Merge class names with `cn()` from `src/lib/utils.ts` so `className` props can
   override component defaults.
+
+# Internationalization (PL/EN)
+
+- Locales: `pl` (default) + `en`, always URL-prefixed (`/pl`, `/en`). Source of
+  truth: `src/i18n/routing.ts`. Locale detection/redirects run in
+  `src/proxy.ts` (Next 16 "Proxy", formerly middleware) — its matcher excludes
+  `/studio`, api, and static.
+- Site routes live under `src/app/[locale]/`; `/studio` stays outside `[locale]`.
+  There are TWO root layouts (`[locale]/layout.tsx`, `studio/layout.tsx`) sharing
+  fonts from `src/app/fonts.ts`.
+- Navigate with `Link` / helpers from `@/i18n/navigation` (locale-aware), NOT
+  `next/link`. In pages, `await params` for `locale` and call `setRequestLocale`.
+  UI strings: `useTranslations` / `getTranslations` + `messages/{pl,en}.json`.
+- Content is **document-level** translated in Sanity
+  (`@sanity/document-internationalization`): one `post` doc per language, filtered
+  by `language == $locale` in GROQ (`src/sanity/lib/queries.ts`). Keep
+  `src/sanity/i18n.ts` languages in sync with `src/i18n/routing.ts`.

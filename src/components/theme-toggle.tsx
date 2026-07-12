@@ -4,9 +4,9 @@ import { useSyncExternalStore } from "react";
 
 /**
  * Minimal light/dark toggle. Flips the `.dark` class on <html> and persists the
- * choice to localStorage (read back before paint by the inline script in the
- * root layout). Deliberately dependency-free; swap for `next-themes` if the
- * theming needs grow (multiple themes, SSR-safe context, etc.).
+ * choice to a `theme` cookie, which the root layout reads server-side to render
+ * the correct class on first paint (no flash, no bootstrapping script).
+ * Dependency-free; swap for `next-themes` if the theming needs grow.
  *
  * The current theme is read from the DOM via `useSyncExternalStore` so the
  * button stays in sync with the `.dark` class without setting state in an
@@ -40,7 +40,8 @@ export function ThemeToggle() {
     const root = document.documentElement;
     const next = !root.classList.contains("dark");
     root.classList.toggle("dark", next);
-    localStorage.setItem("theme", next ? "dark" : "light");
+    // 1 year; readable by the server layout on subsequent requests.
+    document.cookie = `theme=${next ? "dark" : "light"}; path=/; max-age=31536000; samesite=lax`;
   }
 
   return (
