@@ -4,7 +4,6 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 
 import { geistMono, geistSans } from "@/app/fonts";
 import { routing } from "@/i18n/routing";
@@ -49,12 +48,6 @@ export default async function LocaleLayout({
       )}
     >
       <body className="bg-background text-foreground flex min-h-full flex-col font-sans">
-        {/* Applies the persisted/system theme before paint (no flash). Runs via
-            next/script so it isn't a React-rendered <script> (which React 19
-            won't execute on the client and warns about). */}
-        <Script id="theme-init" strategy="beforeInteractive">
-          {themeScript}
-        </Script>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>
