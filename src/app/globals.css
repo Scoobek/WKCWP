@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
+/* Manual, class-based dark mode (Tailwind v4). The `dark:` variant responds to
+   a `.dark` class on an ancestor (set on <html>) instead of the OS
+   `prefers-color-scheme`, so it can be toggled from the UI. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens — PLACEHOLDERS. Swap these hex values for the real brand.
+   Light values live on :root; dark overrides live on .dark. They are mapped to
+   Tailwind color utilities in the `@theme inline` block below, so utilities like
+   `bg-background` / `text-primary` swap automatically when `.dark` is toggled.
+--------------------------------------------------------------------------- */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --primary: #2563eb; /* placeholder brand blue */
+  --primary-foreground: #f8fafc;
+
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  --accent: #eef2ff;
+  --accent-foreground: #0f172a;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #f8fafc;
+
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #2563eb;
+
+  /* Base radius; the scale in @theme derives from this single knob. */
+  --radius: 0.625rem;
 }
 
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+
+  --primary: #3b82f6;
+  --primary-foreground: #0a0a0a;
+
+  --secondary: #1e293b;
+  --secondary-foreground: #f8fafc;
+
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+
+  --accent: #1e293b;
+  --accent-foreground: #f8fafc;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #0a0a0a;
+
+  --border: #1e293b;
+  --input: #1e293b;
+  --ring: #3b82f6;
+}
+
+/* Map tokens → Tailwind theme. `inline` emits `var()` references so the emitted
+   utilities pick up the light/dark swap at runtime rather than freezing a value. */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Radius scale → generates rounded-sm/md/lg/xl from the --radius knob. */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
