@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/layout/container";
+import { SetLocaleAlternates } from "@/components/layout/locale-alternates";
 import { Section } from "@/components/layout/section";
 import { Link } from "@/i18n/navigation";
 import { getPost } from "@/sanity/lib/queries";
@@ -34,8 +35,20 @@ export default async function PostPage({ params }: { params: Params }) {
     notFound();
   }
 
+  // Point the language switcher at each locale's own slug so switching language
+  // on this post doesn't 404. Include this locale's slug, then every translation
+  // that has one; locales without a translation are omitted so the switcher
+  // falls back to the posts list for them.
+  const alternates: Record<string, string> = { [locale]: `/posts/${slug}` };
+  for (const translation of post.translations) {
+    if (translation.slug) {
+      alternates[translation.locale] = `/posts/${translation.slug}`;
+    }
+  }
+
   return (
     <Section>
+      <SetLocaleAlternates alternates={alternates} />
       <Container>
         <Link
           href="/posts"
