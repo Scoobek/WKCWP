@@ -1,1 +1,11 @@
+# Enforce branch naming: main | develop | <type>/<short-desc>
+branch="$(git branch --show-current)"
+valid_ref='^(main|develop)$|^(feat|fix|chore|docs|refactor|test|style|perf|ci|build|revert)/[a-z0-9][a-z0-9._/-]*$'
+if [ -n "$branch" ] && ! printf '%s' "$branch" | grep -Eq "$valid_ref"; then
+  echo "✗ Branch \"$branch\" doesn't match the naming convention."
+  echo "  Use: <type>/<short-desc>  e.g. feat/sanity-studio, fix/login-redirect"
+  echo "  Types: feat fix chore docs refactor test style perf ci build revert"
+  exit 1
+fi
+
 npx lint-staged
