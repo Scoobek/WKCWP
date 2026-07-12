@@ -31,7 +31,7 @@ const POST_QUERY = groq`*[_type == "post" && language == $locale && slug.current
   _id, title, "slug": slug.current, excerpt, publishedAt, body,
   "translations": coalesce(*[
     _type == "translation.metadata" && references(^._id)
-  ][0].translations[]{ "locale": _key, "slug": value->slug.current }, [])
+  ][0].translations[]{ "locale": value->language, "slug": value->slug.current }, [])
 }`;
 
 /** Posts for a locale, newest first. */
