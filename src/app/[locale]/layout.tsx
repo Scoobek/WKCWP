@@ -2,11 +2,12 @@ import "../globals.css";
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 
-import { geistMono, geistSans, themeScript } from "@/app/fonts";
+import { geistMono, geistSans } from "@/app/fonts";
 import { routing } from "@/i18n/routing";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "WKCwP",
@@ -30,19 +31,23 @@ export default async function LocaleLayout({
   }
   setRequestLocale(locale);
 
+  // Theme is resolved server-side from a cookie (set by <ThemeToggle />), so the
+  // correct `.dark` class is in the initial HTML — no flash and no client-side
+  // bootstrapping <script> (which React 19 warns about).
+  const isDark = (await cookies()).get("theme")?.value === "dark";
+
   return (
     <html
       lang={locale}
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={cn(
+        geistSans.variable,
+        geistMono.variable,
+        "h-full antialiased",
+        isDark && "dark"
+      )}
     >
       <body className="bg-background text-foreground flex min-h-full flex-col font-sans">
-        {/* Applies the persisted/system theme before paint (no flash). Runs via
-            next/script so it isn't a React-rendered <script> (which React 19
-            won't execute on the client and warns about). */}
-        <Script id="theme-init" strategy="beforeInteractive">
-          {themeScript}
-        </Script>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>
