@@ -10,6 +10,10 @@ import { cn } from "@/lib/utils";
  * Links to the current page under each locale. `usePathname()` from the i18n
  * navigation returns the path WITHOUT the locale prefix, so `Link` with a
  * `locale` prop switches language while preserving the route.
+ *
+ * `replace` is used so switching language swaps the current history entry
+ * instead of pushing a new one — otherwise repeated toggling grows the back
+ * stack with locale switches.
  */
 export function LanguageSwitcher() {
   const pathname = usePathname();
@@ -22,6 +26,7 @@ export function LanguageSwitcher() {
           key={locale}
           href={pathname}
           locale={locale}
+          replace
           aria-current={locale === active ? "true" : undefined}
           className={cn(
             "rounded px-1.5 py-0.5 uppercase transition-colors",
