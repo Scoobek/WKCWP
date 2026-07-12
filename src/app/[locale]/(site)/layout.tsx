@@ -1,5 +1,6 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { LocaleAlternatesProvider } from "@/components/layout/locale-alternates";
 
 /**
  * Shell for the public site: header + footer around the page content. Lives in
@@ -13,10 +14,10 @@ export default function SiteLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <LocaleAlternatesProvider>
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
-    </>
+    </LocaleAlternatesProvider>
   );
 }
