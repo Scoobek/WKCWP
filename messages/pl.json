@@ -1,0 +1,22 @@
+{
+  "site": {
+    "name": "WKCwP"
+  },
+  "nav": {
+    "home": "Strona główna",
+    "posts": "Aktualności"
+  },
+  "footer": {
+    "rights": "Wszelkie prawa zastrzeżone."
+  },
+  "home": {
+    "title": "WKCwP",
+    "intro": "Dwujęzyczny starter oparty na Next.js i Sanity."
+  },
+  "posts": {
+    "title": "Aktualności",
+    "empty": "Brak wpisów w tym języku.",
+    "readMore": "Czytaj więcej",
+    "backToList": "Wróć do listy"
+  }
+}

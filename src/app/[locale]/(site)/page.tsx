@@ -1,27 +1,27 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
 import { Container } from "@/components/layout/container";
 import { Col, Grid } from "@/components/layout/grid";
 import { Section } from "@/components/layout/section";
 
-export default function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("home");
+
   return (
     <Section>
       <Container>
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            WKCwP
+            {t("title")}
           </h1>
           <p className="text-muted-foreground max-w-2xl text-lg">
-            Layout & grid system starter. This page uses the shared{" "}
-            <code className="bg-muted rounded px-1.5 py-0.5 text-sm">
-              Section
-            </code>{" "}
-            /{" "}
-            <code className="bg-muted rounded px-1.5 py-0.5 text-sm">
-              Container
-            </code>{" "}
-            /{" "}
-            <code className="bg-muted rounded px-1.5 py-0.5 text-sm">Grid</code>{" "}
-            primitives.
+            {t("intro")}
           </p>
         </div>
 
@@ -30,7 +30,7 @@ export default function Home() {
             <div className="border-border bg-secondary text-secondary-foreground rounded-lg border p-6">
               <h2 className="font-medium">12 / 6 / 4</h2>
               <p className="text-muted-foreground mt-1 text-sm">
-                Full width, then half at md, then a third at lg.
+                Responsive column spans via the shared Grid primitives.
               </p>
             </div>
           </Col>
@@ -38,7 +38,7 @@ export default function Home() {
             <div className="border-border bg-secondary text-secondary-foreground rounded-lg border p-6">
               <h2 className="font-medium">12 / 6 / 4</h2>
               <p className="text-muted-foreground mt-1 text-sm">
-                Resize the window to see the responsive spans.
+                Resize the window to see the breakpoints.
               </p>
             </div>
           </Col>
@@ -46,7 +46,7 @@ export default function Home() {
             <div className="border-border bg-secondary text-secondary-foreground rounded-lg border p-6">
               <h2 className="font-medium">12 / 12 / 4</h2>
               <p className="text-muted-foreground mt-1 text-sm">
-                Stays full width until lg, then a third.
+                Full width until lg, then a third.
               </p>
             </div>
           </Col>

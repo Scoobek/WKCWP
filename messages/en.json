@@ -1,0 +1,22 @@
+{
+  "site": {
+    "name": "WKCwP"
+  },
+  "nav": {
+    "home": "Home",
+    "posts": "News"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  },
+  "home": {
+    "title": "WKCwP",
+    "intro": "A bilingual starter built with Next.js and Sanity."
+  },
+  "posts": {
+    "title": "News",
+    "empty": "No posts in this language yet.",
+    "readMore": "Read more",
+    "backToList": "Back to list"
+  }
+}
