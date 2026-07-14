@@ -18,5 +18,10 @@
     "empty": "No posts in this language yet.",
     "readMore": "Read more",
     "backToList": "Back to list"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for doesn't exist or has been moved.",
+    "backHome": "Back to home"
   }
 }

@@ -18,5 +18,10 @@
     "empty": "Brak wpisów w tym języku.",
     "readMore": "Czytaj więcej",
     "backToList": "Wróć do listy"
+  },
+  "notFound": {
+    "title": "Nie znaleziono strony",
+    "description": "Strona, której szukasz, nie istnieje lub została przeniesiona.",
+    "backHome": "Wróć na stronę główną"
   }
 }
