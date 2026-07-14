@@ -15,7 +15,9 @@ import { cn } from "@/lib/utils";
  * Pages with per-locale paths (e.g. a post whose slug differs per language)
  * publish them via `SetLocaleAlternates`; when present we link each locale to
  * its own path instead of blindly reusing `pathname` — which would 404 on a
- * post whose translated slug differs. Otherwise we fall back to path reuse.
+ * post whose translated slug differs. The published map covers every locale
+ * (see `buildLocaleAlternates`), so no per-type fallback is needed here.
+ * Otherwise (no map) we fall back to path reuse.
  *
  * `replace` is used so switching language swaps the current history entry
  * instead of pushing a new one — otherwise repeated toggling grows the back
@@ -26,11 +28,11 @@ export function LanguageSwitcher() {
   const active = useLocale();
   const alternates = useLocaleAlternates();
 
-  // On a page with per-locale paths (alternates present), a locale missing from
-  // the map has no translation — send it to that locale's posts list rather than
-  // reusing this path (which would 404). Elsewhere, reuse the current path.
+  // On a page with per-locale paths, link each locale to its published path
+  // (the map covers every locale, including a fallback for those without a
+  // translation). Elsewhere (no map), reuse the current locale-stripped path.
   const hrefFor = (locale: string) =>
-    alternates ? (alternates[locale] ?? "/posts") : pathname;
+    alternates ? alternates[locale] : pathname;
 
   return (
     <div className="flex items-center gap-1 text-sm font-medium">
