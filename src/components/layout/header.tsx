@@ -28,6 +28,14 @@ export function Header() {
               </li>
               <li>
                 <Link
+                  href="/about"
+                  className="hover:text-foreground transition-colors"
+                >
+                  {t("about")}
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/posts"
                   className="hover:text-foreground transition-colors"
                 >

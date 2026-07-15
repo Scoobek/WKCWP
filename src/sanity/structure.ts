@@ -4,9 +4,15 @@ import { supportedLanguages } from "@/sanity/i18n";
 
 /**
  * Singletons: one document per language, addressed by a deterministic id
- * (`<id>-<lang>`, e.g. `home-pl`). Add future singletons (about, contact) here.
+ * (`<id>-<lang>`, e.g. `home-pl`). Add future singletons (contact, etc.) here.
  */
-const SINGLETONS = [{ id: "home", type: "homePage", title: "Home Page" }];
+const SINGLETONS = [
+  { id: "home", type: "homePage", title: "Home Page" },
+  { id: "about", type: "aboutPage", title: "About" },
+];
+
+/** Singleton schema-type names — used to keep them out of the "Create" menu. */
+export const singletonTypes = new Set(SINGLETONS.map((s) => s.type));
 
 /**
  * Custom Studio sidebar. Replaces the default flat document list so that:

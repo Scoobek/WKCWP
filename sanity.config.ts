@@ -10,7 +10,7 @@ import { structureTool } from "sanity/structure";
 import { apiVersion, dataset, projectId } from "@/sanity/env";
 import { supportedLanguages } from "@/sanity/i18n";
 import { schema } from "@/sanity/schemaTypes";
-import { structure } from "@/sanity/structure";
+import { singletonTypes, structure } from "@/sanity/structure";
 
 export default defineConfig({
   basePath: "/studio",
@@ -21,7 +21,7 @@ export default defineConfig({
   // global "Create new" menu.
   document: {
     newDocumentOptions: (prev) =>
-      prev.filter((item) => item.templateId !== "homePage"),
+      prev.filter((item) => !singletonTypes.has(item.templateId)),
   },
   plugins: [
     structureTool({ structure }),
