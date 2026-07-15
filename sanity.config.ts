@@ -3,6 +3,7 @@
  * route in `src/app/studio/[[...tool]]/page.tsx`.
  */
 import { documentInternationalization } from "@sanity/document-internationalization";
+import { plPLLocale } from "@sanity/locale-pl-pl";
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
@@ -10,7 +11,7 @@ import { structureTool } from "sanity/structure";
 import { apiVersion, dataset, projectId } from "@/sanity/env";
 import { supportedLanguages } from "@/sanity/i18n";
 import { schema } from "@/sanity/schemaTypes";
-import { structure } from "@/sanity/structure";
+import { singletonTypes, structure } from "@/sanity/structure";
 
 export default defineConfig({
   basePath: "/studio",
@@ -21,7 +22,17 @@ export default defineConfig({
   // global "Create new" menu.
   document: {
     newDocumentOptions: (prev) =>
-      prev.filter((item) => item.templateId !== "homePage"),
+      prev.filter((item) => !singletonTypes.has(item.templateId)),
+  },
+  // Studio UI language. Sanity defaults to the *last* locale for users without a
+  // saved preference, so sorting pl-PL last makes Polish the default while
+  // English stays selectable in the user menu.
+  i18n: {
+    locales: (prev) => {
+      const pl = prev.filter((l) => l.id === "pl-PL");
+      const others = prev.filter((l) => l.id !== "pl-PL");
+      return [...others, ...pl];
+    },
   },
   plugins: [
     structureTool({ structure }),
@@ -32,5 +43,7 @@ export default defineConfig({
       supportedLanguages,
       schemaTypes: ["post", "page"],
     }),
+    // Polish UI strings for the Studio chrome.
+    plPLLocale(),
   ],
 });

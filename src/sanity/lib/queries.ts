@@ -103,17 +103,25 @@ export function getPage(locale: string, slug: string) {
   return client.fetch<PageDocument | null>(PAGE_QUERY, { locale, slug });
 }
 
-export type HomePageDocument = {
+/** Any sections-based singleton (home, about, …). */
+export type SectionsDocument = {
   sections: PageSection[] | null;
 };
 
-// The home singleton is fetched by its deterministic id (`home-<locale>`), so
-// no `language`/slug filter is needed — the id encodes the language.
-const HOME_QUERY = groq`*[_id == $id][0]{ ${SECTIONS_FRAGMENT} }`;
+// Singletons are fetched by their deterministic id (`<name>-<locale>`), so no
+// `language`/slug filter is needed — the id encodes the language.
+const SINGLETON_QUERY = groq`*[_id == $id][0]{ ${SECTIONS_FRAGMENT} }`;
+
+function getSingleton(id: string) {
+  return client.fetch<SectionsDocument | null>(SINGLETON_QUERY, { id });
+}
 
 /** The home page singleton for a locale, or null if not published yet. */
 export function getHomePage(locale: string) {
-  return client.fetch<HomePageDocument | null>(HOME_QUERY, {
-    id: `home-${locale}`,
-  });
+  return getSingleton(`home-${locale}`);
+}
+
+/** The about page singleton for a locale, or null if not published yet. */
+export function getAboutPage(locale: string) {
+  return getSingleton(`about-${locale}`);
 }
