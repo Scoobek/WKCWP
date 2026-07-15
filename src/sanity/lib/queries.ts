@@ -73,6 +73,7 @@ export type HeroSection = {
   heading: string | null;
   subheading: string | null;
   ctaLabel: string | null;
+  ctaUrl: string | null;
   image: SanityImage | null;
 };
 
@@ -81,7 +82,7 @@ export type PageSection = HeroSection;
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
 const SECTIONS_FRAGMENT = groq`sections[]{
-  _type, _key, heading, subheading, ctaLabel, image{ asset, alt }
+  _type, _key, heading, subheading, ctaLabel, ctaUrl, image{ asset, alt }
 }`;
 
 export type PageDocument = {
