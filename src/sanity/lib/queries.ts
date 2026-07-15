@@ -56,3 +56,64 @@ export function getPosts(locale: string) {
 export function getPost(locale: string, slug: string) {
   return client.fetch<Post | null>(POST_QUERY, { locale, slug });
 }
+
+/** A Sanity image as stored on a document: an asset *reference* (not a URL —
+ * turn it into one with an image-URL builder) plus our custom `alt` field. */
+export type SanityImage = {
+  asset: { _ref: string } | null;
+  alt: string | null;
+};
+
+/** One section on a page. As new section types are added, widen this union
+ * (e.g. `HeroSection | FeatureGridSection`). `_type` is the discriminant the
+ * render loop switches on; `_key` is Sanity's per-array-item id. */
+export type HeroSection = {
+  _type: "heroSection";
+  _key: string;
+  heading: string | null;
+  subheading: string | null;
+  ctaLabel: string | null;
+  image: SanityImage | null;
+};
+
+export type PageSection = HeroSection;
+
+/** Shared projection for a page-builder `sections` array. Reused by any type
+ * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
+const SECTIONS_FRAGMENT = groq`sections[]{
+  _type, _key, heading, subheading, ctaLabel, image{ asset, alt }
+}`;
+
+export type PageDocument = {
+  _id: string;
+  title: string;
+  slug: string;
+  sections: PageSection[] | null;
+  translations: DocTranslation[];
+};
+
+const PAGE_QUERY = groq`*[_type == "page" && language == $locale && slug.current == $slug][0]{
+  _id, title, "slug": slug.current,
+  ${SECTIONS_FRAGMENT},
+  ${TRANSLATIONS_FRAGMENT}
+}`;
+
+/** A single page by slug within a locale, or null. */
+export function getPage(locale: string, slug: string) {
+  return client.fetch<PageDocument | null>(PAGE_QUERY, { locale, slug });
+}
+
+export type HomePageDocument = {
+  sections: PageSection[] | null;
+};
+
+// The home singleton is fetched by its deterministic id (`home-<locale>`), so
+// no `language`/slug filter is needed — the id encodes the language.
+const HOME_QUERY = groq`*[_id == $id][0]{ ${SECTIONS_FRAGMENT} }`;
+
+/** The home page singleton for a locale, or null if not published yet. */
+export function getHomePage(locale: string) {
+  return client.fetch<HomePageDocument | null>(HOME_QUERY, {
+    id: `home-${locale}`,
+  });
+}
