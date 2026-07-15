@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocale } from "next-intl";
+import { type ComponentProps } from "react";
 
 import { useLocaleAlternates } from "@/components/layout/locale-alternates";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -30,9 +31,16 @@ export function LanguageSwitcher() {
 
   // On a page with per-locale paths, link each locale to its published path
   // (the map covers every locale, including a fallback for those without a
-  // translation). Elsewhere (no map), reuse the current locale-stripped path.
+  // translation). Elsewhere (no map), reuse the current locale-stripped path,
+  // which `Link` localizes via `pathnames` (e.g. /about → /pl/o-nas).
+  //
+  // Alternates are concrete, runtime-validated paths (they carry per-locale
+  // Sanity slugs), so cast to the typed href — they can't be expressed as the
+  // static `pathnames` union.
   const hrefFor = (locale: string) =>
-    alternates ? alternates[locale] : pathname;
+    (alternates ? alternates[locale] : pathname) as ComponentProps<
+      typeof Link
+    >["href"];
 
   return (
     <div className="flex items-center gap-1 text-sm font-medium">

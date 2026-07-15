@@ -30,7 +30,10 @@ export default async function PostsPage({
                 <article className="border-border flex h-full flex-col rounded-lg border p-6">
                   <h2 className="text-lg font-medium">
                     <Link
-                      href={`/posts/${post.slug}`}
+                      href={{
+                        pathname: "/posts/[slug]",
+                        params: { slug: post.slug },
+                      }}
                       className="hover:text-primary transition-colors"
                     >
                       {post.title}
@@ -42,7 +45,10 @@ export default async function PostsPage({
                     </p>
                   )}
                   <Link
-                    href={`/posts/${post.slug}`}
+                    href={{
+                      pathname: "/posts/[slug]",
+                      params: { slug: post.slug },
+                    }}
                     className="text-primary mt-4 inline-block text-sm font-medium"
                   >
                     {t("readMore")}
