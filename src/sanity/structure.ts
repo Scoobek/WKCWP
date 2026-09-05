@@ -46,6 +46,23 @@ export const structure: StructureResolver = (S) =>
           )
       ),
       S.divider(),
-      S.documentTypeListItem("page").title("Pages"),
-      S.documentTypeListItem("post").title("Posts"),
+      // Only show base language (Polish) documents in the list
+      S.listItem()
+        .title("Pages")
+        .schemaType("page")
+        .child(
+          S.documentList()
+            .title("Pages")
+            .schemaType("page")
+            .filter('_type == "page" && language == "pl"')
+        ),
+      S.listItem()
+        .title("Posts")
+        .schemaType("post")
+        .child(
+          S.documentList()
+            .title("Posts")
+            .schemaType("post")
+            .filter('_type == "post" && language == "pl"')
+        ),
     ]);

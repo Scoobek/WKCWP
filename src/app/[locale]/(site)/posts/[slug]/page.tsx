@@ -1,4 +1,3 @@
-import { PortableText } from "@portabletext/react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -6,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/container";
 import { SetLocaleAlternates } from "@/components/layout/locale-alternates";
 import { Section } from "@/components/layout/section";
+import { RichText } from "@/components/rich-text";
 import { Link } from "@/i18n/navigation";
 import { buildLocaleAlternates } from "@/lib/locale-alternates";
 import { getPost } from "@/sanity/lib/queries";
@@ -69,7 +69,7 @@ export default async function PostPage({ params }: { params: Params }) {
           )}
           {post.body && (
             <div className="mt-8 space-y-4 leading-7">
-              <PortableText value={post.body} />
+              <RichText value={post.body} />
             </div>
           )}
         </article>
