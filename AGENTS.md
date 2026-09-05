@@ -1,3 +1,51 @@
+# Project: WKCwP
+
+Bilingual (PL/EN) marketing site with a Sanity-backed CMS. Editors create
+dynamic, translated **posts**; the public site renders them per-locale.
+
+## Stack
+
+- **Next.js 16.2** (App Router, modified build — see below) + **React 19**
+- **Tailwind CSS v4** (CSS-first `@theme` in `src/app/globals.css`, no
+  `tailwind.config.js`); manual class-based dark mode via a `theme` cookie
+- **next-intl 4** for locale routing + UI strings (`pl` default, `en`)
+- **Sanity 6** embedded Studio at `/studio` (`next-sanity 13`), with
+  **document-level** translations (`@sanity/document-internationalization`)
+- Content rendered with `@portabletext/react`
+
+## Layout
+
+```
+src/
+  app/
+    [locale]/               # localized site (two root layouts total)
+      layout.tsx            # root: <html>, fonts, theme cookie, intl provider
+      (site)/               # header/footer shell (NOT applied to /studio)
+        page.tsx            # home
+        posts/page.tsx      # post list
+        posts/[slug]/page.tsx
+    studio/                 # un-localized; its own bare root layout
+      [[...tool]]/          # embedded Sanity Studio (Studio.tsx is "use client")
+    globals.css             # Tailwind v4 theme tokens
+    fonts.ts                # Geist fonts shared by both root layouts
+  components/layout/        # Container, Section, Grid/Col, Header, Footer, etc.
+  i18n/                     # routing.ts, navigation.ts, request.ts
+  lib/utils.ts              # cn()
+  proxy.ts                  # locale detection/redirects (Next 16 "Proxy")
+  sanity/                   # config split: env, client, queries, schema, i18n
+messages/{pl,en}.json       # UI strings
+```
+
+## Run it
+
+- `nvm use` (Node 24, pinned in `.nvmrc`) → `npm install` → `npm run dev`.
+- Needs `.env.local` with `NEXT_PUBLIC_SANITY_PROJECT_ID` / `_DATASET` /
+  `_API_VERSION` (template in `.env.example`). Content lives in Sanity's hosted
+  Content Lake, so the Studio talks to the cloud even locally.
+- Quality gates before done: `npx tsc --noEmit`, `npm run lint`,
+  `npm run format`, `npm run build`. Verify data-dependent behaviour against the
+  real dataset, not assumptions. Fuller process notes in `WORKFLOW.md`.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know
@@ -17,6 +65,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Branch names: `develop`, or `<type>/<short-desc>` in lowercase kebab-case
   (e.g. `feat/sanity-studio`, `fix/login-redirect`). Types match the commit
   types above. Enforced by the `pre-commit` hook.
+- Do NOT push changes after commit to origin
 
 # Layout & grid
 
@@ -48,3 +97,17 @@ This version has breaking changes — APIs, conventions, and file structure may 
   (`@sanity/document-internationalization`): one `post` doc per language, filtered
   by `language == $locale` in GROQ (`src/sanity/lib/queries.ts`). Keep
   `src/sanity/i18n.ts` languages in sync with `src/i18n/routing.ts`.
+
+Set up Sanity using the `sanity-best-practices` skill's `getting-started` reference.
+
+If the skill can't be found, install it by running `npx skills add sanity-io/agent-toolkit --skill sanity-best-practices -y`. If the install fails, stop and ask me to run it.
+
+Context:
+
+- Project: WKHwP (ppprmsum)
+- Dataset: production
+- Framework: Next.js
+- This is a monorepo: the current folder is the root, with the Studio in `studio` and the Next.js app in `web`
+- Connect Sanity to my new `web` app
+- First, confirm `studio` and `web` are both in your working directory. If not, stop and ask me to restart you from the `wkhwp` folder.
+- Keep the Studio standalone — do not embed it in the Next.js app
