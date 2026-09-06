@@ -27,6 +27,18 @@
       "hours": "Godziny",
       "town": "Miejscowość",
       "organizer": "Organizator"
+    },
+    "localisation": {
+      "details": "Szczegóły",
+      "defaultTitle": "Lokalizacja",
+      "subtitle": "Gdzie jest impreza?",
+      "street": "Ulica",
+      "buildingNumber": "Numer budynku",
+      "postalCode": "Kod pocztowy",
+      "geolocation": "Współrzędne",
+      "navigate": "Nawiguj do",
+      "copyGps": "Skopiuj GPS",
+      "copied": "✓ Skopiowano"
     }
   },
   "notFound": {

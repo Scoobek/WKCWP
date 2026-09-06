@@ -58,7 +58,18 @@ export type EventDetailsBlock = {
   organizerUrl: string | null;
 };
 
-export type PostBlock = RichTextBlock | GalleryBlock | EventDetailsBlock;
+export type LocalisationBlock = {
+  _type: "localisationBlock";
+  _key: string;
+  title: string | null;
+  street: string | null;
+  buildingNumber: string | null;
+  postalCode: string | null;
+  location: { lat: number; lng: number } | null;
+};
+
+export type PostBlock =
+  RichTextBlock | GalleryBlock | EventDetailsBlock | LocalisationBlock;
 
 export type Post = PostListItem & {
   content: PostBlock[] | null;
@@ -88,7 +99,8 @@ const CONTENT_FRAGMENT = groq`content[]{
   _type, _key,
   _type == "richTextBlock" => { text },
   _type == "galleryBlock" => { heading, images[]{ asset, alt } },
-  _type == "eventDetailsBlock" => { title, description, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonUrl, buttonBlank, organizer, organizerUrl }
+  _type == "eventDetailsBlock" => { title, description, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonUrl, buttonBlank, organizer, organizerUrl },
+  _type == "localisationBlock" => { title, street, buildingNumber, postalCode, location }
 }`;
 
 const POST_QUERY = groq`*[_type == "post" && language == $locale && slug.current == $slug][0]{

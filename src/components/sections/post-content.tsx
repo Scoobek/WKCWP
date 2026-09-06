@@ -2,11 +2,13 @@ import { Container } from "@/components/layout/container";
 import { Grid, Col } from "@/components/layout/grid";
 import { RichText } from "@/components/rich-text";
 import { EventDetailsBlockView } from "@/components/sections/event-details-block";
+import { LocalisationBlockView } from "@/components/sections/localisation-block";
 import { urlFor } from "@/sanity/lib/image";
 import type {
   PostBlock,
   GalleryBlock,
   EventDetailsBlock,
+  LocalisationBlock,
   NewsCategory,
 } from "@/sanity/lib/queries";
 import Image from "next/image";
@@ -63,6 +65,15 @@ export function PostContent({
               {...(block as EventDetailsBlock)}
               location={location}
               eventType={eventType}
+            />
+          </div>
+        );
+      case "localisationBlock":
+        return (
+          <div key={block._key}>
+            <LocalisationBlockView
+              {...(block as LocalisationBlock)}
+              townName={location}
             />
           </div>
         );

@@ -51,6 +51,7 @@ export const post = defineType({
         { type: "richTextBlock" },
         { type: "galleryBlock" },
         { type: "eventDetailsBlock" },
+        { type: "localisationBlock" },
       ],
       validation: (Rule) =>
         Rule.custom((blocks, context) => {
