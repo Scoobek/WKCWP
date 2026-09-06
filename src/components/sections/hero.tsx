@@ -51,6 +51,7 @@ export function Hero({
               <Image
                 src={imageUrl}
                 alt={image?.alt ?? ""}
+                loading="eager"
                 width={1600}
                 height={900}
                 className="h-auto w-full rounded-lg"

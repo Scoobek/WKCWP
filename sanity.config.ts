@@ -3,7 +3,7 @@
  * route in `src/app/studio/[[...tool]]/page.tsx`.
  */
 import { documentInternationalization } from "@sanity/document-internationalization";
-import { plPLLocale } from "@sanity/locale-pl-pl";
+// import { plPLLocale } from "@sanity/locale-pl-pl";
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
@@ -22,7 +22,14 @@ export default defineConfig({
   // global "Create new" menu.
   document: {
     newDocumentOptions: (prev) =>
-      prev.filter((item) => !singletonTypes.has(item.templateId)),
+      prev.filter(
+        (item) =>
+          // Hide singletons (managed via structure)
+          !singletonTypes.has(item.templateId) &&
+          // For localized types, only show base language (Polish)
+          (item.parameters?.language === undefined ||
+            item.parameters?.language === "pl")
+      ),
   },
   // Studio UI language. Sanity defaults to the *last* locale for users without a
   // saved preference, so sorting pl-PL last makes Polish the default while
@@ -44,6 +51,6 @@ export default defineConfig({
       schemaTypes: ["post", "page"],
     }),
     // Polish UI strings for the Studio chrome.
-    plPLLocale(),
+    // plPLLocale(),
   ],
 });

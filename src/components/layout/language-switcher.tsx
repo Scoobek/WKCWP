@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocale } from "next-intl";
+import { useParams } from "next/navigation";
 import { type ComponentProps } from "react";
 
 import { useLocaleAlternates } from "@/components/layout/locale-alternates";
@@ -26,19 +27,22 @@ import { cn } from "@/lib/utils";
  */
 export function LanguageSwitcher() {
   const pathname = usePathname();
+  const params = useParams();
   const active = useLocale();
   const alternates = useLocaleAlternates();
 
   // On a page with per-locale paths, link each locale to its published path
   // (the map covers every locale, including a fallback for those without a
-  // translation). Elsewhere (no map), reuse the current locale-stripped path,
-  // which `Link` localizes via `pathnames` (e.g. /about → /pl/o-nas).
+  // translation). Elsewhere (no map), reuse the current route — passed as
+  // `{ pathname, params }` so dynamic routes like `/posts/[slug]` get their
+  // params (a bare template would throw "Insufficient params"). `Link` also
+  // localizes it via `pathnames` (e.g. /about → /pl/o-nas).
   //
   // Alternates are concrete, runtime-validated paths (they carry per-locale
-  // Sanity slugs), so cast to the typed href — they can't be expressed as the
+  // Sanity slugs); cast to the typed href — they can't be expressed as the
   // static `pathnames` union.
   const hrefFor = (locale: string) =>
-    (alternates ? alternates[locale] : pathname) as ComponentProps<
+    (alternates ? alternates[locale] : { pathname, params }) as ComponentProps<
       typeof Link
     >["href"];
 
