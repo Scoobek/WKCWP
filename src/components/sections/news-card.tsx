@@ -3,6 +3,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { Link } from "@/i18n/navigation";
 import { NEWS_CATEGORIES } from "@/sanity/lib/news-categories";
 import { type NewsPost } from "@/sanity/lib/queries";
+import { ImagePlaceholder } from "./image-placeholder";
 
 export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
   const categoryTitle = NEWS_CATEGORIES.find(
@@ -31,16 +32,18 @@ export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
     >
       <div className="h-full overflow-hidden rounded-lg border border-gray-200 transition hover:shadow-lg dark:border-gray-800">
         {/* Cover image */}
-        {imageUrl && (
-          <div className="relative aspect-4/3 w-full overflow-hidden bg-gray-200">
+        <div className="relative aspect-4/3 w-full overflow-hidden bg-gray-200 dark:bg-gray-800">
+          {imageUrl ? (
             <Image
               src={imageUrl}
               alt={post.coverImage?.alt || post.title}
               fill
               className="object-cover transition group-hover:scale-105"
             />
-          </div>
-        )}
+          ) : (
+            <ImagePlaceholder />
+          )}
+        </div>
 
         <div className="p-4">
           {/* Category + date row */}
