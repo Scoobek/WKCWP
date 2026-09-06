@@ -18,7 +18,16 @@
     "title": "News",
     "empty": "No posts in this language yet.",
     "readMore": "Read more",
-    "backToList": "Back to list"
+    "backToList": "Back to list",
+    "eventDetails": {
+      "details": "Details",
+      "schedule": "Schedule",
+      "eventType": "Type",
+      "dateTime": "Date",
+      "hours": "Hours",
+      "town": "Town",
+      "organizer": "Organizer"
+    }
   },
   "notFound": {
     "title": "Page not found",

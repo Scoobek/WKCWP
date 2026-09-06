@@ -1,8 +1,14 @@
 import { Container } from "@/components/layout/container";
 import { Grid, Col } from "@/components/layout/grid";
 import { RichText } from "@/components/rich-text";
+import { EventDetailsBlockView } from "@/components/sections/event-details-block";
 import { urlFor } from "@/sanity/lib/image";
-import type { PostBlock, GalleryBlock } from "@/sanity/lib/queries";
+import type {
+  PostBlock,
+  GalleryBlock,
+  EventDetailsBlock,
+  NewsCategory,
+} from "@/sanity/lib/queries";
 import Image from "next/image";
 
 function GalleryBlockView({ heading, images }: GalleryBlock) {
@@ -31,7 +37,15 @@ function GalleryBlockView({ heading, images }: GalleryBlock) {
   );
 }
 
-export function PostContent({ blocks }: { blocks: PostBlock[] | null }) {
+export function PostContent({
+  blocks,
+  location,
+  eventType,
+}: {
+  blocks: PostBlock[] | null;
+  location: string | null;
+  eventType: NewsCategory | null;
+}) {
   return (blocks ?? []).map((block) => {
     switch (block._type) {
       case "richTextBlock":
@@ -42,6 +56,16 @@ export function PostContent({ blocks }: { blocks: PostBlock[] | null }) {
         ) : null;
       case "galleryBlock":
         return <GalleryBlockView key={block._key} {...block} />;
+      case "eventDetailsBlock":
+        return (
+          <div key={block._key}>
+            <EventDetailsBlockView
+              {...(block as EventDetailsBlock)}
+              location={location}
+              eventType={eventType}
+            />
+          </div>
+        );
       default:
         if (process.env.NODE_ENV !== "production") {
           const unknown = block as { _type: string };

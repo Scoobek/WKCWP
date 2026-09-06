@@ -36,7 +36,29 @@ export type GalleryBlock = {
   images: SanityImage[] | null;
 };
 
-export type PostBlock = RichTextBlock | GalleryBlock;
+export type ScheduleRow = {
+  _key: string;
+  time: string | null;
+  description: string | null;
+};
+
+export type EventDetailsBlock = {
+  _type: "eventDetailsBlock";
+  _key: string;
+  title: string | null;
+  description: PortableTextBlock[] | null;
+  scheduleTitle: string | null;
+  scheduleRows: ScheduleRow[] | null;
+  date: string | null;
+  hours: string | null;
+  buttonLabel: string | null;
+  buttonUrl: string | null;
+  buttonBlank: boolean | null;
+  organizer: string | null;
+  organizerUrl: string | null;
+};
+
+export type PostBlock = RichTextBlock | GalleryBlock | EventDetailsBlock;
 
 export type Post = PostListItem & {
   content: PostBlock[] | null;
@@ -65,7 +87,8 @@ const POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(slu
 const CONTENT_FRAGMENT = groq`content[]{
   _type, _key,
   _type == "richTextBlock" => { text },
-  _type == "galleryBlock" => { heading, images[]{ asset, alt } }
+  _type == "galleryBlock" => { heading, images[]{ asset, alt } },
+  _type == "eventDetailsBlock" => { title, description, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonUrl, buttonBlank, organizer, organizerUrl }
 }`;
 
 const POST_QUERY = groq`*[_type == "post" && language == $locale && slug.current == $slug][0]{

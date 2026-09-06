@@ -143,7 +143,11 @@ export default async function PostPage({ params }: { params: Params }) {
 
         {/* Composable content blocks */}
         <div className="mt-8 space-y-10">
-          <PostContent blocks={post.content} />
+          <PostContent
+            blocks={post.content}
+            location={post.location}
+            eventType={post.category}
+          />
         </div>
       </Container>
     </Section>

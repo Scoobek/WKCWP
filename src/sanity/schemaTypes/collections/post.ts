@@ -33,20 +33,6 @@ export const post = defineType({
       initialValue: () => new Date().toISOString(),
     }),
     defineField({
-      name: "content",
-      title: "Content",
-      type: "array",
-      of: [{ type: "richTextBlock" }, { type: "galleryBlock" }],
-    }),
-    // Managed by @sanity/document-internationalization — one document per
-    // language, linked via a translation-metadata document.
-    defineField({
-      name: "language",
-      type: "string",
-      readOnly: true,
-      hidden: true,
-    }),
-    defineField({
       name: "category",
       type: "string",
       options: {
@@ -56,6 +42,38 @@ export const post = defineType({
         })),
       },
       description: "Event category for filtering on the homepage",
+    }),
+    defineField({
+      name: "content",
+      title: "Content",
+      type: "array",
+      of: [
+        { type: "richTextBlock" },
+        { type: "galleryBlock" },
+        { type: "eventDetailsBlock" },
+      ],
+      validation: (Rule) =>
+        Rule.custom((blocks, context) => {
+          const category = (
+            context.document as { category?: string } | undefined
+          )?.category;
+          if (category !== "announcement") return true;
+          const hasEventDetails = blocks?.some(
+            (block) =>
+              (block as { _type?: string })._type === "eventDetailsBlock"
+          );
+          return hasEventDetails
+            ? "Event Details blocks are not allowed on announcement posts. Remove it or change the category."
+            : true;
+        }),
+    }),
+    // Managed by @sanity/document-internationalization — one document per
+    // language, linked via a translation-metadata document.
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
     }),
     defineField({
       name: "eventDate",
