@@ -23,13 +23,27 @@ export type DocTranslation = {
 /** @deprecated use {@link DocTranslation}. */
 export type PostTranslation = DocTranslation;
 
+export type RichTextBlock = {
+  _type: "richTextBlock";
+  _key: string;
+  text: PortableTextBlock[] | null;
+};
+
+export type GalleryBlock = {
+  _type: "galleryBlock";
+  _key: string;
+  heading: string | null;
+  images: SanityImage[] | null;
+};
+
+export type PostBlock = RichTextBlock | GalleryBlock;
+
 export type Post = PostListItem & {
-  body: PortableTextBlock[] | null;
+  content: PostBlock[] | null;
   coverImage: SanityImage | null;
   category: NewsCategory | null;
   eventDate: string | null;
   location: string | null;
-  gallery: SanityImage[] | null;
   translations: DocTranslation[];
 };
 
@@ -48,9 +62,16 @@ const POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(slu
   _id, title, "slug": slug.current, excerpt, publishedAt
 }`;
 
+const CONTENT_FRAGMENT = groq`content[]{
+  _type, _key,
+  _type == "richTextBlock" => { text },
+  _type == "galleryBlock" => { heading, images[]{ asset, alt } }
+}`;
+
 const POST_QUERY = groq`*[_type == "post" && language == $locale && slug.current == $slug][0]{
-  _id, title, "slug": slug.current, excerpt, publishedAt, body,
-  coverImage{ asset, alt }, category, eventDate, location, gallery[]{ asset, alt },
+  _id, title, "slug": slug.current, excerpt, publishedAt,
+  coverImage{ asset, alt }, category, eventDate, location,
+  ${CONTENT_FRAGMENT},
   ${TRANSLATIONS_FRAGMENT}
 }`;
 

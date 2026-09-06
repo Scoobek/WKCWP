@@ -5,10 +5,9 @@ import { notFound } from "next/navigation";
 
 import { Breadcrumb } from "@/components/layout/breadcrumb";
 import { Container } from "@/components/layout/container";
-import { Grid, Col } from "@/components/layout/grid";
 import { SetLocaleAlternates } from "@/components/layout/locale-alternates";
 import { Section } from "@/components/layout/section";
-import { RichText } from "@/components/rich-text";
+import { PostContent } from "@/components/sections/post-content";
 import { buildLocaleAlternates } from "@/lib/locale-alternates";
 import { NEWS_CATEGORIES } from "@/sanity/lib/news-categories";
 import { urlFor } from "@/sanity/lib/image";
@@ -119,7 +118,7 @@ export default async function PostPage({ params }: { params: Params }) {
           </div>
         )}
 
-        {/* Text content: location and body */}
+        {/* Text content: location */}
         <div className="mx-auto mt-6 max-w-2xl">
           <article>
             {/* Location */}
@@ -139,37 +138,13 @@ export default async function PostPage({ params }: { params: Params }) {
                 <span>{post.location}</span>
               </div>
             )}
-
-            {/* Body */}
-            {post.body && (
-              <div className="mt-8 space-y-4 leading-7">
-                <RichText value={post.body} />
-              </div>
-            )}
           </article>
         </div>
 
-        {/* Gallery */}
-        {post.gallery && post.gallery.length > 0 && (
-          <div className="mt-10">
-            <Grid>
-              {post.gallery.map((img, i) =>
-                img.asset ? (
-                  <Col key={i} span={12} md={6} lg={4}>
-                    <div className="relative aspect-4/3 w-full overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800">
-                      <Image
-                        src={urlFor(img.asset).width(800).height(600).url()}
-                        alt={img.alt || post.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </Col>
-                ) : null
-              )}
-            </Grid>
-          </div>
-        )}
+        {/* Composable content blocks */}
+        <div className="mt-8 space-y-10">
+          <PostContent blocks={post.content} />
+        </div>
       </Container>
     </Section>
   );
