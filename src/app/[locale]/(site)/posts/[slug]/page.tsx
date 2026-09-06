@@ -101,6 +101,11 @@ export default async function PostPage({ params }: { params: Params }) {
           )}
         </div>
 
+        {/* Title */}
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+          {post.title}
+        </h1>
+
         {/* Cover image */}
         {post.coverImage?.asset && (
           <div className="relative mt-6 aspect-16/9 w-full overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800">
@@ -114,13 +119,9 @@ export default async function PostPage({ params }: { params: Params }) {
           </div>
         )}
 
-        {/* Text content: title, category badge, date, location, body */}
+        {/* Text content: location and body */}
         <div className="mx-auto mt-6 max-w-2xl">
           <article>
-            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              {post.title}
-            </h1>
-
             {/* Location */}
             {post.location && (
               <div className="mt-3 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
