@@ -1,5 +1,7 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { NEWS_CATEGORIES } from "@/sanity/lib/news-categories";
+
 export const post = defineType({
   name: "post",
   title: "Post",
@@ -85,6 +87,27 @@ export const post = defineType({
       type: "string",
       readOnly: true,
       hidden: true,
+    }),
+    defineField({
+      name: "category",
+      type: "string",
+      options: {
+        list: NEWS_CATEGORIES.map((cat) => ({
+          title: cat.title,
+          value: cat.id,
+        })),
+      },
+      description: "Event category for filtering on the homepage",
+    }),
+    defineField({
+      name: "eventDate",
+      type: "date",
+      description: "Date of the event (used for sorting in the news grid)",
+    }),
+    defineField({
+      name: "location",
+      type: "string",
+      description: "Town/city name where the event takes place",
     }),
   ],
   preview: {

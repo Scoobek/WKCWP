@@ -2,6 +2,7 @@ import type { PortableTextBlock } from "@portabletext/react";
 import { groq } from "next-sanity";
 
 import { client } from "@/sanity/lib/client";
+import { type NewsCategory } from "@/sanity/lib/news-categories";
 
 export type PostListItem = {
   _id: string;
@@ -77,7 +78,24 @@ export type HeroSection = {
   image: SanityImage | null;
 };
 
-export type PageSection = HeroSection;
+export type NewsSection = {
+  _type: "newsSection";
+  _key: string;
+  heading: string | null;
+  subheading: string | null;
+};
+
+export type PageSection = HeroSection | NewsSection;
+
+export type NewsPost = {
+  _id: string;
+  title: string;
+  slug: string;
+  category: NewsCategory | null;
+  eventDate: string | null;
+  location: string | null;
+  coverImage: SanityImage | null;
+};
 
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
@@ -125,4 +143,21 @@ export function getHomePage(locale: string) {
 /** The about page singleton for a locale, or null if not published yet. */
 export function getAboutPage(locale: string) {
   return getSingleton(`about-${locale}`);
+}
+
+const NEWS_POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(category) && ($category == "all" || category == $category)] | order(eventDate desc)[0...$limit]{
+  _id, title, "slug": slug.current, category, eventDate, location, coverImage{ asset, alt }
+}`;
+
+/** News posts for a given locale and category, newest first by eventDate. */
+export function getNewsPosts(
+  locale: string,
+  category: "all" | NewsCategory,
+  limit = 9
+) {
+  return client.fetch<NewsPost[]>(NEWS_POSTS_QUERY, {
+    locale,
+    category,
+    limit,
+  });
 }

@@ -11,7 +11,7 @@ export const homePage = defineType({
     defineField({
       name: "sections",
       type: "array",
-      of: [{ type: "heroSection" }],
+      of: [{ type: "heroSection" }, { type: "newsSection" }],
     }),
   ],
   preview: {
