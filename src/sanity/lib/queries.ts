@@ -25,6 +25,11 @@ export type PostTranslation = DocTranslation;
 
 export type Post = PostListItem & {
   body: PortableTextBlock[] | null;
+  coverImage: SanityImage | null;
+  category: NewsCategory | null;
+  eventDate: string | null;
+  location: string | null;
+  gallery: SanityImage[] | null;
   translations: DocTranslation[];
 };
 
@@ -45,6 +50,7 @@ const POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(slu
 
 const POST_QUERY = groq`*[_type == "post" && language == $locale && slug.current == $slug][0]{
   _id, title, "slug": slug.current, excerpt, publishedAt, body,
+  coverImage{ asset, alt }, category, eventDate, location, gallery[]{ asset, alt },
   ${TRANSLATIONS_FRAGMENT}
 }`;
 
@@ -95,6 +101,7 @@ export type NewsPost = {
   eventDate: string | null;
   location: string | null;
   coverImage: SanityImage | null;
+  publishedAt: string | null;
 };
 
 /** Shared projection for a page-builder `sections` array. Reused by any type
@@ -146,7 +153,7 @@ export function getAboutPage(locale: string) {
 }
 
 const NEWS_POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(category) && ($category == "all" || category == $category)] | order(eventDate desc)[0...$limit]{
-  _id, title, "slug": slug.current, category, eventDate, location, coverImage{ asset, alt }
+  _id, title, "slug": slug.current, category, eventDate, location, publishedAt, coverImage{ asset, alt }
 }`;
 
 /** News posts for a given locale and category, newest first by eventDate. */

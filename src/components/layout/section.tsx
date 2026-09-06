@@ -6,13 +6,15 @@ import { cn } from "@/lib/utils";
  */
 export function Section({
   className,
+  id,
   children,
 }: {
   className?: string;
+  id?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className={cn("py-12 sm:py-16 lg:py-24", className)}>
+    <section id={id} className={cn("py-12 sm:py-16 lg:py-24", className)}>
       {children}
     </section>
   );

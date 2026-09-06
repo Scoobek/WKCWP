@@ -103,11 +103,33 @@ export const post = defineType({
       name: "eventDate",
       type: "date",
       description: "Date of the event (used for sorting in the news grid)",
+      hidden: ({ parent }: { parent?: { category?: string } }) =>
+        parent?.category === "announcement",
     }),
     defineField({
       name: "location",
       type: "string",
       description: "Town/city name where the event takes place",
+      hidden: ({ parent }: { parent?: { category?: string } }) =>
+        parent?.category === "announcement",
+    }),
+    defineField({
+      name: "gallery",
+      title: "Gallery",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: "alt",
+              type: "string",
+              title: "Alternative text",
+            }),
+          ],
+        }),
+      ],
     }),
   ],
   preview: {

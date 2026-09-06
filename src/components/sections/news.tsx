@@ -22,7 +22,7 @@ export async function News({
   );
 
   return (
-    <Section>
+    <Section id="news">
       <Container>
         {/* Header row: heading/subheading left, chips right */}
         <div className="mb-12 flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
