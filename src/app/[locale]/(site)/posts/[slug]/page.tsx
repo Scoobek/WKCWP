@@ -74,6 +74,33 @@ export default async function PostPage({ params }: { params: Params }) {
           ]}
         />
 
+        {/* Category badge + date row */}
+        <div className="mt-4 flex items-center justify-start gap-4">
+          {categoryTitle && (
+            <span className="inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+              {categoryTitle}
+            </span>
+          )}
+          {formattedDate && (
+            <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+              <svg
+                className="h-4 w-4 shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M8 7V3m8 4V3m-9 8h14M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <span>{formattedDate}</span>
+            </div>
+          )}
+        </div>
+
         {/* Cover image */}
         {post.coverImage?.asset && (
           <div className="relative mt-6 aspect-16/9 w-full overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800">
@@ -93,20 +120,6 @@ export default async function PostPage({ params }: { params: Params }) {
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {post.title}
             </h1>
-
-            {/* Category badge + date row */}
-            <div className="mt-4 flex items-center justify-start gap-4">
-              {categoryTitle && (
-                <span className="inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
-                  {categoryTitle}
-                </span>
-              )}
-              {formattedDate && (
-                <span className="text-xs text-gray-500 dark:text-gray-400">
-                  {formattedDate}
-                </span>
-              )}
-            </div>
 
             {/* Location */}
             {post.location && (
