@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { BlockHeading } from "@/components/sections/block-heading";
 import { LocalisationMapLoader } from "@/components/sections/localisation-map-loader";
 import { LocalisationSidebar } from "@/components/sections/localisation-sidebar";
 import type { LocalisationBlock } from "@/sanity/lib/queries";
@@ -14,15 +15,7 @@ export async function LocalisationBlockView(
 
   return (
     <div>
-      {title && (
-        <h2 className="w-fit text-2xl font-semibold">
-          {title}
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            {" "}
-            — {t("subtitle")}
-          </span>
-        </h2>
-      )}
+      {title && <BlockHeading title={title} subtitle={t("subtitle")} />}
 
       <div className="mt-8 flex flex-col gap-8 lg:flex-row">
         <div className="w-full lg:w-[70%]">

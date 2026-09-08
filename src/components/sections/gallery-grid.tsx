@@ -12,10 +12,9 @@ type GalleryImage = {
 
 type GalleryGridProps = {
   images: GalleryImage[];
-  moreCountTemplate: string;
 };
 
-export function GalleryGrid({ images, moreCountTemplate }: GalleryGridProps) {
+export function GalleryGrid({ images }: GalleryGridProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   if (images.length === 0) return null;
@@ -75,16 +74,8 @@ export function GalleryGrid({ images, moreCountTemplate }: GalleryGridProps) {
                     />
                     {showOverlay && (
                       <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/50">
-                        <div className="text-center text-white">
-                          <div className="text-2xl font-semibold">
-                            +{moreCount}
-                          </div>
-                          <div className="text-sm">
-                            {moreCountTemplate.replace(
-                              "{count}",
-                              `${moreCount}`
-                            )}
-                          </div>
+                        <div className="text-center text-lg font-semibold text-white">
+                          +{moreCount} more
                         </div>
                       </div>
                     )}

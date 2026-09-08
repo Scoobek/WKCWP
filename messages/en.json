@@ -41,7 +41,7 @@
       "copied": "✓ Copied"
     },
     "gallery": {
-      "moreCount": "+{count} more"
+      "subtitle": "Photo gallery"
     }
   },
   "notFound": {

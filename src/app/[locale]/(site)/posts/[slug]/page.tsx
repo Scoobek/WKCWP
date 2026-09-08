@@ -117,30 +117,6 @@ export default async function PostPage({ params }: { params: Params }) {
             />
           </div>
         )}
-
-        {/* Text content: location */}
-        <div className="mx-auto mt-6 max-w-2xl">
-          <article>
-            {/* Location */}
-            {post.location && (
-              <div className="mt-3 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                <svg
-                  className="h-4 w-4 shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span>{post.location}</span>
-              </div>
-            )}
-          </article>
-        </div>
-
         {/* Composable content blocks */}
         <div className="mt-8 space-y-10">
           <PostContent
