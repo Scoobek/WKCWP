@@ -1,4 +1,4 @@
-import { defineArrayMember, defineField, defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 import { NEWS_CATEGORIES } from "@/sanity/lib/news-categories";
 
@@ -33,62 +33,6 @@ export const post = defineType({
       initialValue: () => new Date().toISOString(),
     }),
     defineField({
-      name: "body",
-      type: "array",
-      of: [
-        defineArrayMember({
-          type: "block",
-          // Text with a link annotation editors apply to a selection. `blank`
-          // drives target="_blank" on the front-end (see RichText serializers).
-          marks: {
-            annotations: [
-              defineArrayMember({
-                name: "link",
-                type: "object",
-                title: "Link",
-                fields: [
-                  defineField({
-                    name: "href",
-                    type: "url",
-                    title: "URL",
-                    validation: (rule) =>
-                      rule.uri({ scheme: ["http", "https", "mailto", "tel"] }),
-                  }),
-                  defineField({
-                    name: "blank",
-                    type: "boolean",
-                    title: "Open in new tab",
-                    initialValue: false,
-                  }),
-                ],
-              }),
-            ],
-          },
-        }),
-        // A block-level image editors can insert between paragraphs.
-        defineArrayMember({
-          type: "image",
-          title: "Image",
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: "alt",
-              type: "string",
-              title: "Alternative text",
-            }),
-          ],
-        }),
-      ],
-    }),
-    // Managed by @sanity/document-internationalization — one document per
-    // language, linked via a translation-metadata document.
-    defineField({
-      name: "language",
-      type: "string",
-      readOnly: true,
-      hidden: true,
-    }),
-    defineField({
       name: "category",
       type: "string",
       options: {
@@ -100,14 +44,51 @@ export const post = defineType({
       description: "Event category for filtering on the homepage",
     }),
     defineField({
+      name: "content",
+      title: "Content",
+      type: "array",
+      of: [
+        { type: "richTextBlock" },
+        { type: "galleryBlock" },
+        { type: "eventDetailsBlock" },
+        { type: "localisationBlock" },
+      ],
+      validation: (Rule) =>
+        Rule.custom((blocks, context) => {
+          const category = (
+            context.document as { category?: string } | undefined
+          )?.category;
+          if (category !== "announcement") return true;
+          const hasEventDetails = blocks?.some(
+            (block) =>
+              (block as { _type?: string })._type === "eventDetailsBlock"
+          );
+          return hasEventDetails
+            ? "Event Details blocks are not allowed on announcement posts. Remove it or change the category."
+            : true;
+        }),
+    }),
+    // Managed by @sanity/document-internationalization — one document per
+    // language, linked via a translation-metadata document.
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
       name: "eventDate",
       type: "date",
       description: "Date of the event (used for sorting in the news grid)",
+      hidden: ({ parent }: { parent?: { category?: string } }) =>
+        parent?.category === "announcement",
     }),
     defineField({
       name: "location",
       type: "string",
       description: "Town/city name where the event takes place",
+      hidden: ({ parent }: { parent?: { category?: string } }) =>
+        parent?.category === "announcement",
     }),
   ],
   preview: {

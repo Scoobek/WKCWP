@@ -18,7 +18,31 @@
     "title": "News",
     "empty": "No posts in this language yet.",
     "readMore": "Read more",
-    "backToList": "Back to list"
+    "backToList": "Back to list",
+    "eventDetails": {
+      "details": "Details",
+      "schedule": "Schedule",
+      "eventType": "Type",
+      "dateTime": "Date",
+      "hours": "Hours",
+      "town": "Town",
+      "organizer": "Organizer"
+    },
+    "localisation": {
+      "details": "Details",
+      "defaultTitle": "Localisation",
+      "subtitle": "Where is the event?",
+      "street": "Street",
+      "buildingNumber": "Building number",
+      "postalCode": "Postal code",
+      "geolocation": "Geolocation",
+      "navigate": "Navigate to",
+      "copyGps": "Copy GPS",
+      "copied": "✓ Copied"
+    },
+    "gallery": {
+      "subtitle": "Photo gallery"
+    }
   },
   "notFound": {
     "title": "Page not found",

@@ -26,16 +26,20 @@
     "@sanity/image-url": "^2.1.1",
     "@sanity/locale-pl-pl": "^1.2.32",
     "@sanity/vision": "^6.4.0",
+    "@types/leaflet": "^1.9.22",
     "clsx": "^2.1.1",
+    "leaflet": "^1.9.4",
     "next": "16.2.10",
     "next-intl": "^4.13.2",
     "next-sanity": "^13.1.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-leaflet": "^5.0.0",
     "sanity": "^6.4.0",
     "sanity-plugin-internationalized-array": "^5.1.17",
     "styled-components": "^6.4.3",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "yet-another-react-lightbox": "^3.32.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.1",

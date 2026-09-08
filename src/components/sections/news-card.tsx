@@ -14,8 +14,9 @@ export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
     ? urlFor(post.coverImage.asset).width(600).height(400).url()
     : null;
 
-  const eventDate = post.eventDate
-    ? new Date(post.eventDate).toLocaleDateString(
+  const displayDate = post.eventDate ?? post.publishedAt;
+  const eventDate = displayDate
+    ? new Date(displayDate).toLocaleDateString(
         locale === "pl" ? "pl-PL" : "en-US",
         {
           month: "short",

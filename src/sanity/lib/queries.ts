@@ -4,6 +4,8 @@ import { groq } from "next-sanity";
 import { client } from "@/sanity/lib/client";
 import { type NewsCategory } from "@/sanity/lib/news-categories";
 
+export type { NewsCategory };
+
 export type PostListItem = {
   _id: string;
   title: string;
@@ -23,8 +25,60 @@ export type DocTranslation = {
 /** @deprecated use {@link DocTranslation}. */
 export type PostTranslation = DocTranslation;
 
+export type RichTextBlock = {
+  _type: "richTextBlock";
+  _key: string;
+  text: PortableTextBlock[] | null;
+};
+
+export type GalleryBlock = {
+  _type: "galleryBlock";
+  _key: string;
+  heading: string | null;
+  images: SanityImage[] | null;
+};
+
+export type ScheduleRow = {
+  _key: string;
+  time: string | null;
+  description: string | null;
+};
+
+export type EventDetailsBlock = {
+  _type: "eventDetailsBlock";
+  _key: string;
+  title: string | null;
+  description: PortableTextBlock[] | null;
+  scheduleTitle: string | null;
+  scheduleRows: ScheduleRow[] | null;
+  date: string | null;
+  hours: string | null;
+  buttonLabel: string | null;
+  buttonUrl: string | null;
+  buttonBlank: boolean | null;
+  organizer: string | null;
+  organizerUrl: string | null;
+};
+
+export type LocalisationBlock = {
+  _type: "localisationBlock";
+  _key: string;
+  title: string | null;
+  street: string | null;
+  buildingNumber: string | null;
+  postalCode: string | null;
+  location: { lat: number; lng: number } | null;
+};
+
+export type PostBlock =
+  RichTextBlock | GalleryBlock | EventDetailsBlock | LocalisationBlock;
+
 export type Post = PostListItem & {
-  body: PortableTextBlock[] | null;
+  content: PostBlock[] | null;
+  coverImage: SanityImage | null;
+  category: NewsCategory | null;
+  eventDate: string | null;
+  location: string | null;
   translations: DocTranslation[];
 };
 
@@ -43,8 +97,18 @@ const POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(slu
   _id, title, "slug": slug.current, excerpt, publishedAt
 }`;
 
+const CONTENT_FRAGMENT = groq`content[]{
+  _type, _key,
+  _type == "richTextBlock" => { text },
+  _type == "galleryBlock" => { heading, images[]{ asset, alt } },
+  _type == "eventDetailsBlock" => { title, description, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonUrl, buttonBlank, organizer, organizerUrl },
+  _type == "localisationBlock" => { title, street, buildingNumber, postalCode, location }
+}`;
+
 const POST_QUERY = groq`*[_type == "post" && language == $locale && slug.current == $slug][0]{
-  _id, title, "slug": slug.current, excerpt, publishedAt, body,
+  _id, title, "slug": slug.current, excerpt, publishedAt,
+  coverImage{ asset, alt }, category, eventDate, location,
+  ${CONTENT_FRAGMENT},
   ${TRANSLATIONS_FRAGMENT}
 }`;
 
@@ -95,6 +159,7 @@ export type NewsPost = {
   eventDate: string | null;
   location: string | null;
   coverImage: SanityImage | null;
+  publishedAt: string | null;
 };
 
 /** Shared projection for a page-builder `sections` array. Reused by any type
@@ -146,7 +211,7 @@ export function getAboutPage(locale: string) {
 }
 
 const NEWS_POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(category) && ($category == "all" || category == $category)] | order(eventDate desc)[0...$limit]{
-  _id, title, "slug": slug.current, category, eventDate, location, coverImage{ asset, alt }
+  _id, title, "slug": slug.current, category, eventDate, location, publishedAt, coverImage{ asset, alt }
 }`;
 
 /** News posts for a given locale and category, newest first by eventDate. */

@@ -18,7 +18,31 @@
     "title": "Aktualności",
     "empty": "Brak wpisów w tym języku.",
     "readMore": "Czytaj więcej",
-    "backToList": "Wróć do listy"
+    "backToList": "Wróć do listy",
+    "eventDetails": {
+      "details": "Szczegóły",
+      "schedule": "Harmonogram",
+      "eventType": "Typ",
+      "dateTime": "Data",
+      "hours": "Godziny",
+      "town": "Miejscowość",
+      "organizer": "Organizator"
+    },
+    "localisation": {
+      "details": "Szczegóły",
+      "defaultTitle": "Lokalizacja",
+      "subtitle": "Gdzie jest impreza?",
+      "street": "Ulica",
+      "buildingNumber": "Numer budynku",
+      "postalCode": "Kod pocztowy",
+      "geolocation": "Współrzędne",
+      "navigate": "Nawiguj do",
+      "copyGps": "Skopiuj GPS",
+      "copied": "✓ Skopiowano"
+    },
+    "gallery": {
+      "subtitle": "Galeria zdjęć"
+    }
   },
   "notFound": {
     "title": "Nie znaleziono strony",
