@@ -38,7 +38,8 @@
     "sanity": "^6.4.0",
     "sanity-plugin-internationalized-array": "^5.1.17",
     "styled-components": "^6.4.3",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "yet-another-react-lightbox": "^3.32.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.1",

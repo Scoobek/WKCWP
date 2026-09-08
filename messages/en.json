@@ -39,6 +39,9 @@
       "navigate": "Navigate to",
       "copyGps": "Copy GPS",
       "copied": "✓ Copied"
+    },
+    "gallery": {
+      "moreCount": "+{count} more"
     }
   },
   "notFound": {
