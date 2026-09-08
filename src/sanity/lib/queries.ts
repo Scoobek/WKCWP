@@ -4,6 +4,8 @@ import { groq } from "next-sanity";
 import { client } from "@/sanity/lib/client";
 import { type NewsCategory } from "@/sanity/lib/news-categories";
 
+export type { NewsCategory };
+
 export type PostListItem = {
   _id: string;
   title: string;

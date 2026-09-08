@@ -68,7 +68,7 @@ export async function EventDetailsBlockView(
       {/* Right column: details sidebar */}
       <Col span={12} lg={4}>
         <EventDetailsSidebar
-          eventType={eventType}
+          eventType={eventType ?? null}
           date={date}
           hours={hours}
           location={location}

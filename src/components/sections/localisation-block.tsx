@@ -22,13 +22,13 @@ export async function LocalisationBlockView(
           <LocalisationMapLoader
             lat={location.lat}
             lng={location.lng}
-            townName={townName}
+            townName={townName ?? null}
           />
         </div>
 
         <div className="w-full lg:w-[30%]">
           <LocalisationSidebar
-            townName={townName}
+            townName={townName ?? null}
             street={street}
             buildingNumber={buildingNumber}
             postalCode={postalCode}
