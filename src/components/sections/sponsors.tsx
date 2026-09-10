@@ -1,11 +1,10 @@
-import Image from "next/image";
 import { type ComponentProps } from "react";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Grid, Col } from "@/components/layout/grid";
 import { Link } from "@/i18n/navigation";
-import { urlFor } from "@/sanity/lib/image";
+import { SponsorsLogos } from "@/components/sections/sponsors-logos";
 import type { SponsorsSection } from "@/sanity/lib/queries";
 
 export function Sponsors({
@@ -29,33 +28,7 @@ export function Sponsors({
 
           {hasSponsor && (
             <Col span={12} md={6}>
-              <div className="flex flex-wrap items-center gap-6">
-                {sponsors.map((sponsor) => {
-                  const logoUrl = sponsor.logo?.asset
-                    ? urlFor(sponsor.logo.asset).width(160).height(80).url()
-                    : null;
-
-                  return (
-                    <a
-                      key={sponsor._key}
-                      href={sponsor.url || "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block transition-opacity hover:opacity-75"
-                    >
-                      {logoUrl && (
-                        <Image
-                          src={logoUrl}
-                          alt={sponsor.name || "Sponsor"}
-                          width={160}
-                          height={80}
-                          style={{ width: "auto", height: "auto" }}
-                        />
-                      )}
-                    </a>
-                  );
-                })}
-              </div>
+              <SponsorsLogos sponsors={sponsors} />
             </Col>
           )}
 
