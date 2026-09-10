@@ -2,6 +2,7 @@ import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { News } from "@/components/sections/news";
 import type { PageSection } from "@/sanity/lib/queries";
+import { Sponsors } from "@/components/sections/sponsors";
 
 /**
  * The render loop. Maps each section in a page's `sections` array to its
@@ -32,6 +33,8 @@ export function PageSections({
             category={category}
           />
         );
+      case "sponsorsSection":
+        return <Sponsors key={section._key} {...section} />;
       default:
         // A section type exists in the CMS but has no component yet (e.g. a
         // new section added to the schema before its renderer). Skip it, but

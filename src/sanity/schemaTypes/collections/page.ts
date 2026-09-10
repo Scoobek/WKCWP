@@ -25,6 +25,7 @@ export const page = defineType({
         { type: "contactSection" },
         { type: "heroSection" },
         { type: "newsSection" },
+        { type: "sponsorsSection" },
       ],
     }),
     // Managed by @sanity/document-internationalization — one document per

@@ -162,7 +162,24 @@ export type ContactSection = {
   phone: string | null;
 };
 
-export type PageSection = HeroSection | NewsSection | ContactSection;
+export type SponsorItem = {
+  _key: string;
+  name: string | null;
+  logo: SanityImage | null;
+  url: string | null;
+};
+
+export type SponsorsSection = {
+  _type: "sponsorsSection";
+  _key: string;
+  heading: string | null;
+  sponsors: SponsorItem[] | null;
+  ctaLabel: string | null;
+  ctaUrl: string | null;
+};
+
+export type PageSection =
+  HeroSection | NewsSection | ContactSection | SponsorsSection;
 
 export type NewsPost = {
   _id: string;
@@ -178,7 +195,7 @@ export type NewsPost = {
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
 const SECTIONS_FRAGMENT = groq`sections[]{
-  _type, _key, heading, subheading, ctaLabel, ctaUrl, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone
+  _type, _key, heading, subheading, ctaLabel, ctaUrl, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, sponsors[]{ _key, name, logo{ asset }, url }
 }`;
 
 export type PageDocument = {
