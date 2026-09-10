@@ -6,6 +6,7 @@ import { eventDetailsBlock } from "./blocks/eventDetailsBlock";
 import { galleryBlock } from "./blocks/galleryBlock";
 import { localisationBlock } from "./blocks/localisationBlock";
 import { richTextBlock } from "./blocks/richTextBlock";
+import { contactSection } from "./sections/contactSection";
 import { heroSection } from "./sections/heroSection";
 import { newsSection } from "./sections/newsSection";
 import { aboutPage } from "./singletons/aboutPage";
@@ -17,6 +18,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     page,
     homePage,
     aboutPage,
+    contactSection,
     heroSection,
     newsSection,
     richTextBlock,

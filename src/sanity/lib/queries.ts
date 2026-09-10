@@ -149,7 +149,20 @@ export type NewsSection = {
   subheading: string | null;
 };
 
-export type PageSection = HeroSection | NewsSection;
+export type ContactSection = {
+  _type: "contactSection";
+  _key: string;
+  heading: string | null;
+  subheading: string | null;
+  street: string | null;
+  buildingNumber: string | null;
+  postalCode: string | null;
+  town: string | null;
+  email: string | null;
+  phone: string | null;
+};
+
+export type PageSection = HeroSection | NewsSection | ContactSection;
 
 export type NewsPost = {
   _id: string;
@@ -165,7 +178,7 @@ export type NewsPost = {
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
 const SECTIONS_FRAGMENT = groq`sections[]{
-  _type, _key, heading, subheading, ctaLabel, ctaUrl, image{ asset, alt }
+  _type, _key, heading, subheading, ctaLabel, ctaUrl, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone
 }`;
 
 export type PageDocument = {
