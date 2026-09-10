@@ -44,6 +44,12 @@
       "subtitle": "Photo gallery"
     }
   },
+  "sections": {
+    "contact": {
+      "address": "Address",
+      "contact": "Contact"
+    }
+  },
   "notFound": {
     "title": "Page not found",
     "description": "The page you are looking for doesn't exist or has been moved.",

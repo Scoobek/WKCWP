@@ -21,7 +21,11 @@ export const page = defineType({
     defineField({
       name: "sections",
       type: "array",
-      of: [{ type: "heroSection" }],
+      of: [
+        { type: "contactSection" },
+        { type: "heroSection" },
+        { type: "newsSection" },
+      ],
     }),
     // Managed by @sanity/document-internationalization — one document per
     // language, linked via a translation-metadata document.

@@ -44,6 +44,12 @@
       "subtitle": "Galeria zdjęć"
     }
   },
+  "sections": {
+    "contact": {
+      "address": "Adres",
+      "contact": "Kontakt"
+    }
+  },
   "notFound": {
     "title": "Nie znaleziono strony",
     "description": "Strona, której szukasz, nie istnieje lub została przeniesiona.",

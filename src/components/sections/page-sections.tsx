@@ -1,3 +1,4 @@
+import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { News } from "@/components/sections/news";
 import type { PageSection } from "@/sanity/lib/queries";
@@ -18,6 +19,8 @@ export function PageSections({
   // `?? []` guards pages with an empty/missing sections array.
   return (sections ?? []).map((section) => {
     switch (section._type) {
+      case "contactSection":
+        return <Contact key={section._key} {...section} />;
       case "heroSection":
         return <Hero key={section._key} {...section} />;
       case "newsSection":

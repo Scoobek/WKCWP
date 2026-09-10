@@ -11,7 +11,11 @@ export const aboutPage = defineType({
     defineField({
       name: "sections",
       type: "array",
-      of: [{ type: "heroSection" }],
+      of: [
+        { type: "contactSection" },
+        { type: "heroSection" },
+        { type: "newsSection" },
+      ],
     }),
   ],
   preview: {
