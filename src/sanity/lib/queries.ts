@@ -178,8 +178,30 @@ export type SponsorsSection = {
   ctaUrl: string | null;
 };
 
+export type SocialLinkItem = {
+  _key: string;
+  platform:
+    "facebook" | "instagram" | "youtube" | "tiktok" | "x" | "linkedin" | null;
+  profileName: string | null;
+  url: string | null;
+  followersLabel: string | null;
+  youtubeChannelId: string | null;
+};
+
+export type SocialMediaSection = {
+  _type: "socialMediaSection";
+  _key: string;
+  heading: string | null;
+  subheading: string | null;
+  links: SocialLinkItem[] | null;
+};
+
 export type PageSection =
-  HeroSection | NewsSection | ContactSection | SponsorsSection;
+  | HeroSection
+  | NewsSection
+  | ContactSection
+  | SponsorsSection
+  | SocialMediaSection;
 
 export type NewsPost = {
   _id: string;
@@ -195,7 +217,7 @@ export type NewsPost = {
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
 const SECTIONS_FRAGMENT = groq`sections[]{
-  _type, _key, heading, subheading, ctaLabel, ctaUrl, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, sponsors[]{ _key, name, logo{ asset }, url }
+  _type, _key, heading, subheading, ctaLabel, ctaUrl, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }
 }`;
 
 export type PageDocument = {
