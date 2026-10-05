@@ -1,22 +1,34 @@
-import { getNewsPosts, type NewsSection } from "@/sanity/lib/queries";
+import { headers } from "next/headers";
+
+import { getNewsPostsPage, type NewsSection } from "@/sanity/lib/queries";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Grid, Col } from "@/components/layout/grid";
-import { NewsCard } from "@/components/sections/news-card";
 import { NewsCategoryChips } from "@/components/sections/news-category-chips";
+import { NewsResults } from "@/components/sections/news-results";
+import { isMobileUserAgent } from "@/lib/device";
+
+const DESKTOP_PAGE_SIZE = 1;
+const MOBILE_PAGE_SIZE = 1;
 
 export async function News({
   heading,
   subheading,
   locale,
   category = "all",
-}: NewsSection & { locale: string; category: string }) {
-  const posts = await getNewsPosts(
+  page = 1,
+}: NewsSection & { locale: string; category: string; page?: number }) {
+  const userAgent = (await headers()).get("user-agent");
+  const pageSize = isMobileUserAgent(userAgent)
+    ? MOBILE_PAGE_SIZE
+    : DESKTOP_PAGE_SIZE;
+
+  const { items: posts, total } = await getNewsPostsPage(
     locale,
     (category as "all" | string) === "all"
       ? "all"
-      : (category as Parameters<typeof getNewsPosts>[1]),
-    9
+      : (category as Parameters<typeof getNewsPostsPage>[1]),
+    page,
+    pageSize
   );
 
   return (
@@ -39,15 +51,16 @@ export async function News({
           <NewsCategoryChips category={category} />
         </div>
 
-        {/* Grid of news cards */}
+        {/* Grid of news cards with client-side pagination */}
         {posts.length > 0 ? (
-          <Grid>
-            {posts.map((post) => (
-              <Col key={post._id} span={12} md={6} lg={4}>
-                <NewsCard post={post} locale={locale} />
-              </Col>
-            ))}
-          </Grid>
+          <NewsResults
+            initialPosts={posts}
+            initialTotal={total}
+            page={page}
+            pageSize={pageSize}
+            category={category}
+            locale={locale}
+          />
         ) : (
           <div className="text-center text-gray-500 dark:text-gray-400">
             No posts found in this category.
