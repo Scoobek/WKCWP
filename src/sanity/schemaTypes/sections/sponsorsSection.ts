@@ -47,12 +47,8 @@ export const sponsorsSection = defineType({
       type: "string",
     }),
     defineField({
-      name: "ctaUrl",
-      type: "url",
-      description:
-        "Use the canonical path (e.g. /become-sponsor) — the URL is localized per language automatically.",
-      validation: (rule) =>
-        rule.uri({ allowRelative: true, relativeOnly: true }),
+      name: "ctaLink",
+      type: "link",
     }),
   ],
   preview: {

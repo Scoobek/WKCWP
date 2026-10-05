@@ -3,6 +3,7 @@ import { groq } from "next-sanity";
 
 import { client } from "@/sanity/lib/client";
 import { type NewsCategory } from "@/sanity/lib/news-categories";
+import { resolveLink } from "@/lib/resolve-link";
 
 export type { NewsCategory };
 
@@ -93,6 +94,14 @@ const TRANSLATIONS_FRAGMENT = groq`"translations": coalesce(*[
   _type == "translation.metadata" && references(^._id)
 ][0].translations[]{ "locale": value->language, "slug": value->slug.current }, [])`;
 
+const LINK_FRAGMENT = groq`{
+  linkType,
+  external,
+  internal->{ "slug": slug.current, "translations": coalesce(*[
+    _type == "translation.metadata" && references(^._id)
+  ][0].translations[]{ "locale": value->language, "slug": value->slug.current }, []) }
+}`;
+
 const POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(slug.current)] | order(publishedAt desc){
   _id, title, "slug": slug.current, excerpt, publishedAt
 }`;
@@ -101,7 +110,7 @@ const CONTENT_FRAGMENT = groq`content[]{
   _type, _key,
   _type == "richTextBlock" => { text },
   _type == "galleryBlock" => { heading, images[]{ asset, alt } },
-  _type == "eventDetailsBlock" => { title, description, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonUrl, buttonBlank, organizer, organizerUrl },
+  _type == "eventDetailsBlock" => { title, description, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonLink${LINK_FRAGMENT}, buttonBlank, organizer, organizerLink${LINK_FRAGMENT} },
   _type == "localisationBlock" => { title, street, buildingNumber, postalCode, location }
 }`;
 
@@ -119,7 +128,12 @@ export function getPosts(locale: string) {
 
 /** A single post by slug within a locale, or null. */
 export function getPost(locale: string, slug: string) {
-  return client.fetch<Post | null>(POST_QUERY, { locale, slug });
+  return client
+    .fetch<Post | null>(POST_QUERY, { locale, slug })
+    .then((post) => {
+      if (!post) return null;
+      return { ...post, content: resolveContent(post.content, locale) };
+    });
 }
 
 /** A Sanity image as stored on a document: an asset *reference* (not a URL —
@@ -217,7 +231,7 @@ export type NewsPost = {
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
 const SECTIONS_FRAGMENT = groq`sections[]{
-  _type, _key, heading, subheading, ctaLabel, ctaUrl, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }
+  _type, _key, heading, subheading, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }
 }`;
 
 export type PageDocument = {
@@ -234,9 +248,50 @@ const PAGE_QUERY = groq`*[_type == "page" && language == $locale && slug.current
   ${TRANSLATIONS_FRAGMENT}
 }`;
 
+type RawPageSection = Record<string, unknown> & { _type: string; _key: string };
+type RawPostBlock = Record<string, unknown> & { _type: string; _key: string };
+
+function resolveSections(
+  sections: RawPageSection[] | null,
+  locale: string
+): PageSection[] | null {
+  if (!sections) return null;
+  return sections.map((section): PageSection => {
+    if (section._type === "heroSection" && section.ctaLink) {
+      const resolved = resolveLink(section.ctaLink as unknown, locale);
+      return { ...section, ctaUrl: resolved } as PageSection;
+    }
+    if (section._type === "sponsorsSection" && section.ctaLink) {
+      const resolved = resolveLink(section.ctaLink as unknown, locale);
+      return { ...section, ctaUrl: resolved } as PageSection;
+    }
+    return section as PageSection;
+  });
+}
+
+function resolveContent(
+  content: RawPostBlock[] | null,
+  locale: string
+): PostBlock[] | null {
+  if (!content) return null;
+  return content.map((block): PostBlock => {
+    if (block._type === "eventDetailsBlock") {
+      const buttonUrl = resolveLink(block.buttonLink as unknown, locale);
+      const organizerUrl = resolveLink(block.organizerLink as unknown, locale);
+      return { ...block, buttonUrl, organizerUrl } as EventDetailsBlock;
+    }
+    return block as PostBlock;
+  });
+}
+
 /** A single page by slug within a locale, or null. */
 export function getPage(locale: string, slug: string) {
-  return client.fetch<PageDocument | null>(PAGE_QUERY, { locale, slug });
+  return client
+    .fetch<PageDocument | null>(PAGE_QUERY, { locale, slug })
+    .then((page) => {
+      if (!page) return null;
+      return { ...page, sections: resolveSections(page.sections, locale) };
+    });
 }
 
 /** Any sections-based singleton (home, about, …). */
@@ -248,18 +303,23 @@ export type SectionsDocument = {
 // `language`/slug filter is needed — the id encodes the language.
 const SINGLETON_QUERY = groq`*[_id == $id][0]{ ${SECTIONS_FRAGMENT} }`;
 
-function getSingleton(id: string) {
-  return client.fetch<SectionsDocument | null>(SINGLETON_QUERY, { id });
+function getSingleton(id: string, locale: string) {
+  return client
+    .fetch<SectionsDocument | null>(SINGLETON_QUERY, { id })
+    .then((doc) => {
+      if (!doc) return null;
+      return { ...doc, sections: resolveSections(doc.sections, locale) };
+    });
 }
 
 /** The home page singleton for a locale, or null if not published yet. */
 export function getHomePage(locale: string) {
-  return getSingleton(`home-${locale}`);
+  return getSingleton(`home-${locale}`, locale);
 }
 
 /** The about page singleton for a locale, or null if not published yet. */
 export function getAboutPage(locale: string) {
-  return getSingleton(`about-${locale}`);
+  return getSingleton(`about-${locale}`, locale);
 }
 
 const NEWS_POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(category) && ($category == "all" || category == $category)] | order(eventDate desc)[0...$limit]{

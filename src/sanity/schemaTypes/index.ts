@@ -13,6 +13,7 @@ import { socialMediaSection } from "./sections/socialMediaSection";
 import { sponsorsSection } from "./sections/sponsorsSection";
 import { aboutPage } from "./singletons/aboutPage";
 import { homePage } from "./singletons/homePage";
+import { link } from "./objects/link";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -29,5 +30,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     galleryBlock,
     eventDetailsBlock,
     localisationBlock,
+    link,
   ],
 };

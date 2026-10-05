@@ -108,9 +108,9 @@ export const eventDetailsBlock = defineType({
       type: "string",
     }),
     defineField({
-      name: "buttonUrl",
+      name: "buttonLink",
       title: "Button link (optional)",
-      type: "url",
+      type: "link",
     }),
     defineField({
       name: "buttonBlank",
@@ -124,9 +124,9 @@ export const eventDetailsBlock = defineType({
       type: "string",
     }),
     defineField({
-      name: "organizerUrl",
+      name: "organizerLink",
       title: "Organizer link (optional)",
-      type: "url",
+      type: "link",
     }),
   ],
   preview: {
