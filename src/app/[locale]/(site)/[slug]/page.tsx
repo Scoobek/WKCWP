@@ -30,13 +30,12 @@ export default async function DynamicPage({ params }: { params: Params }) {
   }
 
   // Point the language switcher at each locale's own slug. Locales without a
-  // translation fall back to the home page.
+  // translation link to the same path, which will 404 under that locale.
   const alternates = buildLocaleAlternates({
     locale,
     path: `/${slug}`,
     translations: page.translations,
     toPath: (s) => `/${s}`,
-    fallback: "/",
   });
 
   return (

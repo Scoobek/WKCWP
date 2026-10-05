@@ -13,23 +13,29 @@ import { supportedLanguages } from "@/sanity/i18n";
 import { schema } from "@/sanity/schemaTypes";
 import { singletonTypes, structure } from "@/sanity/structure";
 
+const LOCALIZED_TYPES = new Set(["post", "page"]);
+
 export default defineConfig({
   basePath: "/studio",
   projectId,
   dataset,
   schema,
   // Singletons are created via the custom structure, so keep them out of the
-  // global "Create new" menu.
+  // global "Create new" menu. Localized types must only be created via the
+  // per-language template (e.g. "Polski Page") to ensure `language` is set.
   document: {
     newDocumentOptions: (prev) =>
-      prev.filter(
-        (item) =>
-          // Hide singletons (managed via structure)
-          !singletonTypes.has(item.templateId) &&
-          // For localized types, only show base language (Polish)
-          (item.parameters?.language === undefined ||
-            item.parameters?.language === "pl")
-      ),
+      prev.filter((item) => {
+        // Hide singletons (managed via structure)
+        if (singletonTypes.has(item.templateId)) return false;
+        // Localized types: only the per-language template may create one.
+        // The plain "page"/"post" (no suffix) would create an orphan with
+        // no language set, invisible to both the Studio list and frontend queries.
+        if (LOCALIZED_TYPES.has(item.templateId)) return false;
+        // English is added via the plugin's "Translate" action on the PL doc.
+        if (item.templateId.endsWith("-en")) return false;
+        return true;
+      }),
   },
   // Studio UI language. Sanity defaults to the *last* locale for users without a
   // saved preference, so sorting pl-PL last makes Polish the default while
