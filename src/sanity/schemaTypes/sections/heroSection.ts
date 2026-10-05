@@ -12,15 +12,9 @@ export const heroSection = defineType({
     defineField({ name: "subheading", type: "text", rows: 2 }),
     defineField({ name: "ctaLabel", type: "string", title: "Button label" }),
     defineField({
-      name: "ctaUrl",
-      type: "url",
-      title: "Button link (canonical internal path, e.g. /about)",
-      description:
-        "Use the canonical path (e.g. /about) — the URL is localized per " +
-        "language automatically (so /about becomes /pl/o-nas on the PL site).",
-      // Internal paths only — allow relative URIs, reject absolute URLs.
-      validation: (rule) =>
-        rule.uri({ allowRelative: true, relativeOnly: true }),
+      name: "ctaLink",
+      type: "link",
+      title: "Button link",
     }),
     defineField({
       name: "image",
