@@ -21,25 +21,27 @@ export function Sponsors({
       <Container>
         <Grid>
           {heading && (
-            <Col span={12} md={3}>
+            <Col span={12} md={4}>
               <h2 className="text-3xl font-bold md:text-4xl">{heading}</h2>
             </Col>
           )}
 
           {hasSponsor && (
-            <Col span={12} md={6}>
+            <Col span={12} md={8}>
               <SponsorsLogos sponsors={sponsors} />
             </Col>
           )}
 
           {hasCta && (
-            <Col span={12} md={3}>
-              <Link
-                href={ctaUrl as ComponentProps<typeof Link>["href"]}
-                className="bg-foreground text-background inline-block rounded-md px-5 py-2.5 text-sm font-medium"
-              >
-                {ctaLabel}
-              </Link>
+            <Col span={12}>
+              <div className="pt-6">
+                <Link
+                  href={ctaUrl as ComponentProps<typeof Link>["href"]}
+                  className="bg-foreground text-background inline-block rounded-md px-5 py-2.5 text-sm font-medium"
+                >
+                  {ctaLabel}
+                </Link>
+              </div>
             </Col>
           )}
         </Grid>

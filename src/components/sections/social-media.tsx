@@ -56,13 +56,13 @@ async function SocialLinkTile({
       href={link.url || "#"}
       target="_blank"
       rel="noopener noreferrer"
-      className="block rounded-lg border border-gray-200 p-6 transition-shadow hover:shadow-md"
+      className="flex flex-col justify-between rounded-lg border border-gray-200 p-6 transition-shadow hover:shadow-md"
     >
       <div className="mb-4 flex items-center gap-3">
         <Icon className="h-8 w-8 shrink-0 text-gray-700" />
-        <div className="flex-1">
-          <p className="font-medium text-gray-900">{platformLabel}</p>
-          <p className="text-sm text-gray-600">{link.profileName}</p>
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-medium text-gray-900">{platformLabel}</p>
+          <p className="truncate text-sm text-gray-600">{link.profileName}</p>
         </div>
       </div>
       {displayLabel && <p className="text-sm text-gray-500">{displayLabel}</p>}
@@ -91,7 +91,14 @@ export async function SocialMedia({
 
           {hasLinks && (
             <Col span={12} md={8}>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div
+                className="gap-6"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns:
+                    "repeat(auto-fit, minmax(min(100%, 180px), 1fr))",
+                }}
+              >
                 {links.map((link) => (
                   <SocialLinkTile key={link._key} link={link} locale={locale} />
                 ))}
