@@ -8,10 +8,10 @@ import type { DocTranslation } from "@/sanity/lib/queries";
  * Returns a locale-stripped path for *every* locale in `routing.locales`:
  * - the current locale → `path`,
  * - each translation that has a slug → `toPath(slug)`,
- * - any locale still missing a translation → `fallback`.
+ * - any locale without a translation → `path` (attempting to view untranslated
+ *   content under another locale will 404).
  *
- * Because the map is complete, the switcher never needs a per-type fallback of
- * its own. Pure (not a hook) so server pages can call it directly, alongside
+ * Pure (not a hook) so server pages can call it directly, alongside
  * `<SetLocaleAlternates>`.
  */
 export function buildLocaleAlternates({
@@ -19,7 +19,6 @@ export function buildLocaleAlternates({
   path,
   translations,
   toPath,
-  fallback,
 }: {
   /** The current locale. */
   locale: string;
@@ -29,8 +28,6 @@ export function buildLocaleAlternates({
   translations: DocTranslation[];
   /** Maps a translated slug to its locale-stripped path. */
   toPath: (slug: string) => string;
-  /** Path for locales that have no translation, e.g. a list page. */
-  fallback: string;
 }): Record<string, string> {
   const alternates: Record<string, string> = { [locale]: path };
 
@@ -41,7 +38,7 @@ export function buildLocaleAlternates({
   }
 
   for (const l of routing.locales) {
-    alternates[l] ??= fallback;
+    alternates[l] ??= path;
   }
 
   return alternates;

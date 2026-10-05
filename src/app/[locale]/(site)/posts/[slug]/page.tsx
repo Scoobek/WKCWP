@@ -42,12 +42,13 @@ export default async function PostPage({ params }: { params: Params }) {
   // Point the language switcher at each locale's own slug so switching language
   // on this post doesn't 404. Locales without a translation fall back to the
   // posts list.
+  // Point the language switcher at each locale's own slug. Locales without a
+  // translation link to the same path, which will 404 under that locale.
   const alternates = buildLocaleAlternates({
     locale,
     path: `/posts/${slug}`,
     translations: post.translations,
     toPath: (s) => `/posts/${s}`,
-    fallback: "/posts",
   });
 
   const displayDate = post.eventDate ?? post.publishedAt;

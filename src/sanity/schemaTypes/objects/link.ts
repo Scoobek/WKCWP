@@ -21,6 +21,7 @@ export const link = defineType({
       name: "internal",
       type: "reference",
       to: [{ type: "page" }],
+      options: { filter: "defined(language)" },
       hidden: ({ parent }) => parent?.linkType !== "internal",
     }),
     defineField({
