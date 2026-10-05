@@ -28,18 +28,18 @@ export function Header() {
               </li>
               <li>
                 <Link
-                  href="/about"
+                  href={{ pathname: "/", hash: "news" }}
                   className="hover:text-foreground transition-colors"
                 >
-                  {t("about")}
+                  {t("news")}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/posts"
+                  href={{ pathname: "/", hash: "contact" }}
                   className="hover:text-foreground transition-colors"
                 >
-                  {t("posts")}
+                  {t("contact")}
                 </Link>
               </li>
             </ul>

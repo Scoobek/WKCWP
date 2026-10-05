@@ -4,6 +4,10 @@
   },
   "nav": {
     "home": "Home",
+    "news": "News",
+    "socialMedia": "Social Media",
+    "sponsors": "Sponsors",
+    "contact": "Contact",
     "about": "About",
     "posts": "News"
   },

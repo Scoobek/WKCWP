@@ -16,7 +16,13 @@ export async function News({
   locale,
   category = "all",
   page = 1,
-}: NewsSection & { locale: string; category: string; page?: number }) {
+  id,
+}: NewsSection & {
+  locale: string;
+  category: string;
+  page?: number;
+  id?: string;
+}) {
   const userAgent = (await headers()).get("user-agent");
   const pageSize = isMobileUserAgent(userAgent)
     ? MOBILE_PAGE_SIZE
@@ -32,7 +38,7 @@ export async function News({
   );
 
   return (
-    <Section id="news">
+    <Section id={id}>
       <Container>
         {/* Header row: heading/subheading left, chips right */}
         <div className="mb-12 flex flex-col justify-between gap-6 sm:flex-row sm:items-start">

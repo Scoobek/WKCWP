@@ -4,7 +4,7 @@ import { Section } from "@/components/layout/section";
 import { Grid, Col } from "@/components/layout/grid";
 import type { ContactSection } from "@/sanity/lib/queries";
 
-export async function Contact(props: ContactSection) {
+export async function Contact(props: ContactSection & { id?: string }) {
   const t = await getTranslations("sections.contact");
   const {
     heading,
@@ -15,13 +15,14 @@ export async function Contact(props: ContactSection) {
     town,
     email,
     phone,
+    id,
   } = props;
 
   const hasAddress = street || buildingNumber || postalCode || town;
   const hasContact = email || phone;
 
   return (
-    <Section>
+    <Section id={id}>
       <Container>
         <Grid>
           <Col span={12} md={4}>

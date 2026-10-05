@@ -12,12 +12,13 @@ export function Sponsors({
   sponsors,
   ctaLabel,
   ctaUrl,
-}: SponsorsSection) {
+  id,
+}: SponsorsSection & { id?: string }) {
   const hasSponsor = sponsors && sponsors.length > 0;
   const hasCta = ctaLabel && ctaUrl;
 
   return (
-    <Section>
+    <Section id={id}>
       <Container>
         <Grid>
           {heading && (

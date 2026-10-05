@@ -4,6 +4,10 @@
   },
   "nav": {
     "home": "Strona główna",
+    "news": "Aktualności",
+    "socialMedia": "Media społecznościowe",
+    "sponsors": "Sponsorzy",
+    "contact": "Kontakt",
     "about": "O nas",
     "posts": "Aktualności"
   },

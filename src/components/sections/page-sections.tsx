@@ -24,9 +24,9 @@ export function PageSections({
   return (sections ?? []).map((section) => {
     switch (section._type) {
       case "contactSection":
-        return <Contact key={section._key} {...section} />;
+        return <Contact key={section._key} {...section} id="contact" />;
       case "heroSection":
-        return <Hero key={section._key} {...section} />;
+        return <Hero key={section._key} {...section} id="hero" />;
       case "newsSection":
         return (
           <News
@@ -35,6 +35,7 @@ export function PageSections({
             locale={locale || "pl"}
             category={category}
             page={page}
+            id="news"
           />
         );
       case "socialMediaSection":
@@ -43,10 +44,11 @@ export function PageSections({
             key={section._key}
             {...section}
             locale={locale || "pl"}
+            id="social-media"
           />
         );
       case "sponsorsSection":
-        return <Sponsors key={section._key} {...section} />;
+        return <Sponsors key={section._key} {...section} id="sponsors" />;
       default:
         // A section type exists in the CMS but has no component yet (e.g. a
         // new section added to the schema before its renderer). Skip it, but
