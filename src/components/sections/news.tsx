@@ -1,11 +1,9 @@
-import { NEWS_CATEGORIES } from "@/sanity/lib/news-categories";
 import { getNewsPosts, type NewsSection } from "@/sanity/lib/queries";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Grid, Col } from "@/components/layout/grid";
-import { Link } from "@/i18n/navigation";
 import { NewsCard } from "@/components/sections/news-card";
-import { cn } from "@/lib/utils";
+import { NewsCategoryChips } from "@/components/sections/news-category-chips";
 
 export async function News({
   heading,
@@ -38,36 +36,7 @@ export async function News({
           </div>
 
           {/* Category filter chips */}
-          <div className="flex flex-wrap gap-2">
-            {/* All chip */}
-            <Link
-              href={{ pathname: "/" }}
-              className={cn(
-                "inline-flex items-center rounded-full px-4 py-2 text-sm font-medium transition",
-                category === "all"
-                  ? "bg-black text-white dark:bg-white dark:text-black"
-                  : "border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
-              )}
-            >
-              All
-            </Link>
-
-            {/* Category chips */}
-            {NEWS_CATEGORIES.map((cat) => (
-              <Link
-                key={cat.id}
-                href={{ pathname: "/", query: { category: cat.id } }}
-                className={cn(
-                  "inline-flex items-center rounded-full px-4 py-2 text-sm font-medium transition",
-                  category === cat.id
-                    ? "bg-black text-white dark:bg-white dark:text-black"
-                    : "border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
-                )}
-              >
-                {cat.title}
-              </Link>
-            ))}
-          </div>
+          <NewsCategoryChips category={category} />
         </div>
 
         {/* Grid of news cards */}
