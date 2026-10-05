@@ -9,6 +9,7 @@ import { richTextBlock } from "./blocks/richTextBlock";
 import { contactSection } from "./sections/contactSection";
 import { heroSection } from "./sections/heroSection";
 import { newsSection } from "./sections/newsSection";
+import { socialMediaSection } from "./sections/socialMediaSection";
 import { sponsorsSection } from "./sections/sponsorsSection";
 import { aboutPage } from "./singletons/aboutPage";
 import { homePage } from "./singletons/homePage";
@@ -22,6 +23,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     contactSection,
     heroSection,
     newsSection,
+    socialMediaSection,
     sponsorsSection,
     richTextBlock,
     galleryBlock,

@@ -1,6 +1,7 @@
 import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { News } from "@/components/sections/news";
+import { SocialMedia } from "@/components/sections/social-media";
 import type { PageSection } from "@/sanity/lib/queries";
 import { Sponsors } from "@/components/sections/sponsors";
 
@@ -31,6 +32,14 @@ export function PageSections({
             {...section}
             locale={locale || "pl"}
             category={category}
+          />
+        );
+      case "socialMediaSection":
+        return (
+          <SocialMedia
+            key={section._key}
+            {...section}
+            locale={locale || "pl"}
           />
         );
       case "sponsorsSection":
