@@ -75,11 +75,12 @@ export async function SocialMedia({
   subheading,
   links,
   locale = "pl",
-}: SocialMediaSection & { locale?: string }) {
+  id,
+}: SocialMediaSection & { locale?: string; id?: string }) {
   const hasLinks = links && links.length > 0;
 
   return (
-    <Section>
+    <Section id={id}>
       <Container>
         <Grid>
           {heading && (

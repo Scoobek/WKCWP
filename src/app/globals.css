@@ -5,6 +5,17 @@
    `prefers-color-scheme`, so it can be toggled from the UI. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Smooth scroll behavior for anchor navigation, respecting prefers-reduced-motion. */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    Design tokens — PLACEHOLDERS. Swap these hex values for the real brand.
    Light values live on :root; dark overrides live on .dark. They are mapped to

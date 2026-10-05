@@ -13,14 +13,15 @@ export function Hero({
   ctaLabel,
   ctaUrl,
   image,
-}: HeroSection) {
+  id,
+}: HeroSection & { id?: string }) {
   // Only build a URL when an asset was actually uploaded.
   const imageUrl = image?.asset
     ? urlFor(image.asset).width(1600).height(900).url()
     : null;
 
   return (
-    <Section>
+    <Section id={id}>
       <Container>
         {/* Stacked on small screens (image on top via order), two columns from
             md up (text left, image right). */}
