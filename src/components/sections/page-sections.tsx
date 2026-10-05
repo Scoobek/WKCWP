@@ -13,10 +13,12 @@ export function PageSections({
   sections,
   locale,
   category = "all",
+  page = 1,
 }: {
   sections: PageSection[] | null;
   locale?: string;
   category?: string;
+  page?: number;
 }) {
   // `?? []` guards pages with an empty/missing sections array.
   return (sections ?? []).map((section) => {
@@ -32,6 +34,7 @@ export function PageSections({
             {...section}
             locale={locale || "pl"}
             category={category}
+            page={page}
           />
         );
       case "socialMediaSection":

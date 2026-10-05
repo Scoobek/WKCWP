@@ -322,19 +322,26 @@ export function getAboutPage(locale: string) {
   return getSingleton(`about-${locale}`, locale);
 }
 
-const NEWS_POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(category) && ($category == "all" || category == $category)] | order(eventDate desc)[0...$limit]{
-  _id, title, "slug": slug.current, category, eventDate, location, publishedAt, coverImage{ asset, alt }
+const NEWS_POSTS_FILTER = groq`_type == "post" && language == $locale && defined(category) && ($category == "all" || category == $category)`;
+
+const NEWS_POSTS_PAGE_QUERY = groq`{
+  "items": *[${NEWS_POSTS_FILTER}] | order(eventDate desc) [$offset...$offsetEnd]{
+    _id, title, "slug": slug.current, category, eventDate, location, publishedAt, coverImage{ asset, alt }
+  },
+  "total": count(*[${NEWS_POSTS_FILTER}])
 }`;
 
-/** News posts for a given locale and category, newest first by eventDate. */
-export function getNewsPosts(
+/** One page of news posts for a given locale and category, newest first by
+ * eventDate, plus the total matching count (for pagination). */
+export function getNewsPostsPage(
   locale: string,
   category: "all" | NewsCategory,
-  limit = 9
+  page: number,
+  pageSize: number
 ) {
-  return client.fetch<NewsPost[]>(NEWS_POSTS_QUERY, {
-    locale,
-    category,
-    limit,
-  });
+  const offset = (page - 1) * pageSize;
+  return client.fetch<{ items: NewsPost[]; total: number }>(
+    NEWS_POSTS_PAGE_QUERY,
+    { locale, category, offset, offsetEnd: offset + pageSize }
+  );
 }

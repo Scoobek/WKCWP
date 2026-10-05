@@ -8,10 +8,11 @@ export default async function Home({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; page?: string }>;
 }) {
   const { locale } = await params;
-  const { category = "all" } = await searchParams;
+  const { category = "all", page: pageParam } = await searchParams;
+  const page = Math.max(1, Number(pageParam) || 1);
   setRequestLocale(locale);
   const home = await getHomePage(locale);
 
@@ -20,6 +21,7 @@ export default async function Home({
       sections={home?.sections ?? null}
       locale={locale}
       category={category}
+      page={page}
     />
   );
 }
