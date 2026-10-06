@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { Grid, Col } from "@/components/layout/grid";
 import { Section } from "@/components/layout/section";
 import { RichText } from "@/components/rich-text";
+import { ArticleAuthor } from "@/components/sections/article-author";
 import { ArticleToc } from "@/components/sections/article-toc";
 import { getHeadings } from "@/lib/article-headings";
 import { cn } from "@/lib/utils";
@@ -13,7 +14,7 @@ interface ArticleProps extends ArticleSectionType {
   id?: string;
 }
 
-export function Article({ id, title, body }: ArticleProps) {
+export function Article({ id, title, body, author }: ArticleProps) {
   const { headings, keyToId } = getHeadings(body);
 
   const headingComponents: PortableTextComponents = {
@@ -81,6 +82,7 @@ export function Article({ id, title, body }: ArticleProps) {
             <div className="text-muted-foreground prose prose-sm max-w-none leading-7">
               <RichText value={body || []} components={headingComponents} />
             </div>
+            <ArticleAuthor author={author} />
           </Col>
         </Grid>
       </Container>
