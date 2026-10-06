@@ -11,12 +11,13 @@ export function Header() {
   const t = useTranslations("nav");
 
   const navItems = [
-    { id: "home", href: "/", label: t("home") },
-    { id: "news", href: { pathname: "/", hash: "news" }, label: t("news") },
+    { id: "home", href: "/", label: t("home"), isAnchor: false },
+    { id: "news", href: "#news", label: t("news"), isAnchor: true },
     {
       id: "contact",
-      href: { pathname: "/", hash: "contact" },
+      href: "#contact",
       label: t("contact"),
+      isAnchor: true,
     },
   ];
 
@@ -31,18 +32,27 @@ export function Header() {
           {/* Desktop nav: hidden below lg */}
           <nav className="hidden items-center gap-6 lg:flex">
             <ul className="text-muted-foreground flex items-center gap-6 text-sm font-medium">
-              {navItems.map((item) => (
-                <li key={item.id}>
-                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                  {/* @ts-ignore */}
-                  <Link
-                    href={item.href}
-                    className="hover:text-foreground transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {navItems.map((item) =>
+                item.isAnchor ? (
+                  <li key={item.id}>
+                    <a
+                      href={item.href}
+                      className="hover:text-foreground transition-colors"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ) : (
+                  <li key={item.id}>
+                    <Link
+                      href="/"
+                      className="hover:text-foreground transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                )
+              )}
             </ul>
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
