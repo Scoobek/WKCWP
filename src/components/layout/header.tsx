@@ -5,12 +5,13 @@ import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Link } from "@/i18n/navigation";
 import { MobileMenu } from "@/components/layout/mobile-menu";
+import type { NavItem } from "@/components/layout/types";
 
 /** Site header shell: sticky, bordered, with brand + nav + locale/theme controls. */
 export function Header() {
   const t = useTranslations("nav");
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { id: "home", href: "/", label: t("home"), isAnchor: false },
     { id: "news", href: "#news", label: t("news"), isAnchor: true },
     {
