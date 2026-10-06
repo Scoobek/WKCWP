@@ -51,7 +51,8 @@
   "sections": {
     "article": {
       "inThisArticle": "In this article",
-      "aboutAuthor": "About the author"
+      "aboutAuthor": "About the author",
+      "aboutAuthors": "About the authors"
     },
     "contact": {
       "address": "Address",
