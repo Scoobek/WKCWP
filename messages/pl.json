@@ -49,6 +49,9 @@
     }
   },
   "sections": {
+    "article": {
+      "inThisArticle": "W tym artykule"
+    },
     "contact": {
       "address": "Adres",
       "contact": "Kontakt"

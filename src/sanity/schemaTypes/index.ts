@@ -6,6 +6,7 @@ import { eventDetailsBlock } from "./blocks/eventDetailsBlock";
 import { galleryBlock } from "./blocks/galleryBlock";
 import { localisationBlock } from "./blocks/localisationBlock";
 import { richTextBlock } from "./blocks/richTextBlock";
+import { articleSection } from "./sections/articleSection";
 import { contactSection } from "./sections/contactSection";
 import { heroSection } from "./sections/heroSection";
 import { newsSection } from "./sections/newsSection";
@@ -21,6 +22,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     page,
     homePage,
     aboutPage,
+    articleSection,
     contactSection,
     heroSection,
     newsSection,
