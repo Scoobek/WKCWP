@@ -61,20 +61,34 @@ export function ArticleToc({ headings }: ArticleTocProps) {
           !isOpen && "hidden"
         )}
       >
-        {headings.map((heading) => (
-          <a
-            key={heading.id}
-            href={`#${heading.id}`}
-            className={cn(
-              "hover:text-foreground text-sm transition-colors",
-              heading.level === 2
-                ? "text-muted-foreground font-medium"
-                : "text-muted-foreground ml-4"
-            )}
-          >
-            {heading.text}
-          </a>
-        ))}
+        {headings.map((heading, index) => {
+          const h2Index = headings
+            .slice(0, index + 1)
+            .filter((h) => h.level === 2).length;
+
+          return (
+            <a
+              key={heading.id}
+              href={`#${heading.id}`}
+              className={cn(
+                "hover:text-foreground flex gap-2 text-sm transition-colors",
+                heading.level === 2
+                  ? "text-muted-foreground font-medium"
+                  : "text-muted-foreground ml-4"
+              )}
+            >
+              {heading.level === 2 && (
+                <span className="text-muted-foreground/60 w-8 shrink-0">
+                  {String(h2Index).padStart(2, "0")}
+                </span>
+              )}
+              {heading.level === 3 && (
+                <span className="text-muted-foreground/60 w-8 shrink-0" />
+              )}
+              <span>{heading.text}</span>
+            </a>
+          );
+        })}
       </nav>
     </div>
   );

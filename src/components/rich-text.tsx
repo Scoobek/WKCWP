@@ -85,6 +85,9 @@ export function RichText({
     ...(customComponents?.marks && {
       marks: { ...components.marks, ...customComponents.marks },
     }),
+    ...(customComponents?.block && {
+      block: customComponents.block,
+    }),
   };
   return <PortableText value={value} components={mergedComponents} />;
 }
