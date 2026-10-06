@@ -1,16 +1,11 @@
 "use client";
 
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
-
-interface NavItem {
-  id: string;
-  href: string | { pathname: string; hash?: string };
-  label: string | ReactNode;
-}
+import type { NavItem } from "@/components/layout/types";
 
 interface MobileMenuProps {
   items: NavItem[];
@@ -92,19 +87,29 @@ export function MobileMenu({ items }: MobileMenuProps) {
         {/* Nav links - scrollable middle section */}
         <nav className="flex-1 overflow-y-auto px-4 py-4">
           <ul className="text-muted-foreground flex flex-col gap-4 text-sm font-medium">
-            {items.map((item) => (
-              <li key={item.id}>
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/* @ts-ignore */}
-                <Link
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="hover:text-foreground block py-1 transition-colors"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {items.map((item) =>
+              item.isAnchor ? (
+                <li key={item.id}>
+                  <a
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="hover:text-foreground block py-1 transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ) : (
+                <li key={item.id}>
+                  <Link
+                    href="/"
+                    onClick={() => setIsOpen(false)}
+                    className="hover:text-foreground block py-1 transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              )
+            )}
           </ul>
         </nav>
 
