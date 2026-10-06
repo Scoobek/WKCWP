@@ -71,38 +71,43 @@ export const articleSection = defineType({
     }),
     defineField({
       name: "author",
-      type: "object",
-      title: "Author",
+      type: "array",
+      title: "Authors",
       description:
         "Optional author information displayed at the end of the article",
-      fields: [
-        defineField({
-          name: "firstName",
-          type: "string",
-          title: "First name",
-        }),
-        defineField({
-          name: "lastName",
-          type: "string",
-          title: "Last name",
-        }),
-        defineField({
-          name: "bio",
-          type: "text",
-          title: "Bio",
-          rows: 3,
-          validation: (rule) => rule.max(300),
-        }),
-        defineField({
-          name: "photo",
-          type: "image",
-          title: "Photo",
-          options: { hotspot: true },
+      of: [
+        defineArrayMember({
+          type: "object",
           fields: [
             defineField({
-              name: "alt",
+              name: "firstName",
               type: "string",
-              title: "Alternative text",
+              title: "First name",
+            }),
+            defineField({
+              name: "lastName",
+              type: "string",
+              title: "Last name",
+            }),
+            defineField({
+              name: "bio",
+              type: "text",
+              title: "Bio",
+              rows: 3,
+              validation: (rule) => rule.max(300),
+            }),
+            defineField({
+              name: "photo",
+              type: "image",
+              title: "Photo",
+              options: { hotspot: true },
+              fields: [
+                defineField({
+                  name: "alt",
+                  type: "string",
+                  title: "Alternative text",
+                }),
+              ],
             }),
           ],
         }),
