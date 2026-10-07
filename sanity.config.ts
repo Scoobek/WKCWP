@@ -13,7 +13,7 @@ import { supportedLanguages } from "@/sanity/i18n";
 import { schema } from "@/sanity/schemaTypes";
 import { singletonTypes, structure } from "@/sanity/structure";
 
-const LOCALIZED_TYPES = new Set(["post", "page"]);
+const LOCALIZED_TYPES = new Set(["post", "page", "breed"]);
 
 export default defineConfig({
   basePath: "/studio",
@@ -54,7 +54,7 @@ export default defineConfig({
     // Document-level translation: one document per language, linked together.
     documentInternationalization({
       supportedLanguages,
-      schemaTypes: ["post", "page"],
+      schemaTypes: ["post", "page", "breed"],
     }),
     // Polish UI strings for the Studio chrome.
     // plPLLocale(),

@@ -23,7 +23,7 @@ export const page = defineType({
       type: "array",
       of: [
         { type: "articleSection" },
-        { type: "breedSection" },
+        { type: "breedsSection" },
         { type: "contactSection" },
         { type: "heroSection" },
         { type: "newsSection" },

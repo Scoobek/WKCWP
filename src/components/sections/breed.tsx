@@ -9,20 +9,20 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Grid, Col } from "@/components/layout/grid";
 import { urlFor } from "@/sanity/lib/image";
-import type { BreedSection } from "@/sanity/lib/queries";
+import type { BreedProfileSection } from "@/sanity/lib/queries";
 
 type BreedGalleryImage = {
   src: string;
   alt: string;
 };
 
-export function Breed({
+export function BreedProfile({
   heading,
   subheading,
   images,
   facts,
   id,
-}: BreedSection & { id?: string }) {
+}: BreedProfileSection & { id?: string }) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   // Build image gallery from Sanity images

@@ -1,8 +1,8 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-export const breedSection = defineType({
-  name: "breedSection",
-  title: "Breed Section",
+export const breedProfileSection = defineType({
+  name: "breedProfileSection",
+  title: "Breed Profile (Gallery & Facts)",
   type: "object",
   fields: [
     defineField({
@@ -69,8 +69,8 @@ export const breedSection = defineType({
     select: { heading: "heading", imageCount: "images.length" },
     prepare({ heading, imageCount }) {
       return {
-        title: heading || "Breed Section",
-        subtitle: `Breed Section${imageCount ? ` (${imageCount} image${imageCount !== 1 ? "s" : ""})` : ""}`,
+        title: heading || "Breed Profile",
+        subtitle: `Gallery & Facts${imageCount ? ` (${imageCount} image${imageCount !== 1 ? "s" : ""})` : ""}`,
       };
     },
   },
