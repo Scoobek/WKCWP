@@ -1,3 +1,4 @@
+import { Article } from "@/components/sections/article";
 import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { News } from "@/components/sections/news";
@@ -23,6 +24,14 @@ export function PageSections({
   // `?? []` guards pages with an empty/missing sections array.
   return (sections ?? []).map((section) => {
     switch (section._type) {
+      case "articleSection":
+        return (
+          <Article
+            key={section._key}
+            {...section}
+            id={`article-${section._key}`}
+          />
+        );
       case "contactSection":
         return <Contact key={section._key} {...section} id="contact" />;
       case "heroSection":

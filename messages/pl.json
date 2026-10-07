@@ -49,6 +49,11 @@
     }
   },
   "sections": {
+    "article": {
+      "inThisArticle": "W tym artykule",
+      "aboutAuthor": "O autorze",
+      "aboutAuthors": "O autorach"
+    },
     "contact": {
       "address": "Adres",
       "contact": "Kontakt"

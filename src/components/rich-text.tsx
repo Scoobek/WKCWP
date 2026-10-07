@@ -67,7 +67,27 @@ const components: PortableTextComponents = {
  * Renders Sanity Portable Text (`body`) with our serializers: block-level
  * images (via `@sanity/image-url` + next/image) and link annotations. Default
  * blocks, lists and decorators fall back to `@portabletext/react`'s built-ins.
+ * Optionally pass custom components (e.g. block overrides for h2/h3) which merge
+ * over defaults.
  */
-export function RichText({ value }: { value: PortableTextBlock[] }) {
-  return <PortableText value={value} components={components} />;
+export function RichText({
+  value,
+  components: customComponents,
+}: {
+  value: PortableTextBlock[];
+  components?: PortableTextComponents;
+}) {
+  const mergedComponents: PortableTextComponents = {
+    ...components,
+    ...(customComponents?.types && {
+      types: { ...components.types, ...customComponents.types },
+    }),
+    ...(customComponents?.marks && {
+      marks: { ...components.marks, ...customComponents.marks },
+    }),
+    ...(customComponents?.block && {
+      block: customComponents.block,
+    }),
+  };
+  return <PortableText value={value} components={mergedComponents} />;
 }

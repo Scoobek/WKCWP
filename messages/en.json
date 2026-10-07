@@ -49,6 +49,11 @@
     }
   },
   "sections": {
+    "article": {
+      "inThisArticle": "In this article",
+      "aboutAuthor": "About the author",
+      "aboutAuthors": "About the authors"
+    },
     "contact": {
       "address": "Address",
       "contact": "Contact"
