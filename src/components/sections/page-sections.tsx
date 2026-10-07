@@ -1,4 +1,5 @@
 import { Article } from "@/components/sections/article";
+import { Breed } from "@/components/sections/breed";
 import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { News } from "@/components/sections/news";
@@ -31,6 +32,10 @@ export function PageSections({
             {...section}
             id={`article-${section._key}`}
           />
+        );
+      case "breedSection":
+        return (
+          <Breed key={section._key} {...section} id={`breed-${section._key}`} />
         );
       case "contactSection":
         return <Contact key={section._key} {...section} id="contact" />;
