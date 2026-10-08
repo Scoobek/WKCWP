@@ -22,6 +22,7 @@ export function BreedCard({ breed }: { breed: BreedListItem }) {
               src={imageUrl}
               alt={breed.coverImage?.alt || breed.name}
               fill
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
               className="object-cover transition group-hover:scale-105"
             />
           ) : (

@@ -83,6 +83,7 @@ export function BreedProfile({
                     src={heroImage.src}
                     alt={heroImage.alt}
                     fill
+                    sizes="(min-width: 1024px) 50vw, 100vw"
                     className="object-cover"
                   />
                 </div>
@@ -114,6 +115,7 @@ export function BreedProfile({
                             src={img.src}
                             alt={img.alt}
                             fill
+                            sizes="(min-width: 1024px) 25vw, 50vw"
                             className="object-cover"
                           />
                           {showOverlay && (

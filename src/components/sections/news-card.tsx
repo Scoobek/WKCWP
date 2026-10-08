@@ -39,6 +39,7 @@ export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
               src={imageUrl}
               alt={post.coverImage?.alt || post.title}
               fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
               className="object-cover transition group-hover:scale-105"
             />
           ) : (
