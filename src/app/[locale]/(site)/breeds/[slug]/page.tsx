@@ -72,9 +72,7 @@ export default async function BreedPage({ params }: { params: Params }) {
         )}
 
         {/* Sections (gallery/facts + article) */}
-        <div className="mt-8 space-y-10">
-          <PageSections sections={breed.sections} locale={locale} />
-        </div>
+        <PageSections sections={breed.sections} locale={locale} />
       </Container>
     </Section>
   );

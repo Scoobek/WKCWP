@@ -8,7 +8,6 @@ export const breedProfileSection = defineType({
     defineField({
       name: "heading",
       type: "string",
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "subheading",
