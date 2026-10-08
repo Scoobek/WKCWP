@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useSyncExternalStore } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { urlFor } from "@/sanity/lib/image";
+import { useIsDesktop } from "@/lib/hooks";
 import type { SponsorItem } from "@/sanity/lib/queries";
 
 const SponsorLogo = ({ sponsor }: { sponsor: SponsorItem }) => {
@@ -31,18 +31,6 @@ const SponsorLogo = ({ sponsor }: { sponsor: SponsorItem }) => {
     </a>
   );
 };
-
-function useIsDesktop(): boolean {
-  return useSyncExternalStore(
-    (callback) => {
-      const mq = window.matchMedia("(min-width: 768px)");
-      mq.addEventListener("change", callback);
-      return () => mq.removeEventListener("change", callback);
-    },
-    () => window.matchMedia("(min-width: 768px)").matches,
-    () => false
-  );
-}
 
 export function SponsorsLogos({ sponsors }: { sponsors: SponsorItem[] }) {
   const isDesktop = useIsDesktop();
