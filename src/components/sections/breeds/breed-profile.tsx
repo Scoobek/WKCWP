@@ -49,8 +49,8 @@ export function BreedProfile({
   const moreCount = galleryImages.length > 5 ? galleryImages.length - 5 : 0;
 
   return (
-    <Section id={id}>
-      <Container>
+    <Section id={id} className="sm:py-4 lg:py-4">
+      <Container className="px-0 sm:px-0 lg:px-0">
         {/* Heading */}
         {heading && (
           <div className="mb-8">
@@ -66,7 +66,7 @@ export function BreedProfile({
         {/* Gallery Section */}
         {galleryImages.length > 0 && (
           <div className="mb-12">
-            <div className="flex flex-col gap-4 lg:flex-row">
+            <div className="flex w-full flex-col gap-4 lg:flex-row">
               {/* Hero Image — 50% on desktop, full width on mobile */}
               {heroImage && (
                 <div
@@ -137,7 +137,7 @@ export function BreedProfile({
         {facts && facts.length > 0 && (
           <Grid>
             {facts.map((fact) => (
-              <Col key={fact._key} span={12} md={6} lg={3}>
+              <Col key={fact._key} span={6} md={6} lg={3}>
                 <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-950">
                   {fact.label && (
                     <div className="mb-2 text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">

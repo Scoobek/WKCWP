@@ -1,6 +1,5 @@
 import { Article } from "@/components/sections/article";
-import { BreedProfile } from "@/components/sections/breed";
-import { Breeds } from "@/components/sections/breeds";
+import { BreedProfile, Breeds } from "@/components/sections/breeds";
 import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { News } from "@/components/sections/news";

@@ -1,8 +1,8 @@
 import { getBreeds, type BreedsSection } from "@/sanity/lib/queries";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Grid, Col } from "@/components/layout/grid";
-import { BreedCard } from "@/components/sections/breed-card";
+import { BreedCard } from "./breed-card";
+import { BreedsCarousel } from "./breeds-carousel";
 
 export async function Breeds({
   heading,
@@ -30,15 +30,13 @@ export async function Breeds({
           )}
         </div>
 
-        {/* Grid of breed cards: max 4 per row */}
+        {/* Carousel on mobile/tablet, grid on desktop */}
         {breeds.length > 0 ? (
-          <Grid>
+          <BreedsCarousel>
             {breeds.map((breed) => (
-              <Col key={breed._id} span={12} md={6} lg={3}>
-                <BreedCard breed={breed} />
-              </Col>
+              <BreedCard key={breed._id} breed={breed} />
             ))}
-          </Grid>
+          </BreedsCarousel>
         ) : (
           <div className="text-center text-gray-500 dark:text-gray-400">
             No breeds found.

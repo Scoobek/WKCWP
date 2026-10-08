@@ -2,7 +2,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { Link } from "@/i18n/navigation";
 import type { BreedListItem } from "@/sanity/lib/queries";
-import { ImagePlaceholder } from "./image-placeholder";
+import { ImagePlaceholder } from "../image-placeholder";
 
 export function BreedCard({ breed }: { breed: BreedListItem }) {
   const imageUrl = breed.coverImage?.asset
@@ -12,7 +12,7 @@ export function BreedCard({ breed }: { breed: BreedListItem }) {
   return (
     <Link
       href={{ pathname: "/breeds/[slug]", params: { slug: breed.slug } }}
-      className="group block"
+      className="group block w-full"
     >
       <div className="h-full overflow-hidden rounded-lg border border-gray-200 transition hover:shadow-lg dark:border-gray-800">
         {/* Cover image */}
