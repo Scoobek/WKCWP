@@ -40,6 +40,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={cn(
         geistSans.variable,
         geistMono.variable,
