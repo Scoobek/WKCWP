@@ -225,8 +225,45 @@ export type ArticleSection = {
   author: ArticleAuthor[] | null;
 };
 
+export type BreedFact = {
+  _key: string;
+  label: string | null;
+  value: string | null;
+};
+
+export type BreedProfileSection = {
+  _type: "breedProfileSection";
+  _key: string;
+  heading: string | null;
+  subheading: string | null;
+  images: SanityImage[] | null;
+  facts: BreedFact[] | null;
+};
+
+export type BreedsSection = {
+  _type: "breedsSection";
+  _key: string;
+  heading: string | null;
+  subheading: string | null;
+};
+
+export type BreedListItem = {
+  _id: string;
+  name: string;
+  slug: string;
+  subtitle: string | null;
+  coverImage: SanityImage | null;
+};
+
+export type Breed = BreedListItem & {
+  sections: PageSection[] | null;
+  translations: DocTranslation[];
+};
+
 export type PageSection =
   | ArticleSection
+  | BreedProfileSection
+  | BreedsSection
   | HeroSection
   | NewsSection
   | ContactSection
@@ -247,7 +284,7 @@ export type NewsPost = {
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
 const SECTIONS_FRAGMENT = groq`sections[]{
-  _type, _key, title, heading, subheading, body, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }, author[]{ firstName, lastName, bio, photo{ asset, alt } }
+  _type, _key, title, heading, subheading, body, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }, author[]{ firstName, lastName, bio, photo{ asset, alt } }, images[]{ asset, alt }, facts[]{ _key, label, value }
 }`;
 
 export type PageDocument = {
@@ -360,4 +397,29 @@ export function getNewsPostsPage(
     NEWS_POSTS_PAGE_QUERY,
     { locale, category, offset, offsetEnd: offset + pageSize }
   );
+}
+
+const BREEDS_QUERY = groq`*[_type == "breed" && language == $locale] | order(name asc){
+  _id, name, "slug": slug.current, subtitle, coverImage{ asset, alt }
+}`;
+
+/** All breeds for a locale, sorted alphabetically. */
+export function getBreeds(locale: string) {
+  return client.fetch<BreedListItem[]>(BREEDS_QUERY, { locale });
+}
+
+const BREED_QUERY = groq`*[_type == "breed" && language == $locale && slug.current == $slug][0]{
+  _id, name, "slug": slug.current, subtitle, coverImage{ asset, alt },
+  ${SECTIONS_FRAGMENT},
+  ${TRANSLATIONS_FRAGMENT}
+}`;
+
+/** A single breed by slug within a locale, or null. */
+export function getBreed(locale: string, slug: string) {
+  return client
+    .fetch<Breed | null>(BREED_QUERY, { locale, slug })
+    .then((breed) => {
+      if (!breed) return null;
+      return { ...breed, sections: resolveSections(breed.sections, locale) };
+    });
 }

@@ -1,4 +1,5 @@
 import { Article } from "@/components/sections/article";
+import { BreedProfile, Breeds } from "@/components/sections/breeds";
 import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { News } from "@/components/sections/news";
@@ -30,6 +31,23 @@ export function PageSections({
             key={section._key}
             {...section}
             id={`article-${section._key}`}
+          />
+        );
+      case "breedProfileSection":
+        return (
+          <BreedProfile
+            key={section._key}
+            {...section}
+            id={`breed-profile-${section._key}`}
+          />
+        );
+      case "breedsSection":
+        return (
+          <Breeds
+            key={section._key}
+            {...section}
+            locale={locale || "pl"}
+            id="breeds"
           />
         );
       case "contactSection":

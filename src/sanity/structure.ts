@@ -65,4 +65,13 @@ export const structure: StructureResolver = (S) =>
             .schemaType("post")
             .filter('_type == "post" && language == "pl"')
         ),
+      S.listItem()
+        .title("Breeds")
+        .schemaType("breed")
+        .child(
+          S.documentList()
+            .title("Breeds")
+            .schemaType("breed")
+            .filter('_type == "breed" && language == "pl"')
+        ),
     ]);

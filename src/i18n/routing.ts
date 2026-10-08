@@ -17,6 +17,8 @@ export const routing = defineRouting({
     "/about": { pl: "/o-nas", en: "/about" },
     "/posts": "/posts",
     "/posts/[slug]": "/posts/[slug]",
+    "/breeds": { pl: "/rasy", en: "/breeds" },
+    "/breeds/[slug]": { pl: "/rasy/[slug]", en: "/breeds/[slug]" },
     "/[slug]": "/[slug]",
     "/[...rest]": "/[...rest]",
   },
