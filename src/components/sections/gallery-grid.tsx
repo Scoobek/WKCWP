@@ -41,7 +41,13 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             if (e.key === "Enter" || e.key === " ") openLightbox(0);
           }}
         >
-          <Image src={hero.src} alt={hero.alt} fill className="object-cover" />
+          <Image
+            src={hero.src}
+            alt={hero.alt}
+            fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover"
+          />
         </div>
 
         {/* Grid of up to 4 images — 50% on desktop, full width on mobile */}
@@ -70,6 +76,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                       src={img.src}
                       alt={img.alt}
                       fill
+                      sizes="(min-width: 1024px) 25vw, 50vw"
                       className="object-cover"
                     />
                     {showOverlay && (

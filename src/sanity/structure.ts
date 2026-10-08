@@ -1,5 +1,6 @@
 import type { StructureResolver } from "sanity/structure";
 
+import { apiVersion } from "@/sanity/env";
 import { supportedLanguages } from "@/sanity/i18n";
 
 /**
@@ -54,6 +55,7 @@ export const structure: StructureResolver = (S) =>
           S.documentList()
             .title("Pages")
             .schemaType("page")
+            .apiVersion(apiVersion)
             .filter('_type == "page" && language == "pl"')
         ),
       S.listItem()
@@ -63,6 +65,7 @@ export const structure: StructureResolver = (S) =>
           S.documentList()
             .title("Posts")
             .schemaType("post")
+            .apiVersion(apiVersion)
             .filter('_type == "post" && language == "pl"')
         ),
       S.listItem()
@@ -72,6 +75,7 @@ export const structure: StructureResolver = (S) =>
           S.documentList()
             .title("Breeds")
             .schemaType("breed")
+            .apiVersion(apiVersion)
             .filter('_type == "breed" && language == "pl"')
         ),
     ]);
