@@ -14,7 +14,7 @@ import { Sponsors } from "@/components/sections/sponsors";
  */
 export function PageSections({
   sections,
-  locale,
+  locale = Locale.PL,
   category = "all",
   page = 1,
 }: {
@@ -44,12 +44,7 @@ export function PageSections({
         );
       case "breedsSection":
         return (
-          <Breeds
-            key={section._key}
-            {...section}
-            locale={locale || Locale.PL}
-            id="breeds"
-          />
+          <Breeds key={section._key} {...section} locale={locale} id="breeds" />
         );
       case "contactSection":
         return <Contact key={section._key} {...section} id="contact" />;
@@ -60,7 +55,7 @@ export function PageSections({
           <News
             key={section._key}
             {...section}
-            locale={locale || Locale.PL}
+            locale={locale}
             category={category}
             page={page}
             id="news"
@@ -71,21 +66,24 @@ export function PageSections({
           <SocialMedia
             key={section._key}
             {...section}
-            locale={locale || Locale.PL}
+            locale={locale}
             id="social-media"
           />
         );
       case "sponsorsSection":
         return <Sponsors key={section._key} {...section} id="sponsors" />;
-      default:
-        // A section type exists in the CMS but has no component yet (e.g. a
-        // new section added to the schema before its renderer). Skip it, but
-        // make the gap visible during development.
+      default: {
+        // Compile-time guard: if a PageSection type has no case above, this
+        // assignment fails to type-check. At runtime, a CMS section with no
+        // renderer (e.g. schema added before its component) is skipped with a
+        // dev-only warning.
+        const unhandled: never = section;
         if (process.env.NODE_ENV !== "production") {
-          const unknown = section as { _type: string };
-          console.warn(`No component for section type "${unknown._type}"`);
+          const type = (unhandled as { _type: string })._type;
+          console.warn(`No component for section type "${type}"`);
         }
         return null;
+      }
     }
   });
 }
