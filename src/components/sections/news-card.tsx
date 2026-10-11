@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { urlFor } from "@/sanity/lib/image";
 import { Link } from "@/i18n/navigation";
+import { toIntlLocale } from "@/i18n/locales";
 import { type NewsPost } from "@/sanity/lib/queries";
 import { ImagePlaceholder } from "./image-placeholder";
 
@@ -15,14 +16,11 @@ export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
 
   const displayDate = post.eventDate ?? post.publishedAt;
   const eventDate = displayDate
-    ? new Date(displayDate).toLocaleDateString(
-        locale === "pl" ? "pl-PL" : "en-US",
-        {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        }
-      )
+    ? new Date(displayDate).toLocaleDateString(toIntlLocale(locale), {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
     : null;
 
   return (

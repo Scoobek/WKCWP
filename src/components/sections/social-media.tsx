@@ -1,3 +1,4 @@
+import { Locale, toIntlLocale } from "@/i18n/locales";
 import {
   SiFacebook,
   SiInstagram,
@@ -42,7 +43,7 @@ async function SocialLinkTile({
       link.youtubeChannelId
     );
     if (subscriberCount !== null) {
-      const formatter = new Intl.NumberFormat(locale, {
+      const formatter = new Intl.NumberFormat(toIntlLocale(locale), {
         notation: "compact",
       });
       displayLabel = `${formatter.format(subscriberCount)} subscribers`;
@@ -74,7 +75,7 @@ export async function SocialMedia({
   heading,
   subheading,
   links,
-  locale = "pl",
+  locale = Locale.PL,
   id,
 }: SocialMediaSection & { locale?: string; id?: string }) {
   const hasLinks = links && links.length > 0;

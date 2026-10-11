@@ -8,6 +8,7 @@ import { Container } from "@/components/layout/container";
 import { SetLocaleAlternates } from "@/components/layout/locale-alternates";
 import { Section } from "@/components/layout/section";
 import { PostContent } from "@/components/sections/post-content";
+import { toIntlLocale } from "@/i18n/locales";
 import { buildLocaleAlternates } from "@/lib/locale-alternates";
 import { urlFor } from "@/sanity/lib/image";
 import { getPost } from "@/sanity/lib/queries";
@@ -53,10 +54,11 @@ export default async function PostPage({ params }: { params: Params }) {
 
   const displayDate = post.eventDate ?? post.publishedAt;
   const formattedDate = displayDate
-    ? new Date(displayDate).toLocaleDateString(
-        locale === "pl" ? "pl-PL" : "en-US",
-        { month: "short", day: "numeric", year: "numeric" }
-      )
+    ? new Date(displayDate).toLocaleDateString(toIntlLocale(locale), {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
     : null;
 
   const categoryTitle = post.category

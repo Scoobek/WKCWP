@@ -1,3 +1,4 @@
+import { Locale } from "@/i18n/locales";
 import { Article } from "@/components/sections/article";
 import { BreedProfile, Breeds } from "@/components/sections/breeds";
 import { Contact } from "@/components/sections/contact";
@@ -46,7 +47,7 @@ export function PageSections({
           <Breeds
             key={section._key}
             {...section}
-            locale={locale || "pl"}
+            locale={locale || Locale.PL}
             id="breeds"
           />
         );
@@ -59,7 +60,7 @@ export function PageSections({
           <News
             key={section._key}
             {...section}
-            locale={locale || "pl"}
+            locale={locale || Locale.PL}
             category={category}
             page={page}
             id="news"
@@ -70,7 +71,7 @@ export function PageSections({
           <SocialMedia
             key={section._key}
             {...section}
-            locale={locale || "pl"}
+            locale={locale || Locale.PL}
             id="social-media"
           />
         );
