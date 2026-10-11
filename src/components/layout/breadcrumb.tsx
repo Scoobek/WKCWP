@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -6,15 +7,16 @@ type BreadcrumbItem = {
   href?: { pathname: "/"; hash: string };
 };
 
-export function Breadcrumb({
+export async function Breadcrumb({
   items,
   className,
 }: {
   items: BreadcrumbItem[];
   className?: string;
 }) {
+  const t = await getTranslations("common");
   return (
-    <nav aria-label="Breadcrumb" className={cn("text-sm", className)}>
+    <nav aria-label={t("breadcrumb")} className={cn("text-sm", className)}>
       <ol className="text-muted-foreground flex flex-wrap items-center gap-2">
         {items.map((item, i) => {
           const isLast = i === items.length - 1;

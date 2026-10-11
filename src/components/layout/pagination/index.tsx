@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { ArrowButton } from "./arrow-button";
 import { ELLIPSIS, getPageItems, type Href } from "./page-items";
 import { PageButton } from "./page-button";
@@ -23,13 +24,15 @@ export function Pagination({
   /** Called when a page is selected (Button mode). Mutually exclusive with createHref. */
   onPageChange?: (page: number) => void;
 }) {
+  const t = useTranslations("common");
+
   if (totalPages <= 1) return null;
 
   const items = getPageItems(currentPage, totalPages);
 
   return (
     <nav
-      aria-label="Pagination"
+      aria-label={t("pagination")}
       className="flex items-center justify-center gap-2 md:justify-end"
     >
       <ArrowButton

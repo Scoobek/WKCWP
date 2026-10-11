@@ -58,7 +58,23 @@
     "contact": {
       "address": "Adres",
       "contact": "Kontakt"
+    },
+    "news": {
+      "all": "Wszystkie",
+      "empty": "Brak wpisów w tej kategorii.",
+      "categories": {
+        "coursing": "Kursing",
+        "beauty": "Uroda",
+        "announcement": "Ogłoszenie"
+      }
     }
+  },
+  "common": {
+    "toggleTheme": "Przełącz tryb ciemny",
+    "openMenu": "Otwórz menu",
+    "closeMenu": "Zamknij menu",
+    "breadcrumb": "Ścieżka nawigacji",
+    "pagination": "Paginacja"
   },
   "notFound": {
     "title": "Nie znaleziono strony",

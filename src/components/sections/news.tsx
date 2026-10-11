@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { getTranslations } from "next-intl/server";
 
 import { getNewsPostsPage, type NewsSection } from "@/sanity/lib/queries";
 import { Container } from "@/components/layout/container";
@@ -23,6 +24,7 @@ export async function News({
   page?: number;
   id?: string;
 }) {
+  const t = await getTranslations("sections.news");
   const userAgent = (await headers()).get("user-agent");
   const pageSize = isMobileUserAgent(userAgent)
     ? MOBILE_PAGE_SIZE
@@ -69,7 +71,7 @@ export async function News({
           />
         ) : (
           <div className="text-center text-gray-500 dark:text-gray-400">
-            No posts found in this category.
+            {t("empty")}
           </div>
         )}
       </Container>
