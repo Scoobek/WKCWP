@@ -96,8 +96,8 @@ function BreedsCarouselWithAutoplay({
               key={idx}
               className={`h-2 w-2 rounded-full transition-opacity ${
                 idx === currentIndex
-                  ? "bg-gray-900 opacity-100 dark:bg-white"
-                  : "bg-gray-300 opacity-50 dark:bg-gray-600"
+                  ? "bg-foreground opacity-100"
+                  : "bg-muted opacity-50"
               }`}
             />
           ))}

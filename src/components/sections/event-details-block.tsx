@@ -45,14 +45,14 @@ export async function EventDetailsBlockView(
               {scheduleTitle || t("schedule")}
             </h3>
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse border border-gray-300 dark:border-gray-700">
+              <table className="border-border w-full border-collapse border">
                 <tbody>
                   {scheduleRows.map((row, i) => (
                     <tr
                       key={i}
-                      className="border-b border-gray-300 even:bg-gray-50 dark:border-gray-700 dark:even:bg-gray-900"
+                      className="border-border even:bg-muted/30 border-b"
                     >
-                      <td className="w-1/5 border-r border-gray-300 px-4 py-3 font-medium dark:border-gray-700">
+                      <td className="border-border w-1/5 border-r px-4 py-3 font-medium">
                         {row.time}
                       </td>
                       <td className="w-4/5 px-4 py-3">{row.description}</td>

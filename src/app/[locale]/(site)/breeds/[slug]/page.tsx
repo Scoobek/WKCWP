@@ -66,9 +66,7 @@ export default async function BreedPage({ params }: { params: Params }) {
 
         {/* Subtitle */}
         {breed.subtitle && (
-          <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
-            {breed.subtitle}
-          </p>
+          <p className="text-muted-foreground mt-2 text-lg">{breed.subtitle}</p>
         )}
 
         {/* Sections (gallery/facts + article) */}

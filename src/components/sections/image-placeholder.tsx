@@ -1,8 +1,8 @@
 export function ImagePlaceholder() {
   return (
-    <div className="flex h-full w-full items-center justify-center bg-gray-300 dark:bg-gray-700">
+    <div className="bg-muted flex h-full w-full items-center justify-center">
       <svg
-        className="h-12 w-12 text-gray-400 dark:text-gray-500"
+        className="text-muted-foreground h-12 w-12"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

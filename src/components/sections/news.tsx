@@ -47,9 +47,7 @@ export async function News({
               <h2 className="text-3xl font-bold md:text-4xl">{heading}</h2>
             )}
             {subheading && (
-              <p className="mt-2 text-gray-600 dark:text-gray-400">
-                {subheading}
-              </p>
+              <p className="text-muted-foreground mt-2">{subheading}</p>
             )}
           </div>
 
@@ -68,7 +66,7 @@ export async function News({
             locale={locale}
           />
         ) : (
-          <div className="text-center text-gray-500 dark:text-gray-400">
+          <div className="text-muted-foreground text-center">
             No posts found in this category.
           </div>
         )}

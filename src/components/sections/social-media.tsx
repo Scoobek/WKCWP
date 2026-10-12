@@ -56,16 +56,22 @@ async function SocialLinkTile({
       href={link.url || "#"}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex flex-col justify-between rounded-lg border border-gray-200 p-6 transition-shadow hover:shadow-md"
+      className="border-border flex flex-col justify-between rounded-lg border p-6 transition-shadow hover:shadow-md"
     >
       <div className="mb-4 flex items-center gap-3">
-        <Icon className="h-8 w-8 shrink-0 text-gray-700" />
+        <Icon className="text-foreground h-8 w-8 shrink-0" />
         <div className="min-w-0 flex-1">
-          <p className="truncate font-medium text-gray-900">{platformLabel}</p>
-          <p className="truncate text-sm text-gray-600">{link.profileName}</p>
+          <p className="text-foreground truncate font-medium">
+            {platformLabel}
+          </p>
+          <p className="text-muted-foreground truncate text-sm">
+            {link.profileName}
+          </p>
         </div>
       </div>
-      {displayLabel && <p className="text-sm text-gray-500">{displayLabel}</p>}
+      {displayLabel && (
+        <p className="text-muted-foreground text-sm">{displayLabel}</p>
+      )}
     </a>
   );
 }
@@ -86,7 +92,9 @@ export async function SocialMedia({
           {heading && (
             <Col span={12} md={4}>
               <h2 className="text-3xl font-bold md:text-4xl">{heading}</h2>
-              {subheading && <p className="mt-4 text-gray-600">{subheading}</p>}
+              {subheading && (
+                <p className="text-muted-foreground mt-4">{subheading}</p>
+              )}
             </Col>
           )}
 

@@ -14,9 +14,9 @@ export function BreedCard({ breed }: { breed: BreedListItem }) {
       href={{ pathname: "/breeds/[slug]", params: { slug: breed.slug } }}
       className="group block w-full"
     >
-      <div className="h-full overflow-hidden rounded-lg border border-gray-200 transition hover:shadow-lg dark:border-gray-800">
+      <div className="border-border h-full overflow-hidden rounded-lg border transition hover:shadow-lg">
         {/* Cover image */}
-        <div className="relative aspect-4/3 w-full overflow-hidden bg-gray-200 dark:bg-gray-800">
+        <div className="bg-muted relative aspect-4/3 w-full overflow-hidden">
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -32,13 +32,13 @@ export function BreedCard({ breed }: { breed: BreedListItem }) {
 
         <div className="p-4">
           {/* Breed name */}
-          <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-gray-700 dark:text-white dark:group-hover:text-gray-300">
+          <h3 className="text-foreground group-hover:text-muted-foreground mb-2 text-lg font-semibold">
             {breed.name}
           </h3>
 
           {/* Subtitle */}
           {breed.subtitle && (
-            <p className="line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-muted-foreground line-clamp-2 text-sm">
               {breed.subtitle}
             </p>
           )}
