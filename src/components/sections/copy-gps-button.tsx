@@ -25,7 +25,7 @@ export function CopyGpsButton({ lat, lng, className }: CopyGpsButtonProps) {
   };
 
   const baseClasses =
-    "block w-full rounded-md bg-black px-5 py-2.5 text-center text-sm font-medium text-white dark:bg-white dark:text-black";
+    "block w-full rounded-md bg-primary px-5 py-2.5 text-center text-sm font-medium text-primary-foreground";
 
   return (
     <button

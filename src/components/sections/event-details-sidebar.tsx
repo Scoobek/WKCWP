@@ -87,7 +87,7 @@ export async function EventDetailsSidebar({
           {buttonUrl.startsWith("http") ? (
             <a
               href={buttonUrl}
-              className="inline-block rounded-md bg-black px-5 py-2.5 text-sm font-medium text-white dark:bg-white dark:text-black"
+              className="bg-primary text-primary-foreground inline-block rounded-md px-5 py-2.5 text-sm font-medium"
               {...(buttonBlank
                 ? { target: "_blank", rel: "noopener noreferrer" }
                 : {})}
@@ -97,7 +97,7 @@ export async function EventDetailsSidebar({
           ) : (
             <Link
               href={buttonUrl as ComponentProps<typeof Link>["href"]}
-              className="inline-block rounded-md bg-black px-5 py-2.5 text-sm font-medium text-white dark:bg-white dark:text-black"
+              className="bg-primary text-primary-foreground inline-block rounded-md px-5 py-2.5 text-sm font-medium"
               {...(buttonBlank
                 ? { target: "_blank", rel: "noopener noreferrer" }
                 : {})}

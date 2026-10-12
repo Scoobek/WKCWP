@@ -38,7 +38,7 @@ export function Sponsors({
               <div className="pt-6">
                 <Link
                   href={ctaUrl as ComponentProps<typeof Link>["href"]}
-                  className="bg-foreground text-background inline-block rounded-md px-5 py-2.5 text-sm font-medium"
+                  className="bg-primary text-primary-foreground inline-block rounded-md px-5 py-2.5 text-sm font-medium"
                 >
                   {ctaLabel}
                 </Link>

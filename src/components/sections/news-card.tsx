@@ -31,9 +31,9 @@ export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
       href={{ pathname: "/posts/[slug]", params: { slug: post.slug } }}
       className="group block"
     >
-      <div className="h-full overflow-hidden rounded-lg border border-gray-200 transition hover:shadow-lg dark:border-gray-800">
+      <div className="border-border h-full overflow-hidden rounded-lg border transition hover:shadow-lg">
         {/* Cover image */}
-        <div className="relative aspect-4/3 w-full overflow-hidden bg-gray-200 dark:bg-gray-800">
+        <div className="bg-muted relative aspect-4/3 w-full overflow-hidden">
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -51,25 +51,23 @@ export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
           {/* Category + date row */}
           <div className="mb-3 flex items-center justify-between gap-2">
             {categoryTitle && (
-              <span className="inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+              <span className="bg-accent text-accent-foreground inline-flex rounded-full px-3 py-1 text-xs font-medium">
                 {categoryTitle}
               </span>
             )}
             {eventDate && (
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                {eventDate}
-              </span>
+              <span className="text-muted-foreground text-xs">{eventDate}</span>
             )}
           </div>
 
           {/* Title */}
-          <h3 className="mb-3 line-clamp-2 text-lg font-semibold text-gray-900 group-hover:text-gray-700 dark:text-white dark:group-hover:text-gray-300">
+          <h3 className="text-foreground group-hover:text-muted-foreground mb-3 line-clamp-2 text-lg font-semibold">
             {post.title}
           </h3>
 
           {/* Location */}
           {post.location && (
-            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
               <svg
                 className="h-4 w-4 shrink-0"
                 fill="currentColor"

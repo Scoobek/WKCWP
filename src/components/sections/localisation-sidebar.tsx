@@ -74,7 +74,7 @@ export async function LocalisationSidebar({
       <div className="flex gap-3">
         <a
           href={`geo:${lat},${lng}`}
-          className="flex-1 rounded-md bg-black px-5 py-2.5 text-center text-sm font-medium text-white dark:bg-white dark:text-black"
+          className="bg-primary text-primary-foreground flex-1 rounded-md px-5 py-2.5 text-center text-sm font-medium"
         >
           {t("navigate")}
         </a>
