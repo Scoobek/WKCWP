@@ -58,7 +58,23 @@
     "contact": {
       "address": "Address",
       "contact": "Contact"
+    },
+    "news": {
+      "all": "All",
+      "empty": "No posts found in this category.",
+      "categories": {
+        "coursing": "Coursing",
+        "beauty": "Beauty",
+        "announcement": "Announcement"
+      }
     }
+  },
+  "common": {
+    "toggleTheme": "Toggle dark mode",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "breadcrumb": "Breadcrumb",
+    "pagination": "Pagination"
   },
   "notFound": {
     "title": "Page not found",

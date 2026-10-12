@@ -1,14 +1,14 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { urlFor } from "@/sanity/lib/image";
 import { Link } from "@/i18n/navigation";
-import { NEWS_CATEGORIES } from "@/sanity/lib/news-categories";
+import { toIntlLocale } from "@/i18n/locales";
 import { type NewsPost } from "@/sanity/lib/queries";
 import { ImagePlaceholder } from "./image-placeholder";
 
 export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
-  const categoryTitle = NEWS_CATEGORIES.find(
-    (cat) => cat.id === post.category
-  )?.title;
+  const t = useTranslations("sections.news");
+  const categoryTitle = post.category ? t(`categories.${post.category}`) : null;
 
   const imageUrl = post.coverImage?.asset
     ? urlFor(post.coverImage.asset).width(600).height(400).url()
@@ -16,14 +16,11 @@ export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
 
   const displayDate = post.eventDate ?? post.publishedAt;
   const eventDate = displayDate
-    ? new Date(displayDate).toLocaleDateString(
-        locale === "pl" ? "pl-PL" : "en-US",
-        {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        }
-      )
+    ? new Date(displayDate).toLocaleDateString(toIntlLocale(locale), {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
     : null;
 
   return (

@@ -1,7 +1,7 @@
 import { type ComponentProps } from "react";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { NEWS_CATEGORIES } from "@/sanity/lib/news-categories";
+import { toIntlLocale } from "@/i18n/locales";
 import type { NewsCategory } from "@/sanity/lib/news-categories";
 
 type EventDetailsSidebarProps = {
@@ -28,10 +28,10 @@ export async function EventDetailsSidebar({
   organizerUrl,
 }: EventDetailsSidebarProps) {
   const t = await getTranslations("posts.eventDetails");
+  const tNews = await getTranslations("sections.news");
+  const locale = await getLocale();
 
-  const eventTypeTitle = eventType
-    ? NEWS_CATEGORIES.find((cat) => cat.id === eventType)?.title
-    : null;
+  const eventTypeTitle = eventType ? tNews(`categories.${eventType}`) : null;
 
   return (
     <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
@@ -54,7 +54,7 @@ export async function EventDetailsSidebar({
               {t("dateTime")}
             </dt>
             <dd>
-              {new Date(date).toLocaleDateString("pl-PL", {
+              {new Date(date).toLocaleDateString(toIntlLocale(locale), {
                 day: "2-digit",
                 month: "2-digit",
                 year: "numeric",

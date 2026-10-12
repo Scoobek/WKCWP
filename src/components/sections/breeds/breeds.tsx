@@ -1,3 +1,4 @@
+import { Locale } from "@/i18n/locales";
 import { getBreeds, type BreedsSection } from "@/sanity/lib/queries";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
@@ -13,7 +14,7 @@ export async function Breeds({
   id?: string;
   locale?: string;
 }) {
-  const breeds = await getBreeds(locale || "pl");
+  const breeds = await getBreeds(locale || Locale.PL);
 
   return (
     <Section id={id}>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { useTranslations } from "next-intl";
 
 /**
  * Minimal light/dark toggle. Flips the `.dark` class on <html> and persists the
@@ -30,6 +31,7 @@ function getServerSnapshot() {
 }
 
 export function ThemeToggle() {
+  const t = useTranslations("common");
   const isDark = useSyncExternalStore(
     subscribe,
     getSnapshot,
@@ -48,7 +50,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      aria-label="Toggle dark mode"
+      aria-label={t("toggleTheme")}
       className="border-border bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors"
     >
       {isDark ? "☀️ Light" : "🌙 Dark"}

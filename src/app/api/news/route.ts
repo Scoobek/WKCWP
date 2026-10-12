@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
+import { Locale } from "@/i18n/locales";
 import { getNewsPostsPage, type NewsCategory } from "@/sanity/lib/queries";
 
 export const dynamic = "force-dynamic";
@@ -7,7 +8,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
 
-  const locale = searchParams.get("locale") || "pl";
+  const locale = searchParams.get("locale") || Locale.PL;
   const categoryParam = searchParams.get("category") || "all";
   const page = Math.max(1, Number(searchParams.get("page")) || 1);
   const pageSize = Math.max(1, Number(searchParams.get("pageSize")) || 6);
