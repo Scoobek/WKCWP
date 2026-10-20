@@ -1,14 +1,8 @@
-import type { ComponentProps } from "react";
-
-import { Link } from "@/i18n/navigation";
+import { NavLink } from "@/components/layout/nav-link";
 import { cn } from "@/lib/utils";
 import type { NavButton } from "@/components/layout/types";
 
-/**
- * Primary header button. Internal paths use the locale-aware Link (the URL is
- * already resolved to the translated slug); external URLs open in a new tab.
- * No hooks, so it renders from both the server header and the client menu.
- */
+/** Primary header button: the Studio navigation button, styled as a CTA. */
 export function NavCta({
   button,
   className,
@@ -18,33 +12,16 @@ export function NavCta({
   className?: string;
   onClick?: () => void;
 }) {
-  const styles = cn(
-    "bg-primary text-primary-foreground inline-block rounded-md px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90",
-    className
-  );
-
-  if (/^https?:\/\//.test(button.url)) {
-    return (
-      <a
-        href={button.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={onClick}
-        className={styles}
-      >
-        {button.label}
-      </a>
-    );
-  }
-
-  // The URL comes from Sanity as a free-form string, so cast to the typed href.
   return (
-    <Link
-      href={button.url as ComponentProps<typeof Link>["href"]}
+    <NavLink
+      href={button.url}
       onClick={onClick}
-      className={styles}
+      className={cn(
+        "bg-primary text-primary-foreground inline-block rounded-md px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90",
+        className
+      )}
     >
       {button.label}
-    </Link>
+    </NavLink>
   );
 }

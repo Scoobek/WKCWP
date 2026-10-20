@@ -3,30 +3,42 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { HeaderLogo } from "@/components/layout/header-logo";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { MobileMenu } from "@/components/layout/mobile-menu";
 import { NavAnchorLink } from "@/components/layout/nav-anchor-link";
 import { NavCta } from "@/components/layout/nav-cta";
+import { NavLink } from "@/components/layout/nav-link";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Link } from "@/i18n/navigation";
-import { MobileMenu } from "@/components/layout/mobile-menu";
 import type { NavItem } from "@/components/layout/types";
-import { getSiteSettings } from "@/sanity/lib/queries";
+import { getHomeNavSections, getSiteSettings } from "@/sanity/lib/queries";
 
-/** Site header shell: sticky, bordered, with brand + nav + locale/theme controls. */
+/**
+ * Site header shell: sticky, bordered, with brand + nav + locale/theme controls.
+ * The menu is Home, then the Home sections switched on in Studio, then the
+ * extra links from Site settings.
+ */
 export async function Header() {
   const t = await getTranslations("nav");
   const locale = await getLocale();
-  const settings = await getSiteSettings(locale);
+  const [settings, homeSections] = await Promise.all([
+    getSiteSettings(locale),
+    getHomeNavSections(locale),
+  ]);
   const navButton = settings?.navButton ?? null;
 
   const navItems: NavItem[] = [
     { id: "home", href: "/", label: t("home"), isAnchor: false },
-    { id: "news", href: "#news", label: t("news"), isAnchor: true },
-    {
-      id: "contact",
-      href: "#contact",
-      label: t("contact"),
+    ...homeSections.map((section) => ({
+      id: section.id,
+      href: `#${section.id}`,
+      label: section.label,
       isAnchor: true,
-    },
+    })),
+    ...(settings?.navLinks ?? []).map((link, index) => ({
+      id: `link-${index}`,
+      href: link.url,
+      label: link.label,
+      isAnchor: false,
+    })),
   ];
 
   return (
@@ -48,12 +60,12 @@ export async function Header() {
                   </li>
                 ) : (
                   <li key={item.id}>
-                    <Link
-                      href="/"
+                    <NavLink
+                      href={item.href}
                       className="hover:text-accent transition-colors"
                     >
                       {item.label}
-                    </Link>
+                    </NavLink>
                   </li>
                 )
               )}

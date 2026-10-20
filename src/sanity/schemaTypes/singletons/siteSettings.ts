@@ -1,6 +1,6 @@
 import { defineField, defineType } from "sanity";
 
-import { supportedLanguages } from "@/sanity/i18n";
+import { localizedLabel } from "@/sanity/schemaTypes/objects/localizedLabel";
 
 // Singleton: one shared document for the whole site (not translated). Edited
 // through the custom Studio structure under a fixed id, `siteSettings`.
@@ -29,15 +29,27 @@ export const siteSettings = defineType({
         "Primary button in the header. Shown only when both a label and a link are set.",
       type: "object",
       fields: [
-        defineField({
-          name: "label",
-          title: "Label",
-          type: "object",
-          fields: supportedLanguages.map((lang) =>
-            defineField({ name: lang.id, title: lang.title, type: "string" })
-          ),
-        }),
+        localizedLabel("label", "Label"),
         defineField({ name: "link", title: "Link", type: "link" }),
+      ],
+    }),
+    defineField({
+      name: "navLinks",
+      title: "Navigation links",
+      description:
+        "Extra links in the header menu, shown after the Home page sections. For pages not tied to a section.",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            localizedLabel("label", "Label"),
+            defineField({ name: "link", title: "Link", type: "link" }),
+          ],
+          preview: {
+            select: { title: "label.pl", subtitle: "label.en" },
+          },
+        },
       ],
     }),
   ],

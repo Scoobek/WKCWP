@@ -1,9 +1,14 @@
+import {
+  navigationFields,
+  navigationFieldsets,
+} from "../objects/navigationFields";
 import { defineField, defineType } from "sanity";
 
 export const contactSection = defineType({
   name: "contactSection",
   title: "Contact Section",
   type: "object",
+  fieldsets: navigationFieldsets,
   fields: [
     defineField({
       name: "heading",
@@ -46,6 +51,7 @@ export const contactSection = defineType({
       name: "phone",
       type: "string",
     }),
+    ...navigationFields,
   ],
   preview: {
     select: { title: "heading" },

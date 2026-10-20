@@ -1,9 +1,14 @@
+import {
+  navigationFields,
+  navigationFieldsets,
+} from "../objects/navigationFields";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const socialMediaSection = defineType({
   name: "socialMediaSection",
   title: "Social Media Section",
   type: "object",
+  fieldsets: navigationFieldsets,
   fields: [
     defineField({
       name: "heading",
@@ -80,6 +85,7 @@ export const socialMediaSection = defineType({
         }),
       ],
     }),
+    ...navigationFields,
   ],
   preview: {
     select: { title: "heading" },

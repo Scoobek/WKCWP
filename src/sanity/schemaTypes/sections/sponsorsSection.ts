@@ -1,9 +1,14 @@
+import {
+  navigationFields,
+  navigationFieldsets,
+} from "../objects/navigationFields";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const sponsorsSection = defineType({
   name: "sponsorsSection",
   title: "Sponsors Section",
   type: "object",
+  fieldsets: navigationFieldsets,
   fields: [
     defineField({
       name: "heading",
@@ -50,6 +55,7 @@ export const sponsorsSection = defineType({
       name: "ctaLink",
       type: "link",
     }),
+    ...navigationFields,
   ],
   preview: {
     select: { title: "heading" },
