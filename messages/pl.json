@@ -56,7 +56,14 @@
     },
     "contact": {
       "address": "Adres",
-      "contact": "Kontakt"
+      "contact": "Kontakt",
+      "registration": "Dane rejestrowe",
+      "organisation": "Nazwa organizacji",
+      "nip": "NIP",
+      "regon": "REGON",
+      "krs": "KRS",
+      "opp": "Status OPP",
+      "bankAccount": "Numer konta bankowego"
     }
   },
   "notFound": {

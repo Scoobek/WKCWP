@@ -56,7 +56,14 @@
     },
     "contact": {
       "address": "Address",
-      "contact": "Contact"
+      "contact": "Contact",
+      "registration": "Registration details",
+      "organisation": "Organisation name",
+      "nip": "NIP",
+      "regon": "REGON",
+      "krs": "KRS",
+      "opp": "PBO status",
+      "bankAccount": "Bank account number"
     }
   },
   "notFound": {

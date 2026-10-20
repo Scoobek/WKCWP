@@ -51,6 +51,41 @@ export const contactSection = defineType({
       name: "phone",
       type: "string",
     }),
+    defineField({
+      name: "registrationName",
+      title: "Organisation name",
+      type: "string",
+    }),
+    defineField({
+      name: "nip",
+      title: "NIP",
+      type: "string",
+    }),
+    defineField({
+      name: "regon",
+      title: "REGON",
+      type: "string",
+    }),
+    defineField({
+      name: "krs",
+      title: "KRS",
+      type: "string",
+    }),
+    defineField({
+      name: "oppStatus",
+      title: "Public benefit status (OPP)",
+      type: "string",
+    }),
+    defineField({
+      name: "bankAccount",
+      title: "Bank account number",
+      type: "string",
+    }),
+    defineField({
+      name: "bankName",
+      title: "Bank name",
+      type: "string",
+    }),
     ...navigationFields,
   ],
   preview: {
