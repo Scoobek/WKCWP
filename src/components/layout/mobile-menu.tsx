@@ -46,30 +46,30 @@ export function MobileMenu({ items, cta }: MobileMenuProps) {
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
         aria-label={isOpen ? "Close menu" : "Open menu"}
-        className="relative flex h-6 w-6 items-center justify-center lg:hidden"
+        className="relative flex h-10 w-10 items-center justify-center rounded-md bg-white lg:hidden"
       >
         {/* Three-bar hamburger morphing to X */}
         <div className="relative h-5 w-5">
           {/* Top bar */}
           <span
             className={cn(
-              "bg-foreground absolute h-0.5 w-5 transition-transform duration-300 motion-reduce:duration-0",
-              isOpen ? "top-2.5 rotate-45" : "top-1"
+              "bg-secondary absolute left-0 h-0.5 w-5 transition-transform duration-300 motion-reduce:duration-0",
+              isOpen ? "top-2.25 rotate-45" : "top-0.75"
             )}
           />
           {/* Middle bar */}
           <span
             className={cn(
-              "bg-foreground absolute h-0.5 w-5 transition-opacity duration-300 motion-reduce:duration-0",
-              "top-2.5",
+              "bg-secondary absolute left-0 h-0.5 w-5 transition-opacity duration-300 motion-reduce:duration-0",
+              "top-2.25",
               isOpen ? "opacity-0" : "opacity-100"
             )}
           />
           {/* Bottom bar */}
           <span
             className={cn(
-              "bg-foreground absolute h-0.5 w-5 transition-transform duration-300 motion-reduce:duration-0",
-              isOpen ? "top-2.5 -rotate-45" : "top-4"
+              "bg-secondary absolute left-0 h-0.5 w-5 transition-transform duration-300 motion-reduce:duration-0",
+              isOpen ? "top-2.25 -rotate-45" : "top-3.75"
             )}
           />
         </div>
