@@ -58,8 +58,8 @@ export function LanguageSwitcher() {
           className={cn(
             "rounded px-1.5 py-0.5 uppercase transition-colors",
             locale === active
-              ? "text-foreground"
-              : "text-muted-foreground hover:text-foreground"
+              ? "text-accent"
+              : "text-background hover:text-accent"
           )}
         >
           {locale}

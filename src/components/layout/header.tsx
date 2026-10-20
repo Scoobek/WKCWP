@@ -23,22 +23,25 @@ export function Header() {
   ];
 
   return (
-    <header className="border-border bg-background sticky top-0 z-40 border-b">
+    <header className="border-border bg-foreground sticky top-0 z-40 border-b">
       <Container>
         <div className="flex h-16 items-center justify-between gap-6">
-          <Link href="/" className="text-lg font-semibold tracking-tight">
+          <Link
+            href="/"
+            className="text-lg font-semibold tracking-tight text-white"
+          >
             WKCwP
           </Link>
 
           {/* Desktop nav: hidden below lg */}
           <nav className="hidden items-center gap-6 lg:flex">
-            <ul className="text-muted-foreground flex items-center gap-6 text-sm font-medium">
+            <ul className="flex items-center gap-6 text-sm font-medium text-white">
               {navItems.map((item) =>
                 item.isAnchor ? (
                   <li key={item.id}>
                     <a
                       href={item.href}
-                      className="hover:text-foreground transition-colors"
+                      className="hover:text-accent transition-colors"
                     >
                       {item.label}
                     </a>
@@ -47,7 +50,7 @@ export function Header() {
                   <li key={item.id}>
                     <Link
                       href="/"
-                      className="hover:text-foreground transition-colors"
+                      className="hover:text-accent transition-colors"
                     >
                       {item.label}
                     </Link>
@@ -57,7 +60,7 @@ export function Header() {
             </ul>
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
-              <ThemeToggle />
+              {/* <ThemeToggle /> */}
             </div>
           </nav>
 

@@ -12,7 +12,7 @@ export function NewsCategoryChips({ category }: { category: string }) {
           "inline-flex shrink-0 items-center rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap transition",
           category === "all"
             ? "bg-primary text-primary-foreground"
-            : "border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground border"
+            : "border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground border"
         )}
       >
         All
@@ -27,7 +27,7 @@ export function NewsCategoryChips({ category }: { category: string }) {
             "inline-flex shrink-0 items-center rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap transition",
             category === cat.id
               ? "bg-primary text-primary-foreground"
-              : "border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground border"
+              : "border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground border"
           )}
         >
           {cat.title}

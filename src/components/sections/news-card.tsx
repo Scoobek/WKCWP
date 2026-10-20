@@ -33,7 +33,7 @@ export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
     >
       <div className="border-border h-full overflow-hidden rounded-lg border transition hover:shadow-lg">
         {/* Cover image */}
-        <div className="bg-muted relative aspect-4/3 w-full overflow-hidden">
+        <div className="bg-background relative aspect-4/3 w-full overflow-hidden">
           {imageUrl ? (
             <Image
               src={imageUrl}
