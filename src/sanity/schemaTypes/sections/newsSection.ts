@@ -1,9 +1,14 @@
+import {
+  navigationFields,
+  navigationFieldsets,
+} from "../objects/navigationFields";
 import { defineField, defineType } from "sanity";
 
 export const newsSection = defineType({
   name: "newsSection",
   title: "News Section",
   type: "object",
+  fieldsets: navigationFieldsets,
   fields: [
     defineField({
       name: "heading",
@@ -15,6 +20,7 @@ export const newsSection = defineType({
       type: "text",
       rows: 3,
     }),
+    ...navigationFields,
   ],
   preview: {
     select: { title: "heading" },

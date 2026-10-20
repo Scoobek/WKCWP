@@ -1,3 +1,7 @@
+import {
+  navigationFields,
+  navigationFieldsets,
+} from "../objects/navigationFields";
 import { defineField, defineType } from "sanity";
 
 // An "object" type: it has no independent existence in the CMS — it only lives
@@ -7,6 +11,7 @@ export const heroSection = defineType({
   name: "heroSection",
   title: "Hero",
   type: "object",
+  fieldsets: navigationFieldsets,
   fields: [
     defineField({ name: "heading", type: "string" }),
     defineField({ name: "subheading", type: "text", rows: 2 }),
@@ -24,6 +29,7 @@ export const heroSection = defineType({
         defineField({ name: "alt", type: "string", title: "Alternative text" }),
       ],
     }),
+    ...navigationFields,
   ],
   preview: {
     select: { title: "heading" },

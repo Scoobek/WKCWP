@@ -5,6 +5,7 @@ import { client } from "@/sanity/lib/client";
 import { type NewsCategory } from "@/sanity/lib/news-categories";
 import { defaultLanguage } from "@/sanity/i18n";
 import { resolveLink } from "@/lib/resolve-link";
+import { sectionAnchors } from "@/lib/section-anchor";
 
 export type { NewsCategory };
 
@@ -376,18 +377,25 @@ export function getAboutPage(locale: string) {
   return getSingleton(`about-${locale}`, locale);
 }
 
+/** A label stored per language. Missing translations fall back to the default. */
+type LocalizedLabel = Record<string, string | null> | null;
+
+function pickLabel(label: LocalizedLabel, locale: string): string | null {
+  return label?.[locale] || label?.[defaultLanguage] || null;
+}
+
 export type SiteSettings = {
   logo: (SanityImage & { width: number | null; height: number | null }) | null;
   /** Header button, with the label and URL already resolved for the locale. */
   navButton: { label: string; url: string } | null;
+  /** Extra header links, after the Home sections. Incomplete items are dropped. */
+  navLinks: { label: string; url: string }[];
 };
 
 type RawSiteSettings = {
   logo: SiteSettings["logo"];
-  navButton: {
-    label: Record<string, string | null> | null;
-    link: unknown;
-  } | null;
+  navButton: { label: LocalizedLabel; link: unknown } | null;
+  navLinks: { label: LocalizedLabel; link: unknown }[] | null;
 };
 
 const SITE_SETTINGS_QUERY = groq`*[_id == "siteSettings"][0]{
@@ -400,13 +408,17 @@ const SITE_SETTINGS_QUERY = groq`*[_id == "siteSettings"][0]{
   navButton{
     label,
     link${LINK_FRAGMENT}
+  },
+  navLinks[]{
+    label,
+    link${LINK_FRAGMENT}
   }
 }`;
 
 /**
- * Shared site settings (not translated), or null if not created yet. The nav
- * button's label falls back to the default language, and its link resolves to
- * the locale's translated slug.
+ * Shared site settings (not translated), or null if not created yet. Labels
+ * fall back to the default language, and links resolve to the locale's
+ * translated slug.
  */
 export async function getSiteSettings(
   locale: string
@@ -414,14 +426,57 @@ export async function getSiteSettings(
   const raw = await client.fetch<RawSiteSettings | null>(SITE_SETTINGS_QUERY);
   if (!raw) return null;
 
-  const label =
-    raw.navButton?.label?.[locale] ?? raw.navButton?.label?.[defaultLanguage];
-  const url = resolveLink(raw.navButton?.link ?? null, locale);
+  const buttonLabel = pickLabel(raw.navButton?.label ?? null, locale);
+  const buttonUrl = resolveLink(raw.navButton?.link ?? null, locale);
+
+  const navLinks = (raw.navLinks ?? []).flatMap((item) => {
+    const label = pickLabel(item.label, locale);
+    const url = resolveLink(item.link, locale);
+    return label && url ? [{ label, url }] : [];
+  });
 
   return {
     logo: raw.logo ?? null,
-    navButton: label && url ? { label, url } : null,
+    navButton:
+      buttonLabel && buttonUrl ? { label: buttonLabel, url: buttonUrl } : null,
+    navLinks,
   };
+}
+
+export type HomeNavSection = { id: string; label: string };
+
+type RawHomeNavSection = {
+  _type: string;
+  _key: string;
+  showInNav: boolean | null;
+  navLabel: string | null;
+  heading: string | null;
+  title: string | null;
+};
+
+const HOME_NAV_QUERY = groq`*[_id == $id][0].sections[]{
+  _type, _key, showInNav, navLabel, heading, title
+}`;
+
+/**
+ * Home sections that are switched on for the header menu, in page order. Ids
+ * are computed over every section, not just the listed ones, so each link
+ * matches the anchor the page renders.
+ */
+export async function getHomeNavSections(
+  locale: string
+): Promise<HomeNavSection[]> {
+  const sections = await client.fetch<RawHomeNavSection[] | null>(
+    HOME_NAV_QUERY,
+    { id: `home-${locale}` }
+  );
+  const anchors = sectionAnchors(sections);
+
+  return (sections ?? []).flatMap((section) => {
+    const label = section.navLabel || section.heading || section.title;
+    const id = anchors.get(section._key);
+    return section.showInNav && label && id ? [{ id, label }] : [];
+  });
 }
 
 const NEWS_POSTS_FILTER = groq`_type == "post" && language == $locale && defined(category) && ($category == "all" || category == $category)`;

@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { NavAnchorLink } from "@/components/layout/nav-anchor-link";
 import { NavCta } from "@/components/layout/nav-cta";
+import { NavLink } from "@/components/layout/nav-link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 import type { NavButton, NavItem } from "@/components/layout/types";
@@ -101,13 +101,13 @@ export function MobileMenu({ items, cta }: MobileMenuProps) {
                 </li>
               ) : (
                 <li key={item.id}>
-                  <Link
-                    href="/"
+                  <NavLink
+                    href={item.href}
                     onClick={() => setIsOpen(false)}
                     className="hover:text-foreground block py-1 transition-colors"
                   >
                     {item.label}
-                  </Link>
+                  </NavLink>
                 </li>
               )
             )}

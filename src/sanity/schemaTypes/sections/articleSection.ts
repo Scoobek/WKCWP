@@ -1,9 +1,14 @@
+import {
+  navigationFields,
+  navigationFieldsets,
+} from "../objects/navigationFields";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const articleSection = defineType({
   name: "articleSection",
   title: "Article",
   type: "object",
+  fieldsets: navigationFieldsets,
   fields: [
     defineField({
       name: "title",
@@ -113,6 +118,7 @@ export const articleSection = defineType({
         }),
       ],
     }),
+    ...navigationFields,
   ],
   preview: {
     select: { title: "title" },
