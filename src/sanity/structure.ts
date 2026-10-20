@@ -12,8 +12,18 @@ const SINGLETONS = [
   { id: "about", type: "aboutPage", title: "About" },
 ];
 
+/**
+ * Shared singletons: one document for the whole site, not translated. Uses a
+ * fixed id (no per-language suffix).
+ */
+const SHARED_SINGLETONS = [
+  { id: "siteSettings", type: "siteSettings", title: "Site settings" },
+];
+
 /** Singleton schema-type names — used to keep them out of the "Create" menu. */
-export const singletonTypes = new Set(SINGLETONS.map((s) => s.type));
+export const singletonTypes = new Set(
+  [...SINGLETONS, ...SHARED_SINGLETONS].map((s) => s.type)
+);
 
 /**
  * Custom Studio sidebar. Replaces the default flat document list so that:
@@ -44,6 +54,17 @@ export const structure: StructureResolver = (S) =>
                     )
                 )
               )
+          )
+      ),
+      ...SHARED_SINGLETONS.map((singleton) =>
+        S.listItem()
+          .title(singleton.title)
+          .id(singleton.id)
+          .child(
+            S.document()
+              .schemaType(singleton.type)
+              .documentId(singleton.id)
+              .title(singleton.title)
           )
       ),
       S.divider(),

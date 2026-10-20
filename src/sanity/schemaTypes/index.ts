@@ -17,6 +17,7 @@ import { socialMediaSection } from "./sections/socialMediaSection";
 import { sponsorsSection } from "./sections/sponsorsSection";
 import { aboutPage } from "./singletons/aboutPage";
 import { homePage } from "./singletons/homePage";
+import { siteSettings } from "./singletons/siteSettings";
 import { link } from "./objects/link";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -26,6 +27,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     page,
     homePage,
     aboutPage,
+    siteSettings,
     articleSection,
     breedProfileSection,
     breedsSection,
