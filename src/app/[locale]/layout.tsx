@@ -5,7 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
-import { geistMono, geistSans } from "@/app/fonts";
+import { bodoni, geistMono, montserrat } from "@/app/fonts";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +42,8 @@ export default async function LocaleLayout({
       suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={cn(
-        geistSans.variable,
+        montserrat.variable,
+        bodoni.variable,
         geistMono.variable,
         "h-full antialiased",
         isDark && "dark"

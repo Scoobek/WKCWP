@@ -1,6 +1,6 @@
 import "../globals.css";
 
-import { geistMono, geistSans } from "@/app/fonts";
+import { bodoni, geistMono, montserrat } from "@/app/fonts";
 
 /**
  * Minimal root layout for the Sanity Studio. The Studio manages its own
@@ -21,7 +21,7 @@ export default function StudioLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} h-full`}
+      className={`${montserrat.variable} ${bodoni.variable} ${geistMono.variable} h-full`}
     >
       <body className="min-h-full">{children}</body>
     </html>
