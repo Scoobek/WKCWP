@@ -6,7 +6,7 @@ const LocalisationMap = dynamic(
   () => import("./localisation-map").then((mod) => mod.LocalisationMap),
   {
     ssr: false,
-    loading: () => <div className="h-96 bg-gray-200 dark:bg-gray-800" />,
+    loading: () => <div className="bg-muted h-96" />,
   }
 );
 

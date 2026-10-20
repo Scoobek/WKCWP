@@ -56,9 +56,7 @@ export function BreedProfile({
           <div className="mb-8">
             <h2 className="text-3xl font-bold md:text-4xl">{heading}</h2>
             {subheading && (
-              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
-                {subheading}
-              </p>
+              <p className="text-muted-foreground mt-2 text-lg">{subheading}</p>
             )}
           </div>
         )}
@@ -70,7 +68,7 @@ export function BreedProfile({
               {/* Hero Image — 50% on desktop, full width on mobile */}
               {heroImage && (
                 <div
-                  className="relative w-full cursor-pointer overflow-hidden rounded-lg bg-gray-200 lg:w-[50%] dark:bg-gray-800"
+                  className="bg-muted relative w-full cursor-pointer overflow-hidden rounded-lg lg:w-[50%]"
                   style={{ aspectRatio: "4/3" }}
                   onClick={() => openLightbox(0)}
                   role="button"
@@ -101,7 +99,7 @@ export function BreedProfile({
                       return (
                         <div
                           key={idx}
-                          className="relative cursor-pointer overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800"
+                          className="bg-muted relative cursor-pointer overflow-hidden rounded-lg"
                           style={{ aspectRatio: "4/3" }}
                           onClick={() => openLightbox(realIndex)}
                           role="button"
@@ -140,14 +138,14 @@ export function BreedProfile({
           <Grid>
             {facts.map((fact) => (
               <Col key={fact._key} span={6} md={6} lg={3}>
-                <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-950">
+                <div className="border-border bg-background rounded-lg border p-6">
                   {fact.label && (
-                    <div className="mb-2 text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">
+                    <div className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
                       {fact.label}
                     </div>
                   )}
                   {fact.value && (
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <div className="text-foreground text-2xl font-bold">
                       {fact.value}
                     </div>
                   )}

@@ -27,7 +27,7 @@ export async function LocalisationSidebar({
   const t = await getTranslations("posts.localisation");
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
+    <div className="border-border bg-muted/30 rounded-lg border p-6">
       {townName && (
         <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold">
           📍 {townName}
@@ -35,24 +35,24 @@ export async function LocalisationSidebar({
       )}
 
       <div className="mb-6 space-y-3">
-        <div className="border-b border-gray-200 pb-3 dark:border-gray-700">
+        <div className="border-border border-b pb-3">
           <div className="space-y-2">
             <div>
-              <dt className="text-xs font-medium text-gray-600 uppercase dark:text-gray-400">
+              <dt className="text-muted-foreground text-xs font-medium uppercase">
                 {t("street")}
               </dt>
               <dd className="mt-1 text-sm">{street || "—"}</dd>
             </div>
 
             <div>
-              <dt className="text-xs font-medium text-gray-600 uppercase dark:text-gray-400">
+              <dt className="text-muted-foreground text-xs font-medium uppercase">
                 {t("buildingNumber")}
               </dt>
               <dd className="mt-1 text-sm">{buildingNumber || "—"}</dd>
             </div>
 
             <div>
-              <dt className="text-xs font-medium text-gray-600 uppercase dark:text-gray-400">
+              <dt className="text-muted-foreground text-xs font-medium uppercase">
                 {t("postalCode")}
               </dt>
               <dd className="mt-1 text-sm">{postalCode || "—"}</dd>
@@ -60,8 +60,8 @@ export async function LocalisationSidebar({
           </div>
         </div>
 
-        <div className="space-y-2 border-b border-gray-200 pb-2 dark:border-gray-700">
-          <dt className="text-xs font-medium text-gray-600 uppercase dark:text-gray-400">
+        <div className="border-border space-y-2 border-b pb-2">
+          <dt className="text-muted-foreground text-xs font-medium uppercase">
             {t("geolocation")}
           </dt>
           <dd className="font-mono text-sm">
@@ -74,7 +74,7 @@ export async function LocalisationSidebar({
       <div className="flex gap-3">
         <a
           href={`geo:${lat},${lng}`}
-          className="flex-1 rounded-md bg-black px-5 py-2.5 text-center text-sm font-medium text-white dark:bg-white dark:text-black"
+          className="bg-primary text-primary-foreground flex-1 rounded-md px-5 py-2.5 text-center text-sm font-medium"
         >
           {t("navigate")}
         </a>

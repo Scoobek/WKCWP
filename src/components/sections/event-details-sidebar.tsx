@@ -34,14 +34,14 @@ export async function EventDetailsSidebar({
     : null;
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
+    <div className="border-border bg-muted/30 rounded-lg border p-6">
       <h3 className="mb-4 text-lg font-semibold">{t("details")}</h3>
 
       {/* Details grid: label on left, value on right */}
       <div className="mb-6 space-y-3">
         {eventTypeTitle && (
-          <div className="flex items-center justify-between border-b border-gray-200 pb-2 dark:border-gray-700">
-            <dt className="text-xs font-medium text-gray-600 uppercase dark:text-gray-400">
+          <div className="border-border flex items-center justify-between border-b pb-2">
+            <dt className="text-muted-foreground text-xs font-medium uppercase">
               {t("eventType")}
             </dt>
             <dd>{eventTypeTitle}</dd>
@@ -49,8 +49,8 @@ export async function EventDetailsSidebar({
         )}
 
         {date && (
-          <div className="flex items-center justify-between border-b border-gray-200 pb-2 dark:border-gray-700">
-            <dt className="text-xs font-medium text-gray-600 uppercase dark:text-gray-400">
+          <div className="border-border flex items-center justify-between border-b pb-2">
+            <dt className="text-muted-foreground text-xs font-medium uppercase">
               {t("dateTime")}
             </dt>
             <dd>
@@ -64,8 +64,8 @@ export async function EventDetailsSidebar({
         )}
 
         {hours && (
-          <div className="flex items-center justify-between border-b border-gray-200 pb-2 dark:border-gray-700">
-            <dt className="text-xs font-medium text-gray-600 uppercase dark:text-gray-400">
+          <div className="border-border flex items-center justify-between border-b pb-2">
+            <dt className="text-muted-foreground text-xs font-medium uppercase">
               {t("hours")}
             </dt>
             <dd>{hours}</dd>
@@ -73,8 +73,8 @@ export async function EventDetailsSidebar({
         )}
 
         {location && (
-          <div className="flex items-center justify-between border-b border-gray-200 pb-2 dark:border-gray-700">
-            <dt className="text-xs font-medium text-gray-600 uppercase dark:text-gray-400">
+          <div className="border-border flex items-center justify-between border-b pb-2">
+            <dt className="text-muted-foreground text-xs font-medium uppercase">
               {t("town")}
             </dt>
             <dd>{location}</dd>
@@ -87,7 +87,7 @@ export async function EventDetailsSidebar({
           {buttonUrl.startsWith("http") ? (
             <a
               href={buttonUrl}
-              className="inline-block rounded-md bg-black px-5 py-2.5 text-sm font-medium text-white dark:bg-white dark:text-black"
+              className="bg-primary text-primary-foreground inline-block rounded-md px-5 py-2.5 text-sm font-medium"
               {...(buttonBlank
                 ? { target: "_blank", rel: "noopener noreferrer" }
                 : {})}
@@ -97,7 +97,7 @@ export async function EventDetailsSidebar({
           ) : (
             <Link
               href={buttonUrl as ComponentProps<typeof Link>["href"]}
-              className="inline-block rounded-md bg-black px-5 py-2.5 text-sm font-medium text-white dark:bg-white dark:text-black"
+              className="bg-primary text-primary-foreground inline-block rounded-md px-5 py-2.5 text-sm font-medium"
               {...(buttonBlank
                 ? { target: "_blank", rel: "noopener noreferrer" }
                 : {})}
@@ -109,15 +109,15 @@ export async function EventDetailsSidebar({
       )}
 
       {organizer && (
-        <div className="border-t border-gray-300 pt-4 dark:border-gray-700">
-          <dt className="text-xs font-medium text-gray-600 uppercase dark:text-gray-400">
+        <div className="border-border border-t pt-4">
+          <dt className="text-muted-foreground text-xs font-medium uppercase">
             {t("organizer")}
           </dt>
           <dd className="mt-1">
             {organizerUrl ? (
               <Link
                 href={organizerUrl as ComponentProps<typeof Link>["href"]}
-                className="text-blue-600 hover:underline dark:text-blue-400"
+                className="text-foreground hover:underline"
               >
                 {organizer}
               </Link>

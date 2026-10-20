@@ -32,7 +32,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
       <div className="flex flex-col gap-4 lg:flex-row">
         {/* Hero image — 50% on desktop, full width on mobile */}
         <div
-          className="relative w-full cursor-pointer overflow-hidden rounded-lg bg-gray-200 lg:w-[50%] dark:bg-gray-800"
+          className="bg-muted relative w-full cursor-pointer overflow-hidden rounded-lg lg:w-[50%]"
           style={{ aspectRatio: "4/3" }}
           onClick={() => openLightbox(0)}
           role="button"
@@ -62,7 +62,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 return (
                   <div
                     key={idx}
-                    className="relative cursor-pointer overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800"
+                    className="bg-muted relative cursor-pointer overflow-hidden rounded-lg"
                     style={{ aspectRatio: "4/3" }}
                     onClick={() => openLightbox(realIndex)}
                     role="button"

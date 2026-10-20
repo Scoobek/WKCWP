@@ -77,12 +77,12 @@ export default async function PostPage({ params }: { params: Params }) {
         {/* Category badge + date row */}
         <div className="mt-4 flex items-center justify-start gap-4">
           {categoryTitle && (
-            <span className="inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+            <span className="bg-accent text-accent-foreground inline-flex rounded-full px-3 py-1 text-xs font-medium">
               {categoryTitle}
             </span>
           )}
           {formattedDate && (
-            <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+            <div className="text-muted-foreground flex items-center gap-1 text-xs">
               <svg
                 className="h-4 w-4 shrink-0"
                 fill="none"
@@ -108,7 +108,7 @@ export default async function PostPage({ params }: { params: Params }) {
 
         {/* Cover image */}
         {post.coverImage?.asset && (
-          <div className="relative mt-6 aspect-16/9 w-full overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-800">
+          <div className="bg-muted relative mt-6 aspect-16/9 w-full overflow-hidden rounded-lg">
             <Image
               src={urlFor(post.coverImage.asset).width(1600).height(900).url()}
               alt={post.coverImage.alt || post.title}

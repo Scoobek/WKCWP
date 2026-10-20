@@ -30,7 +30,7 @@ export function ArrowButton({
         aria-label={label}
         className={cn(
           squareButton,
-          "border border-gray-200 text-gray-300 dark:border-gray-800 dark:text-gray-700"
+          "border-border text-muted-foreground/50 border"
         )}
       >
         <Icon className="h-4 w-4" />
@@ -40,7 +40,7 @@ export function ArrowButton({
 
   const commonClass = cn(
     squareButton,
-    "border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
+    "border border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
   );
 
   if (onPageChange) {

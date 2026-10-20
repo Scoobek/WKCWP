@@ -41,7 +41,7 @@ export function Pagination({
       />
 
       {/* Compact mobile indicator */}
-      <span className="flex h-10 items-center justify-center rounded-lg border border-gray-300 px-4 text-sm font-medium text-gray-700 sm:hidden dark:border-gray-600 dark:text-gray-300">
+      <span className="border-border text-foreground flex h-10 items-center justify-center rounded-lg border px-4 text-sm font-medium sm:hidden">
         {currentPage} / {totalPages}
       </span>
 
@@ -50,7 +50,7 @@ export function Pagination({
         item === ELLIPSIS ? (
           <span
             key={`ellipsis-${i}`}
-            className="hidden h-10 w-10 shrink-0 items-center justify-center text-sm text-gray-400 sm:flex dark:text-gray-600"
+            className="text-muted-foreground hidden h-10 w-10 shrink-0 items-center justify-center text-sm sm:flex"
           >
             …
           </span>
