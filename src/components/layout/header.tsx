@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 
 import { Container } from "@/components/layout/container";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { NavAnchorLink } from "@/components/layout/nav-anchor-link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Link } from "@/i18n/navigation";
 import { MobileMenu } from "@/components/layout/mobile-menu";
@@ -39,12 +40,10 @@ export function Header() {
               {navItems.map((item) =>
                 item.isAnchor ? (
                   <li key={item.id}>
-                    <a
-                      href={item.href}
+                    <NavAnchorLink
+                      item={item}
                       className="hover:text-accent transition-colors"
-                    >
-                      {item.label}
-                    </a>
+                    />
                   </li>
                 ) : (
                   <li key={item.id}>

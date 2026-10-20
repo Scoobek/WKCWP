@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { NavAnchorLink } from "@/components/layout/nav-anchor-link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 import type { NavItem } from "@/components/layout/types";
@@ -90,13 +91,11 @@ export function MobileMenu({ items }: MobileMenuProps) {
             {items.map((item) =>
               item.isAnchor ? (
                 <li key={item.id}>
-                  <a
-                    href={item.href}
+                  <NavAnchorLink
+                    item={item}
                     onClick={() => setIsOpen(false)}
                     className="hover:text-foreground block py-1 transition-colors"
-                  >
-                    {item.label}
-                  </a>
+                  />
                 </li>
               ) : (
                 <li key={item.id}>
