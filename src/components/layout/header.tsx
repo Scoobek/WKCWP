@@ -26,7 +26,6 @@ export async function Header() {
   const navButton = settings?.navButton ?? null;
 
   const navItems: NavItem[] = [
-    { id: "home", href: "/", label: t("home"), isAnchor: false },
     ...homeSections.map((section) => ({
       id: section.id,
       href: `#${section.id}`,
