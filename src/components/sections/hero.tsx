@@ -15,13 +15,15 @@ export function Hero({
   image,
   id,
 }: HeroSection & { id?: string }) {
-  // Only build a URL when an asset was actually uploaded.
+  // Only build a URL when an asset was actually uploaded. `fit("max")` keeps the
+  // whole image (no crop) by scaling it to fit 1600px wide, so the frame follows
+  // the image's own aspect ratio (see `h-auto` below).
   const imageUrl = image?.asset
-    ? urlFor(image.asset).width(1600).height(900).url()
+    ? urlFor(image.asset).width(1600).fit("max").url()
     : null;
 
   return (
-    <Section id={id}>
+    <Section id={id} tone="muted">
       <Container>
         {/* Stacked on small screens (image on top via order), two columns from
             md up (text left, image right). */}
@@ -48,14 +50,32 @@ export function Hero({
             )}
           </div>
           {imageUrl && (
-            <div className="order-1 md:order-2 md:flex-1">
+            <div className="relative order-1 md:order-2 md:flex-1">
+              {/* Sizes the box to the image's own proportions. Hidden, because the
+                  visible version is the masked layer below. */}
               <Image
                 src={imageUrl}
                 alt={image?.alt ?? ""}
                 loading="eager"
                 width={1600}
                 height={900}
-                className="h-auto w-full rounded-lg"
+                className="h-auto w-full opacity-0"
+              />
+              {/* The PNG's alpha channel is used as a mask, filled with the accent
+                  token. Works for single-color images with a transparent background. */}
+              <div
+                aria-hidden="true"
+                className="bg-accent absolute inset-0"
+                style={{
+                  maskImage: `url("${imageUrl}")`,
+                  WebkitMaskImage: `url("${imageUrl}")`,
+                  maskSize: "contain",
+                  WebkitMaskSize: "contain",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskPosition: "center",
+                  WebkitMaskPosition: "center",
+                }}
               />
             </div>
           )}
