@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 
 import { Container } from "@/components/layout/container";
+import { HeaderLogo } from "@/components/layout/header-logo";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { NavAnchorLink } from "@/components/layout/nav-anchor-link";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -27,12 +28,7 @@ export function Header() {
     <header className="border-border bg-foreground sticky top-0 z-40 border-b">
       <Container>
         <div className="flex h-16 items-center justify-between gap-6">
-          <Link
-            href="/"
-            className="text-lg font-semibold tracking-tight text-white"
-          >
-            WKCwP
-          </Link>
+          <HeaderLogo />
 
           {/* Desktop nav: hidden below lg */}
           <nav className="hidden items-center gap-6 lg:flex">

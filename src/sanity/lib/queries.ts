@@ -375,6 +375,24 @@ export function getAboutPage(locale: string) {
   return getSingleton(`about-${locale}`, locale);
 }
 
+export type SiteSettings = {
+  logo: (SanityImage & { width: number | null; height: number | null }) | null;
+};
+
+const SITE_SETTINGS_QUERY = groq`*[_id == "siteSettings"][0]{
+  logo{
+    asset,
+    alt,
+    "width": asset->metadata.dimensions.width,
+    "height": asset->metadata.dimensions.height
+  }
+}`;
+
+/** Shared site settings (not translated), or null if not created yet. */
+export function getSiteSettings() {
+  return client.fetch<SiteSettings | null>(SITE_SETTINGS_QUERY);
+}
+
 const NEWS_POSTS_FILTER = groq`_type == "post" && language == $locale && defined(category) && ($category == "all" || category == $category)`;
 
 const NEWS_POSTS_PAGE_QUERY = groq`{
