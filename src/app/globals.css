@@ -101,8 +101,44 @@ html {
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-montserrat);
+  --font-heading: var(--font-bodoni);
   --font-mono: var(--font-geist-mono);
+
+  /* Type scale → text-display/h1/h2/h3/lead/eyebrow/caption. Sizes are fluid
+     (clamp), so one class covers all breakpoints. Headings also need `font-heading`
+     (Bodoni); Tailwind's text-* utilities don't set the font family. */
+  --text-display: clamp(2.25rem, 1.5rem + 3vw, 3.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 600;
+
+  --text-h1: clamp(2rem, 1.5rem + 2.5vw, 3rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.01em;
+  --text-h1--font-weight: 600;
+
+  --text-h2: clamp(1.875rem, 1.5rem + 1.5vw, 2.25rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h2--font-weight: 600;
+
+  --text-h3: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 600;
+
+  --text-lead: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-lead--font-weight: 400;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.12em;
+  --text-eyebrow--font-weight: 600;
+
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+  --text-caption--font-weight: 400;
 
   /* Radius scale → generates rounded-sm/md/lg/xl from the --radius knob. */
   --radius-sm: calc(var(--radius) - 4px);
