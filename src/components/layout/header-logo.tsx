@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { Link } from "@/i18n/navigation";
 import { urlFor } from "@/sanity/lib/image";
-import { getSiteSettings } from "@/sanity/lib/queries";
+import type { SiteSettings } from "@/sanity/lib/queries";
 
 const BRAND = "WKCwP";
 
@@ -11,10 +11,7 @@ const BRAND = "WKCwP";
  * brand when no logo has been uploaded. SVGs are served unoptimized so they
  * stay vector; `next/image` doesn't process them by default.
  */
-export async function HeaderLogo() {
-  const settings = await getSiteSettings();
-  const logo = settings?.logo;
-
+export function HeaderLogo({ logo }: { logo: SiteSettings["logo"] }) {
   if (!logo?.asset) {
     return (
       <Link

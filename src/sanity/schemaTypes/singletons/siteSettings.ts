@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 
+import { supportedLanguages } from "@/sanity/i18n";
+
 // Singleton: one shared document for the whole site (not translated). Edited
 // through the custom Studio structure under a fixed id, `siteSettings`.
 export const siteSettings = defineType({
@@ -18,6 +20,24 @@ export const siteSettings = defineType({
       },
       fields: [
         defineField({ name: "alt", type: "string", title: "Alternative text" }),
+      ],
+    }),
+    defineField({
+      name: "navButton",
+      title: "Navigation button",
+      description:
+        "Primary button in the header. Shown only when both a label and a link are set.",
+      type: "object",
+      fields: [
+        defineField({
+          name: "label",
+          title: "Label",
+          type: "object",
+          fields: supportedLanguages.map((lang) =>
+            defineField({ name: lang.id, title: lang.title, type: "string" })
+          ),
+        }),
+        defineField({ name: "link", title: "Link", type: "link" }),
       ],
     }),
   ],
