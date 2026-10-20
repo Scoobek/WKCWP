@@ -22,7 +22,7 @@ export default async function NotFound() {
     <Section>
       <Container>
         <div className="flex max-w-2xl flex-col gap-4">
-          <p className="text-muted-foreground text-6xl font-semibold tracking-tight sm:text-7xl">
+          <p className="text-muted-foreground font-heading text-6xl font-semibold tracking-tight sm:text-7xl">
             404
           </p>
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
