@@ -24,7 +24,10 @@ export function HeaderLogo({ logo }: { logo: SiteSettings["logo"] }) {
   }
 
   return (
-    <Link href="/" className="inline-flex items-center">
+    <Link
+      href="/"
+      className="inline-flex items-center rounded-md bg-white px-3 py-1.5"
+    >
       <Image
         src={urlFor(logo.asset).height(96).fit("max").url()}
         alt={logo.alt || BRAND}
