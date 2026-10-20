@@ -3,6 +3,7 @@ import { groq } from "next-sanity";
 
 import { client } from "@/sanity/lib/client";
 import { type NewsCategory } from "@/sanity/lib/news-categories";
+import { defaultLanguage } from "@/sanity/i18n";
 import { resolveLink } from "@/lib/resolve-link";
 
 export type { NewsCategory };
@@ -377,6 +378,16 @@ export function getAboutPage(locale: string) {
 
 export type SiteSettings = {
   logo: (SanityImage & { width: number | null; height: number | null }) | null;
+  /** Header button, with the label and URL already resolved for the locale. */
+  navButton: { label: string; url: string } | null;
+};
+
+type RawSiteSettings = {
+  logo: SiteSettings["logo"];
+  navButton: {
+    label: Record<string, string | null> | null;
+    link: unknown;
+  } | null;
 };
 
 const SITE_SETTINGS_QUERY = groq`*[_id == "siteSettings"][0]{
@@ -385,12 +396,32 @@ const SITE_SETTINGS_QUERY = groq`*[_id == "siteSettings"][0]{
     alt,
     "width": asset->metadata.dimensions.width,
     "height": asset->metadata.dimensions.height
+  },
+  navButton{
+    label,
+    link${LINK_FRAGMENT}
   }
 }`;
 
-/** Shared site settings (not translated), or null if not created yet. */
-export function getSiteSettings() {
-  return client.fetch<SiteSettings | null>(SITE_SETTINGS_QUERY);
+/**
+ * Shared site settings (not translated), or null if not created yet. The nav
+ * button's label falls back to the default language, and its link resolves to
+ * the locale's translated slug.
+ */
+export async function getSiteSettings(
+  locale: string
+): Promise<SiteSettings | null> {
+  const raw = await client.fetch<RawSiteSettings | null>(SITE_SETTINGS_QUERY);
+  if (!raw) return null;
+
+  const label =
+    raw.navButton?.label?.[locale] ?? raw.navButton?.label?.[defaultLanguage];
+  const url = resolveLink(raw.navButton?.link ?? null, locale);
+
+  return {
+    logo: raw.logo ?? null,
+    navButton: label && url ? { label, url } : null,
+  };
 }
 
 const NEWS_POSTS_FILTER = groq`_type == "post" && language == $locale && defined(category) && ($category == "all" || category == $category)`;

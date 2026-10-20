@@ -6,3 +6,9 @@ export interface NavItem {
   label: string | ReactNode;
   isAnchor?: boolean;
 }
+
+/** Header call-to-action button, already resolved for the current locale. */
+export interface NavButton {
+  label: string;
+  url: string;
+}

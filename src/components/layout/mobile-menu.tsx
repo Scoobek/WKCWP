@@ -4,15 +4,17 @@ import { useState, useEffect } from "react";
 import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { NavAnchorLink } from "@/components/layout/nav-anchor-link";
+import { NavCta } from "@/components/layout/nav-cta";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
-import type { NavItem } from "@/components/layout/types";
+import type { NavButton, NavItem } from "@/components/layout/types";
 
 interface MobileMenuProps {
   items: NavItem[];
+  cta?: NavButton | null;
 }
 
-export function MobileMenu({ items }: MobileMenuProps) {
+export function MobileMenu({ items, cta }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -110,6 +112,13 @@ export function MobileMenu({ items }: MobileMenuProps) {
               )
             )}
           </ul>
+          {cta && (
+            <NavCta
+              button={cta}
+              onClick={() => setIsOpen(false)}
+              className="mt-6 block text-center"
+            />
+          )}
         </nav>
 
         {/* Language switcher + theme toggle - fixed at bottom */}
