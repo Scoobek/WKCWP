@@ -18,7 +18,7 @@ export function Sponsors({
   const hasCta = ctaLabel && ctaUrl;
 
   return (
-    <Section id={id}>
+    <Section id={id} tone="default">
       <Container>
         <Grid>
           {heading && (

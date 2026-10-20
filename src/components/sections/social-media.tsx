@@ -56,7 +56,7 @@ async function SocialLinkTile({
       href={link.url || "#"}
       target="_blank"
       rel="noopener noreferrer"
-      className="border-border flex flex-col justify-between rounded-lg border p-6 transition-shadow hover:shadow-md"
+      className="border-border bg-background flex flex-col justify-between rounded-lg border p-6 transition-shadow hover:shadow-md"
     >
       <div className="mb-4 flex items-center gap-3">
         <Icon className="text-foreground h-8 w-8 shrink-0" />
@@ -86,14 +86,14 @@ export async function SocialMedia({
   const hasLinks = links && links.length > 0;
 
   return (
-    <Section id={id}>
+    <Section id={id} tone="default">
       <Container>
         <Grid>
           {heading && (
             <Col span={12} md={4}>
               <h2 className="text-3xl font-bold md:text-4xl">{heading}</h2>
               {subheading && (
-                <p className="text-muted-foreground mt-4">{subheading}</p>
+                <p className="text-primary-foreground/80 mt-4">{subheading}</p>
               )}
             </Col>
           )}

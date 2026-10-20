@@ -38,7 +38,7 @@ export async function News({
   );
 
   return (
-    <Section id={id}>
+    <Section id={id} tone="default">
       <Container>
         {/* Header row: heading/subheading left, chips right */}
         <div className="mb-12 flex flex-col justify-between gap-6 sm:flex-row sm:items-start">

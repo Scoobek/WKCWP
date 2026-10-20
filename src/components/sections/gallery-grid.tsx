@@ -80,8 +80,8 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                       className="object-cover"
                     />
                     {showOverlay && (
-                      <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/50">
-                        <div className="text-center text-lg font-semibold text-white">
+                      <div className="bg-foreground/60 absolute inset-0 flex items-center justify-center rounded-lg">
+                        <div className="text-background text-center text-lg font-semibold">
                           +{moreCount} more
                         </div>
                       </div>

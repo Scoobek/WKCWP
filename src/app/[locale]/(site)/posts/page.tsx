@@ -34,7 +34,7 @@ export default async function PostsPage({
                         pathname: "/posts/[slug]",
                         params: { slug: post.slug },
                       }}
-                      className="hover:text-primary transition-colors"
+                      className="hover:text-foreground transition-colors"
                     >
                       {post.title}
                     </Link>
@@ -49,7 +49,7 @@ export default async function PostsPage({
                       pathname: "/posts/[slug]",
                       params: { slug: post.slug },
                     }}
-                    className="text-primary mt-4 inline-block text-sm font-medium"
+                    className="text-foreground mt-4 inline-block text-sm font-medium"
                   >
                     {t("readMore")}
                   </Link>

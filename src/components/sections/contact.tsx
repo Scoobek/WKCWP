@@ -22,7 +22,7 @@ export async function Contact(props: ContactSection & { id?: string }) {
   const hasContact = email || phone;
 
   return (
-    <Section id={id}>
+    <Section id={id} tone="ink">
       <Container>
         <Grid>
           <Col span={12} md={4}>
@@ -30,16 +30,16 @@ export async function Contact(props: ContactSection & { id?: string }) {
               <h2 className="text-3xl font-bold md:text-4xl">{heading}</h2>
             )}
             {subheading && (
-              <p className="text-muted-foreground mt-2">{subheading}</p>
+              <p className="text-secondary-foreground/70 mt-2">{subheading}</p>
             )}
           </Col>
 
           {hasAddress && (
             <Col span={12} md={4}>
-              <p className="text-foreground mb-4 text-sm font-semibold tracking-wide uppercase">
+              <p className="text-secondary-foreground mb-4 text-sm font-semibold tracking-wide uppercase">
                 {t("address")}
               </p>
-              <address className="text-muted-foreground space-y-2 text-sm not-italic">
+              <address className="text-secondary-foreground/70 space-y-2 text-sm not-italic">
                 {(street || buildingNumber) && (
                   <div>
                     {street}
@@ -60,18 +60,18 @@ export async function Contact(props: ContactSection & { id?: string }) {
 
           {hasContact && (
             <Col span={12} md={4}>
-              <p className="text-foreground mb-4 text-sm font-semibold tracking-wide uppercase">
+              <p className="text-secondary-foreground mb-4 text-sm font-semibold tracking-wide uppercase">
                 {t("contact")}
               </p>
               <div className="space-y-3 text-sm">
                 {email && (
                   <div>
-                    <p className="text-muted-foreground mb-1 text-xs font-medium">
+                    <p className="text-secondary-foreground/70 mb-1 text-xs font-medium">
                       Email
                     </p>
                     <a
                       href={`mailto:${email}`}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="text-secondary-foreground/70 hover:text-secondary-foreground"
                     >
                       {email}
                     </a>
@@ -79,12 +79,12 @@ export async function Contact(props: ContactSection & { id?: string }) {
                 )}
                 {phone && (
                   <div>
-                    <p className="text-muted-foreground mb-1 text-xs font-medium">
+                    <p className="text-secondary-foreground/70 mb-1 text-xs font-medium">
                       Phone
                     </p>
                     <a
                       href={`tel:${phone}`}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="text-secondary-foreground/70 hover:text-secondary-foreground"
                     >
                       {phone}
                     </a>
