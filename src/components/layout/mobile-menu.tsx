@@ -53,23 +53,23 @@ export function MobileMenu({ items, cta }: MobileMenuProps) {
           {/* Top bar */}
           <span
             className={cn(
-              "bg-secondary absolute h-0.5 w-5 transition-transform duration-300 motion-reduce:duration-0",
-              isOpen ? "top-2.5 rotate-45" : "top-1"
+              "bg-secondary absolute left-0 h-0.5 w-5 transition-transform duration-300 motion-reduce:duration-0",
+              isOpen ? "top-2.25 rotate-45" : "top-0.75"
             )}
           />
           {/* Middle bar */}
           <span
             className={cn(
-              "bg-secondary absolute h-0.5 w-5 transition-opacity duration-300 motion-reduce:duration-0",
-              "top-2.5",
+              "bg-secondary absolute left-0 h-0.5 w-5 transition-opacity duration-300 motion-reduce:duration-0",
+              "top-2.25",
               isOpen ? "opacity-0" : "opacity-100"
             )}
           />
           {/* Bottom bar */}
           <span
             className={cn(
-              "bg-secondary absolute h-0.5 w-5 transition-transform duration-300 motion-reduce:duration-0",
-              isOpen ? "top-2.5 -rotate-45" : "top-4"
+              "bg-secondary absolute left-0 h-0.5 w-5 transition-transform duration-300 motion-reduce:duration-0",
+              isOpen ? "top-2.25 -rotate-45" : "top-3.75"
             )}
           />
         </div>
