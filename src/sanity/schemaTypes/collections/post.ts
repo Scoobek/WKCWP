@@ -4,7 +4,7 @@ import { NEWS_CATEGORIES } from "@/sanity/lib/news-categories";
 
 export const post = defineType({
   name: "post",
-  title: "Post",
+  title: "News",
   type: "document",
   fields: [
     defineField({

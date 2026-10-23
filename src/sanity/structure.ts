@@ -80,11 +80,11 @@ export const structure: StructureResolver = (S) =>
             .filter('_type == "page" && language == "pl"')
         ),
       S.listItem()
-        .title("Posts")
+        .title("News")
         .schemaType("post")
         .child(
           S.documentList()
-            .title("Posts")
+            .title("News")
             .schemaType("post")
             .apiVersion(apiVersion)
             .filter('_type == "post" && language == "pl"')
