@@ -18,6 +18,7 @@ export const homePage = defineType({
         { type: "heroSection" },
         { type: "newsSection" },
         { type: "socialMediaSection" },
+        { type: "profilesSection" },
         { type: "sponsorsSection" },
       ],
     }),
