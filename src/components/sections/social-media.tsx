@@ -1,28 +1,9 @@
-import {
-  SiFacebook,
-  SiInstagram,
-  SiYoutube,
-  SiTiktok,
-  SiX,
-  SiLinkerd,
-} from "react-icons/si";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Grid, Col } from "@/components/layout/grid";
+import { platformIcons } from "@/components/sections/social-icons";
 import { getYoutubeSubscriberCount } from "@/lib/youtube";
 import type { SocialMediaSection, SocialLinkItem } from "@/sanity/lib/queries";
-
-const platformIcons: Record<
-  string,
-  React.ComponentType<{ className?: string }>
-> = {
-  facebook: SiFacebook,
-  instagram: SiInstagram,
-  youtube: SiYoutube,
-  tiktok: SiTiktok,
-  x: SiX,
-  linkedin: SiLinkerd,
-};
 
 async function SocialLinkTile({
   link,

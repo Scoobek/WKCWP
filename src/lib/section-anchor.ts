@@ -21,6 +21,8 @@ function baseId(section: AnchorableSection): string {
       return "news";
     case "socialMediaSection":
       return "social-media";
+    case "profilesSection":
+      return "profiles";
     case "sponsorsSection":
       return "sponsors";
     default:

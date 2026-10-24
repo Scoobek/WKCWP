@@ -211,6 +211,33 @@ export type SocialLinkItem = {
   youtubeChannelId: string | null;
 };
 
+export type ProfileSocialItem = {
+  _key: string;
+  platform:
+    "facebook" | "instagram" | "youtube" | "tiktok" | "x" | "linkedin" | null;
+  url: string | null;
+};
+
+export type ProfilePerson = {
+  _key: string;
+  name: string | null;
+  bio: string | null;
+  photo: SanityImage | null;
+  photoShape: "circle" | "square" | null;
+  email: string | null;
+  phone: string | null;
+  socials: ProfileSocialItem[] | null;
+};
+
+export type ProfilesSection = {
+  _type: "profilesSection";
+  _key: string;
+  heading: string | null;
+  description: string | null;
+  columns: 1 | 2 | 3 | null;
+  people: ProfilePerson[] | null;
+};
+
 export type SocialMediaSection = {
   _type: "socialMediaSection";
   _key: string;
@@ -277,7 +304,8 @@ export type PageSection =
   | NewsSection
   | ContactSection
   | SponsorsSection
-  | SocialMediaSection;
+  | SocialMediaSection
+  | ProfilesSection;
 
 export type NewsPost = {
   _id: string;
@@ -293,7 +321,7 @@ export type NewsPost = {
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
 const SECTIONS_FRAGMENT = groq`sections[]{
-  _type, _key, title, heading, subheading, body, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, registrationName, nip, regon, krs, oppStatus, bankAccount, bankName, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }, author[]{ firstName, lastName, bio, photo{ asset, alt } }, images[]{ asset, alt }, facts[]{ _key, label, value }
+  _type, _key, title, heading, subheading, body, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, registrationName, nip, regon, krs, oppStatus, bankAccount, bankName, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }, author[]{ firstName, lastName, bio, photo{ asset, alt } }, images[]{ asset, alt }, facts[]{ _key, label, value }, columns, people[]{ _key, name, bio, photo{ asset, alt }, photoShape, email, phone, socials[]{ _key, platform, url } }
 }`;
 
 export type PageDocument = {

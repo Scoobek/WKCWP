@@ -2,6 +2,7 @@ import { Article } from "@/components/sections/article";
 import { BreedProfile, Breeds } from "@/components/sections/breeds";
 import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
+import { Profiles } from "@/components/sections/profiles";
 import { News } from "@/components/sections/news";
 import { SocialMedia } from "@/components/sections/social-media";
 import type { PageSection } from "@/sanity/lib/queries";
@@ -68,6 +69,8 @@ export function PageSections({
             id={id}
           />
         );
+      case "profilesSection":
+        return <Profiles key={section._key} {...section} id={id} />;
       case "sponsorsSection":
         return <Sponsors key={section._key} {...section} id={id} />;
       default:

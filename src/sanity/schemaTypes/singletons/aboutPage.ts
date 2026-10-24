@@ -18,6 +18,7 @@ export const aboutPage = defineType({
         { type: "heroSection" },
         { type: "newsSection" },
         { type: "socialMediaSection" },
+        { type: "profilesSection" },
         { type: "sponsorsSection" },
       ],
     }),

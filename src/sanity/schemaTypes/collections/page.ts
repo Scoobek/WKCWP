@@ -27,6 +27,7 @@ export const page = defineType({
         { type: "contactSection" },
         { type: "heroSection" },
         { type: "newsSection" },
+        { type: "profilesSection" },
         { type: "socialMediaSection" },
         { type: "sponsorsSection" },
       ],

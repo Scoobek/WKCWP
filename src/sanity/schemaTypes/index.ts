@@ -13,6 +13,7 @@ import { breedsSection } from "./sections/breedsSection";
 import { contactSection } from "./sections/contactSection";
 import { heroSection } from "./sections/heroSection";
 import { newsSection } from "./sections/newsSection";
+import { profilesSection } from "./sections/profilesSection";
 import { socialMediaSection } from "./sections/socialMediaSection";
 import { sponsorsSection } from "./sections/sponsorsSection";
 import { aboutPage } from "./singletons/aboutPage";
@@ -34,6 +35,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     contactSection,
     heroSection,
     newsSection,
+    profilesSection,
     socialMediaSection,
     sponsorsSection,
     richTextBlock,
