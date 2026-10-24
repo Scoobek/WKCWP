@@ -108,7 +108,7 @@ export function Profiles({
   const hasPeople = people && people.length > 0;
 
   return (
-    <Section id={id} tone="default">
+    <Section id={id} tone="default" className="bg-white">
       <Container>
         <Grid>
           {heading && (

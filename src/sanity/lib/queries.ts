@@ -321,7 +321,7 @@ export type NewsPost = {
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
 const SECTIONS_FRAGMENT = groq`sections[]{
-  _type, _key, title, heading, subheading, body, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, registrationName, nip, regon, krs, oppStatus, bankAccount, bankName, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }, author[]{ firstName, lastName, bio, photo{ asset, alt } }, images[]{ asset, alt }, facts[]{ _key, label, value }, columns, people[]{ _key, name, bio, photo{ asset, alt }, photoShape, email, phone, socials[]{ _key, platform, url } }
+  _type, _key, title, heading, subheading, description, body, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, registrationName, nip, regon, krs, oppStatus, bankAccount, bankName, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }, author[]{ firstName, lastName, bio, photo{ asset, alt } }, images[]{ asset, alt }, facts[]{ _key, label, value }, columns, people[]{ _key, name, bio, photo{ asset, alt }, photoShape, email, phone, socials[]{ _key, platform, url } }
 }`;
 
 export type PageDocument = {
