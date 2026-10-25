@@ -1,8 +1,12 @@
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Grid, Col } from "@/components/layout/grid";
-import { platformIcons } from "@/components/sections/social-icons";
+import {
+  platformColors,
+  platformIcons,
+} from "@/components/sections/social-icons";
 import { getYoutubeSubscriberCount } from "@/lib/youtube";
+import { cn } from "@/lib/utils";
 import type { SocialMediaSection, SocialLinkItem } from "@/sanity/lib/queries";
 
 async function SocialLinkTile({
@@ -31,6 +35,7 @@ async function SocialLinkTile({
   }
 
   const Icon = platformIcons[link.platform || ""] || platformIcons.facebook;
+  const iconColor = platformColors[link.platform || ""] ?? "text-foreground";
 
   return (
     <a
@@ -40,7 +45,7 @@ async function SocialLinkTile({
       className="border-border bg-background flex flex-col justify-between rounded-lg border p-6 transition-shadow hover:shadow-md"
     >
       <div className="mb-4 flex items-center gap-3">
-        <Icon className="text-foreground h-8 w-8 shrink-0" />
+        <Icon className={cn("h-8 w-8 shrink-0", iconColor)} />
         <div className="min-w-0 flex-1">
           <p className="text-foreground truncate font-medium">
             {platformLabel}
