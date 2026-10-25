@@ -92,9 +92,56 @@ export const eventDetailsBlock = defineType({
       ],
     }),
     defineField({
+      name: "dateMode",
+      title: "Event length",
+      type: "string",
+      initialValue: "single",
+      options: {
+        list: [
+          { title: "One day", value: "single" },
+          { title: "More than one day", value: "range" },
+        ],
+        layout: "radio",
+      },
+    }),
+    // `date` is the one-day date. Kept under its original name so posts saved
+    // before the date range option still show their date.
+    defineField({
       name: "date",
       title: "Date",
       type: "date",
+      hidden: ({ parent }) => parent?.dateMode === "range",
+    }),
+    defineField({
+      name: "startDate",
+      title: "First day",
+      type: "date",
+      hidden: ({ parent }) => parent?.dateMode !== "range",
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const { dateMode } = (context.parent ?? {}) as { dateMode?: string };
+          if (dateMode === "range" && !value) return "Enter the first day";
+          return true;
+        }),
+    }),
+    defineField({
+      name: "endDate",
+      title: "Last day",
+      type: "date",
+      hidden: ({ parent }) => parent?.dateMode !== "range",
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const { dateMode, startDate } = (context.parent ?? {}) as {
+            dateMode?: string;
+            startDate?: string;
+          };
+          if (dateMode !== "range") return true;
+          if (!value) return "Enter the last day";
+          if (startDate && value < startDate) {
+            return "The last day can't be before the first day";
+          }
+          return true;
+        }),
     }),
     defineField({
       name: "hours",

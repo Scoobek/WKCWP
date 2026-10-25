@@ -58,7 +58,10 @@ export type EventDetailsBlock = {
   description: PortableTextBlock[] | null;
   scheduleTitle: string | null;
   scheduleRows: ScheduleRow[] | null;
+  dateMode: "single" | "range" | null;
   date: string | null;
+  startDate: string | null;
+  endDate: string | null;
   hours: string | null;
   buttonLabel: string | null;
   buttonUrl: string | null;
@@ -144,7 +147,7 @@ const CONTENT_FRAGMENT = groq`content[]{
   _type, _key,
   _type == "richTextBlock" => { ${withLinks("text")} },
   _type == "galleryBlock" => { heading, images[]{ asset, alt } },
-  _type == "eventDetailsBlock" => { title, ${withLinks("description")}, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonLink${LINK_FRAGMENT}, buttonBlank, organizer, organizerLink${LINK_FRAGMENT} },
+  _type == "eventDetailsBlock" => { title, ${withLinks("description")}, scheduleTitle, scheduleRows[]{ _key, time, description }, dateMode, date, startDate, endDate, hours, buttonLabel, buttonLink${LINK_FRAGMENT}, buttonBlank, organizer, organizerLink${LINK_FRAGMENT} },
   _type == "localisationBlock" => { title, street, buildingNumber, postalCode, location },
   _type == "linkBlock" => { layout, links[]{ _key, label, variant, link${LINK_FRAGMENT} }, label, variant, link${LINK_FRAGMENT} }
 }`;
