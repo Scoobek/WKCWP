@@ -7,7 +7,6 @@ import { defaultLanguage } from "@/sanity/i18n";
 import {
   resolveLink,
   resolveLinkTarget,
-  type RawLink,
   type ResolvedLink,
 } from "@/lib/resolve-link";
 import { sectionAnchors } from "@/lib/section-anchor";
@@ -78,12 +77,18 @@ export type LocalisationBlock = {
   location: { lat: number; lng: number } | null;
 };
 
-export type LinkBlock = {
-  _type: "linkBlock";
+export type LinkBlockItem = {
   _key: string;
   label: string | null;
   variant: "primary" | "outline" | null;
   target: ResolvedLink | null;
+};
+
+export type LinkBlock = {
+  _type: "linkBlock";
+  _key: string;
+  layout: "inline" | "stacked" | null;
+  links: LinkBlockItem[];
 };
 
 export type PostBlock =
@@ -141,7 +146,7 @@ const CONTENT_FRAGMENT = groq`content[]{
   _type == "galleryBlock" => { heading, images[]{ asset, alt } },
   _type == "eventDetailsBlock" => { title, ${withLinks("description")}, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonLink${LINK_FRAGMENT}, buttonBlank, organizer, organizerLink${LINK_FRAGMENT} },
   _type == "localisationBlock" => { title, street, buildingNumber, postalCode, location },
-  _type == "linkBlock" => { label, variant, link${LINK_FRAGMENT} }
+  _type == "linkBlock" => { layout, links[]{ _key, label, variant, link${LINK_FRAGMENT} }, label, variant, link${LINK_FRAGMENT} }
 }`;
 
 const POST_QUERY = groq`*[_type == "post" && language == $locale && slug.current == $slug][0]{
@@ -375,6 +380,12 @@ type RawMarkDef = Record<string, unknown> & {
   href?: string | null;
   blank?: boolean | null;
 };
+type RawLinkItem = {
+  _key: string;
+  label: string | null;
+  variant: LinkBlockItem["variant"];
+  link: unknown;
+};
 type RawPortableBlock = Record<string, unknown> & {
   markDefs?: RawMarkDef[] | null;
 };
@@ -459,8 +470,30 @@ function resolveContent(
       } as EventDetailsBlock;
     }
     if (block._type === "linkBlock") {
-      const target = resolveLinkTarget(block.link as RawLink, locale);
-      return { ...block, target } as LinkBlock;
+      // Posts written before the list stored one button on the block itself.
+      const listed = (block.links as RawLinkItem[] | null) ?? [];
+      const legacy: RawLinkItem[] = block.link
+        ? [
+            {
+              _key: block._key,
+              label: block.label as string | null,
+              variant: block.variant as LinkBlockItem["variant"],
+              link: block.link,
+            },
+          ]
+        : [];
+      const items = listed.length > 0 ? listed : legacy;
+      return {
+        _type: "linkBlock",
+        _key: block._key,
+        layout: (block.layout as LinkBlock["layout"]) ?? null,
+        links: items.map((item) => ({
+          _key: item._key,
+          label: item.label,
+          variant: item.variant,
+          target: resolveLinkTarget(item.link, locale),
+        })),
+      };
     }
     return block as PostBlock;
   });

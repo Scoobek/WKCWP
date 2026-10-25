@@ -1,7 +1,7 @@
 import { RichText } from "@/components/rich-text";
 import { EventDetailsBlockView } from "@/components/sections/event-details-block";
 import { GalleryBlockView } from "@/components/sections/gallery-block";
-import { LinkButton } from "@/components/link-button";
+import { LinkButtons } from "@/components/link-button";
 import { LocalisationBlockView } from "@/components/sections/localisation-block";
 import type {
   PostBlock,
@@ -28,15 +28,13 @@ export function PostContent({
           </div>
         ) : null;
       case "linkBlock":
-        return block.label && block.target ? (
-          <div key={block._key} className="my-8">
-            <LinkButton
-              label={block.label}
-              variant={block.variant}
-              target={block.target}
-            />
-          </div>
-        ) : null;
+        return (
+          <LinkButtons
+            key={block._key}
+            items={block.links}
+            layout={block.layout}
+          />
+        );
       case "galleryBlock":
         return <GalleryBlockView key={block._key} {...block} />;
       case "eventDetailsBlock":
