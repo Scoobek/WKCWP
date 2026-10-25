@@ -42,7 +42,7 @@ async function SocialLinkTile({
       href={link.url || "#"}
       target="_blank"
       rel="noopener noreferrer"
-      className="border-border bg-background flex flex-col justify-between rounded-lg border p-6 transition-shadow hover:shadow-md"
+      className="border-border flex flex-col justify-between rounded-lg border bg-white p-6 transition-shadow hover:shadow-md"
     >
       <div className="mb-4 flex items-center gap-3">
         <Icon className={cn("h-8 w-8 shrink-0", iconColor)} />
