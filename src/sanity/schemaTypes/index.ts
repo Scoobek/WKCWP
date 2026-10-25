@@ -6,6 +6,7 @@ import { breed } from "./collections/breed";
 import { eventDetailsBlock } from "./blocks/eventDetailsBlock";
 import { galleryBlock } from "./blocks/galleryBlock";
 import { localisationBlock } from "./blocks/localisationBlock";
+import { linkBlock } from "./blocks/linkBlock";
 import { richTextBlock } from "./blocks/richTextBlock";
 import { articleSection } from "./sections/articleSection";
 import { breedProfileSection } from "./sections/breedProfileSection";
@@ -39,6 +40,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     socialMediaSection,
     sponsorsSection,
     richTextBlock,
+    linkBlock,
     galleryBlock,
     eventDetailsBlock,
     localisationBlock,

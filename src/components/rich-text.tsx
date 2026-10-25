@@ -5,10 +5,13 @@ import {
 } from "@portabletext/react";
 import Image from "next/image";
 
+import { AppLink } from "@/components/app-link";
+import type { ResolvedLink } from "@/lib/resolve-link";
 import { urlFor } from "@/sanity/lib/image";
 
 type ImageValue = { asset?: { _ref?: string }; alt?: string };
-type LinkValue = { href?: string; blank?: boolean };
+/** A link annotation; `target` is resolved server-side (see `resolveBody`). */
+type LinkValue = { target?: ResolvedLink | null };
 
 /** Parse `image-<id>-<width>x<height>-<ext>` refs into pixel dimensions so
  * next/image gets the right intrinsic aspect ratio. */
@@ -48,16 +51,16 @@ const components: PortableTextComponents = {
   },
   marks: {
     link: ({ value, children }) => {
-      const link = value as LinkValue | undefined;
-      const blank = link?.blank;
+      const target = (value as LinkValue | undefined)?.target;
+      // No resolvable target (e.g. an internal page with no slug): show the text.
+      if (!target) return <>{children}</>;
       return (
-        <a
-          href={link?.href ?? "#"}
-          {...(blank ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        <AppLink
+          link={target}
           className="text-foreground hover:text-muted-foreground underline underline-offset-4 transition-colors"
         >
           {children}
-        </a>
+        </AppLink>
       );
     },
   },

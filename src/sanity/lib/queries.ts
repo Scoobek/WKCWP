@@ -4,7 +4,12 @@ import { groq } from "next-sanity";
 import { client } from "@/sanity/lib/client";
 import { type NewsCategory } from "@/sanity/lib/news-categories";
 import { defaultLanguage } from "@/sanity/i18n";
-import { resolveLink } from "@/lib/resolve-link";
+import {
+  resolveLink,
+  resolveLinkTarget,
+  type RawLink,
+  type ResolvedLink,
+} from "@/lib/resolve-link";
 import { sectionAnchors } from "@/lib/section-anchor";
 
 export type { NewsCategory };
@@ -73,8 +78,20 @@ export type LocalisationBlock = {
   location: { lat: number; lng: number } | null;
 };
 
+export type LinkBlock = {
+  _type: "linkBlock";
+  _key: string;
+  label: string | null;
+  variant: "primary" | "outline" | null;
+  target: ResolvedLink | null;
+};
+
 export type PostBlock =
-  RichTextBlock | GalleryBlock | EventDetailsBlock | LocalisationBlock;
+  | RichTextBlock
+  | GalleryBlock
+  | EventDetailsBlock
+  | LocalisationBlock
+  | LinkBlock;
 
 export type Post = PostListItem & {
   content: PostBlock[] | null;
@@ -96,13 +113,23 @@ const TRANSLATIONS_FRAGMENT = groq`"translations": coalesce(*[
   _type == "translation.metadata" && references(^._id)
 ][0].translations[]{ "locale": value->language, "slug": value->slug.current }, [])`;
 
-const LINK_FRAGMENT = groq`{
-  linkType,
+/** Projection of a `link` object's fields. Inside `LINK_FRAGMENT` for link
+ * fields, and per annotation inside `markDefs` for rich-text links. */
+const LINK_FIELDS = groq`linkType,
   external,
+  blank,
   internal->{ "slug": slug.current, "translations": coalesce(*[
     _type == "translation.metadata" && references(^._id)
-  ][0].translations[]{ "locale": value->language, "slug": value->slug.current }, []) }
-}`;
+  ][0].translations[]{ "locale": value->language, "slug": value->slug.current }, []) },
+  "fileUrl": file.asset->url,
+  "fileName": file.asset->originalFilename`;
+
+const LINK_FRAGMENT = groq`{ ${LINK_FIELDS} }`;
+
+/** Projects a Portable Text field so each link annotation's target is fetched
+ * along with it. Without this, the annotation would only carry a raw href. */
+const withLinks = (field: string) =>
+  groq`${field}[]{ ..., markDefs[]{ ..., ${LINK_FIELDS} } }`;
 
 const POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(slug.current)] | order(publishedAt desc){
   _id, title, "slug": slug.current, excerpt, publishedAt
@@ -110,10 +137,11 @@ const POSTS_QUERY = groq`*[_type == "post" && language == $locale && defined(slu
 
 const CONTENT_FRAGMENT = groq`content[]{
   _type, _key,
-  _type == "richTextBlock" => { text },
+  _type == "richTextBlock" => { ${withLinks("text")} },
   _type == "galleryBlock" => { heading, images[]{ asset, alt } },
-  _type == "eventDetailsBlock" => { title, description, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonLink${LINK_FRAGMENT}, buttonBlank, organizer, organizerLink${LINK_FRAGMENT} },
-  _type == "localisationBlock" => { title, street, buildingNumber, postalCode, location }
+  _type == "eventDetailsBlock" => { title, ${withLinks("description")}, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonLink${LINK_FRAGMENT}, buttonBlank, organizer, organizerLink${LINK_FRAGMENT} },
+  _type == "localisationBlock" => { title, street, buildingNumber, postalCode, location },
+  _type == "linkBlock" => { label, variant, link${LINK_FRAGMENT} }
 }`;
 
 const POST_QUERY = groq`*[_type == "post" && language == $locale && slug.current == $slug][0]{
@@ -321,7 +349,7 @@ export type NewsPost = {
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
 const SECTIONS_FRAGMENT = groq`sections[]{
-  _type, _key, title, heading, subheading, description, body, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, registrationName, nip, regon, krs, oppStatus, bankAccount, bankName, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }, author[]{ firstName, lastName, bio, photo{ asset, alt } }, images[]{ asset, alt }, facts[]{ _key, label, value }, columns, people[]{ _key, name, bio, photo{ asset, alt }, photoShape, email, phone, socials[]{ _key, platform, url } }
+  _type, _key, title, heading, subheading, description, ${withLinks("body")}, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, registrationName, nip, regon, krs, oppStatus, bankAccount, bankName, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }, author[]{ firstName, lastName, bio, photo{ asset, alt } }, images[]{ asset, alt }, facts[]{ _key, label, value }, columns, people[]{ _key, name, bio, photo{ asset, alt }, photoShape, email, phone, socials[]{ _key, platform, url } }
 }`;
 
 export type PageDocument = {
@@ -341,6 +369,46 @@ const PAGE_QUERY = groq`*[_type == "page" && language == $locale && slug.current
 type RawPageSection = Record<string, unknown> & { _type: string; _key: string };
 type RawPostBlock = Record<string, unknown> & { _type: string; _key: string };
 
+type RawMarkDef = Record<string, unknown> & {
+  _type: string;
+  _key: string;
+  href?: string | null;
+  blank?: boolean | null;
+};
+type RawPortableBlock = Record<string, unknown> & {
+  markDefs?: RawMarkDef[] | null;
+};
+
+/** Pre-link-type annotations stored a raw `href` and no `linkType`. Keep them
+ * working as external links. */
+function legacyTarget(markDef: RawMarkDef): ResolvedLink | null {
+  if (typeof markDef.href !== "string" || !markDef.href) return null;
+  return {
+    kind: "external",
+    href: markDef.href,
+    blank: Boolean(markDef.blank),
+    fileName: null,
+  };
+}
+
+/** Resolves the link annotations in a Portable Text field to their targets. */
+function resolveBody(
+  blocks: RawPortableBlock[] | null,
+  locale: string
+): PortableTextBlock[] | null {
+  if (!blocks) return null;
+  return blocks.map((block) => {
+    if (!block.markDefs) return block;
+    const markDefs = block.markDefs.map((markDef) => {
+      if (markDef._type !== "link") return markDef;
+      const target =
+        resolveLinkTarget(markDef, locale) ?? legacyTarget(markDef);
+      return { ...markDef, target };
+    });
+    return { ...block, markDefs };
+  }) as unknown as PortableTextBlock[];
+}
+
 function resolveSections(
   sections: RawPageSection[] | null,
   locale: string
@@ -355,6 +423,13 @@ function resolveSections(
       const resolved = resolveLink(section.ctaLink as unknown, locale);
       return { ...section, ctaUrl: resolved } as PageSection;
     }
+    if (section._type === "articleSection") {
+      const body = resolveBody(
+        section.body as RawPortableBlock[] | null,
+        locale
+      );
+      return { ...section, body } as PageSection;
+    }
     return section as PageSection;
   });
 }
@@ -365,10 +440,27 @@ function resolveContent(
 ): PostBlock[] | null {
   if (!content) return null;
   return content.map((block): PostBlock => {
+    if (block._type === "richTextBlock") {
+      const text = resolveBody(block.text as RawPortableBlock[] | null, locale);
+      return { ...block, text } as RichTextBlock;
+    }
     if (block._type === "eventDetailsBlock") {
       const buttonUrl = resolveLink(block.buttonLink as unknown, locale);
       const organizerUrl = resolveLink(block.organizerLink as unknown, locale);
-      return { ...block, buttonUrl, organizerUrl } as EventDetailsBlock;
+      const description = resolveBody(
+        block.description as RawPortableBlock[] | null,
+        locale
+      );
+      return {
+        ...block,
+        buttonUrl,
+        organizerUrl,
+        description,
+      } as EventDetailsBlock;
+    }
+    if (block._type === "linkBlock") {
+      const target = resolveLinkTarget(block.link as RawLink, locale);
+      return { ...block, target } as LinkBlock;
     }
     return block as PostBlock;
   });

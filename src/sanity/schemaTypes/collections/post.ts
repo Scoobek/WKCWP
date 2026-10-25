@@ -49,6 +49,7 @@ export const post = defineType({
       type: "array",
       of: [
         { type: "richTextBlock" },
+        { type: "linkBlock" },
         { type: "galleryBlock" },
         { type: "eventDetailsBlock" },
         { type: "localisationBlock" },
