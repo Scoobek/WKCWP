@@ -7,6 +7,7 @@ import type { NewsCategory } from "@/sanity/lib/news-categories";
 type EventDetailsSidebarProps = {
   eventType: NewsCategory | null;
   date: string | null;
+  endDate: string | null;
   hours: string | null;
   location: string | null | undefined;
   buttonLabel: string | null;
@@ -16,9 +17,18 @@ type EventDetailsSidebarProps = {
   organizerUrl: string | null;
 };
 
+function formatDate(value: string) {
+  return new Date(value).toLocaleDateString("pl-PL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 export async function EventDetailsSidebar({
   eventType,
   date,
+  endDate,
   hours,
   location,
   buttonLabel,
@@ -54,11 +64,8 @@ export async function EventDetailsSidebar({
               {t("dateTime")}
             </dt>
             <dd>
-              {new Date(date).toLocaleDateString("pl-PL", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              })}
+              {formatDate(date)}
+              {endDate && endDate !== date && ` – ${formatDate(endDate)}`}
             </dd>
           </div>
         )}

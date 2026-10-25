@@ -58,7 +58,10 @@ export type EventDetailsBlock = {
   description: PortableTextBlock[] | null;
   scheduleTitle: string | null;
   scheduleRows: ScheduleRow[] | null;
+  dateMode: "single" | "range" | null;
   date: string | null;
+  startDate: string | null;
+  endDate: string | null;
   hours: string | null;
   buttonLabel: string | null;
   buttonUrl: string | null;
@@ -102,7 +105,6 @@ export type Post = PostListItem & {
   content: PostBlock[] | null;
   coverImage: SanityImage | null;
   category: NewsCategory | null;
-  eventDate: string | null;
   location: string | null;
   translations: DocTranslation[];
 };
@@ -144,14 +146,14 @@ const CONTENT_FRAGMENT = groq`content[]{
   _type, _key,
   _type == "richTextBlock" => { ${withLinks("text")} },
   _type == "galleryBlock" => { heading, images[]{ asset, alt } },
-  _type == "eventDetailsBlock" => { title, ${withLinks("description")}, scheduleTitle, scheduleRows[]{ _key, time, description }, date, hours, buttonLabel, buttonLink${LINK_FRAGMENT}, buttonBlank, organizer, organizerLink${LINK_FRAGMENT} },
+  _type == "eventDetailsBlock" => { title, ${withLinks("description")}, scheduleTitle, scheduleRows[]{ _key, time, description }, dateMode, date, startDate, endDate, hours, buttonLabel, buttonLink${LINK_FRAGMENT}, buttonBlank, organizer, organizerLink${LINK_FRAGMENT} },
   _type == "localisationBlock" => { title, street, buildingNumber, postalCode, location },
   _type == "linkBlock" => { layout, links[]{ _key, label, variant, link${LINK_FRAGMENT} }, label, variant, link${LINK_FRAGMENT} }
 }`;
 
 const POST_QUERY = groq`*[_type == "post" && language == $locale && slug.current == $slug][0]{
   _id, title, "slug": slug.current, excerpt, publishedAt,
-  coverImage{ asset, alt }, category, eventDate, location,
+  coverImage{ asset, alt }, category, location,
   ${CONTENT_FRAGMENT},
   ${TRANSLATIONS_FRAGMENT}
 }`;
@@ -345,7 +347,6 @@ export type NewsPost = {
   title: string;
   slug: string;
   category: NewsCategory | null;
-  eventDate: string | null;
   location: string | null;
   coverImage: SanityImage | null;
   publishedAt: string | null;
@@ -643,7 +644,7 @@ const NEWS_POSTS_FILTER = groq`_type == "post" && language == $locale && defined
 
 const NEWS_POSTS_PAGE_QUERY = groq`{
   "items": *[${NEWS_POSTS_FILTER}] | order(coalesce(publishedAt, _createdAt) desc) [$offset...$offsetEnd]{
-    _id, title, "slug": slug.current, category, eventDate, location, publishedAt, coverImage{ asset, alt }
+    _id, title, "slug": slug.current, category, location, publishedAt, coverImage{ asset, alt }
   },
   "total": count(*[${NEWS_POSTS_FILTER}])
 }`;

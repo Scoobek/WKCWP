@@ -16,7 +16,10 @@ export async function EventDetailsBlockView(
     description,
     scheduleRows,
     scheduleTitle,
+    dateMode,
     date,
+    startDate,
+    endDate,
     hours,
     location,
     eventType,
@@ -26,6 +29,9 @@ export async function EventDetailsBlockView(
     organizer,
     organizerUrl,
   } = props;
+
+  // Posts saved before the date range option have no `dateMode`: show `date`.
+  const isRange = dateMode === "range";
 
   return (
     <Grid className="gap-8">
@@ -69,7 +75,8 @@ export async function EventDetailsBlockView(
       <Col span={12} lg={4}>
         <EventDetailsSidebar
           eventType={eventType ?? null}
-          date={date}
+          date={isRange ? startDate : date}
+          endDate={isRange ? endDate : null}
           hours={hours}
           location={location}
           buttonLabel={buttonLabel}
