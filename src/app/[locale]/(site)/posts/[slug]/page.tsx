@@ -51,9 +51,8 @@ export default async function PostPage({ params }: { params: Params }) {
     toPath: (s) => `/posts/${s}`,
   });
 
-  const displayDate = post.eventDate ?? post.publishedAt;
-  const formattedDate = displayDate
-    ? new Date(displayDate).toLocaleDateString(
+  const formattedDate = post.publishedAt
+    ? new Date(post.publishedAt).toLocaleDateString(
         locale === "pl" ? "pl-PL" : "en-US",
         { month: "short", day: "numeric", year: "numeric" }
       )
