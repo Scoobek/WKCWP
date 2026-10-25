@@ -16,6 +16,7 @@ export const homePage = defineType({
         { type: "breedsSection" },
         { type: "contactSection" },
         { type: "heroSection" },
+        { type: "imageLinksSection" },
         { type: "newsSection" },
         { type: "socialMediaSection" },
         { type: "profilesSection" },

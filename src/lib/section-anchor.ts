@@ -17,6 +17,8 @@ function baseId(section: AnchorableSection): string {
       return "contact";
     case "heroSection":
       return "hero";
+    case "imageLinksSection":
+      return "image-links";
     case "newsSection":
       return "news";
     case "socialMediaSection":
