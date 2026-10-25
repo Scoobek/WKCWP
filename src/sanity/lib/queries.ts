@@ -642,14 +642,14 @@ export async function getHomeNavSections(
 const NEWS_POSTS_FILTER = groq`_type == "post" && language == $locale && defined(category) && ($category == "all" || category == $category)`;
 
 const NEWS_POSTS_PAGE_QUERY = groq`{
-  "items": *[${NEWS_POSTS_FILTER}] | order(eventDate desc) [$offset...$offsetEnd]{
+  "items": *[${NEWS_POSTS_FILTER}] | order(coalesce(publishedAt, _createdAt) desc) [$offset...$offsetEnd]{
     _id, title, "slug": slug.current, category, eventDate, location, publishedAt, coverImage{ asset, alt }
   },
   "total": count(*[${NEWS_POSTS_FILTER}])
 }`;
 
 /** One page of news posts for a given locale and category, newest first by
- * eventDate, plus the total matching count (for pagination). */
+ * creation date (publishedAt), plus the total matching count (for pagination). */
 export function getNewsPostsPage(
   locale: string,
   category: "all" | NewsCategory,
