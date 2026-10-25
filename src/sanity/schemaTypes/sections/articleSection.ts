@@ -36,28 +36,7 @@ export const articleSection = defineType({
               { title: "Strong", value: "strong" },
               { title: "Emphasis", value: "em" },
             ],
-            annotations: [
-              defineArrayMember({
-                name: "link",
-                type: "object",
-                title: "Link",
-                fields: [
-                  defineField({
-                    name: "href",
-                    type: "url",
-                    title: "URL",
-                    validation: (rule) =>
-                      rule.uri({ scheme: ["http", "https", "mailto", "tel"] }),
-                  }),
-                  defineField({
-                    name: "blank",
-                    type: "boolean",
-                    title: "Open in new tab",
-                    initialValue: false,
-                  }),
-                ],
-              }),
-            ],
+            annotations: [defineArrayMember({ type: "link" })],
           },
         }),
         defineArrayMember({

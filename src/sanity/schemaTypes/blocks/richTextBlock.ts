@@ -12,28 +12,7 @@ export const richTextBlock = defineType({
         defineArrayMember({
           type: "block",
           marks: {
-            annotations: [
-              defineArrayMember({
-                name: "link",
-                type: "object",
-                title: "Link",
-                fields: [
-                  defineField({
-                    name: "href",
-                    type: "url",
-                    title: "URL",
-                    validation: (rule) =>
-                      rule.uri({ scheme: ["http", "https", "mailto", "tel"] }),
-                  }),
-                  defineField({
-                    name: "blank",
-                    type: "boolean",
-                    title: "Open in new tab",
-                    initialValue: false,
-                  }),
-                ],
-              }),
-            ],
+            annotations: [defineArrayMember({ type: "link" })],
           },
         }),
         defineArrayMember({
