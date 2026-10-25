@@ -3,7 +3,10 @@ import Image from "next/image";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Grid, Col } from "@/components/layout/grid";
-import { platformIcons } from "@/components/sections/social-icons";
+import {
+  platformColors,
+  platformIcons,
+} from "@/components/sections/social-icons";
 import { cn } from "@/lib/utils";
 import { urlFor } from "@/sanity/lib/image";
 import type { ProfilePerson, ProfilesSection } from "@/sanity/lib/queries";
@@ -75,6 +78,8 @@ function ProfileCard({ person }: { person: ProfilePerson }) {
                   const Icon =
                     platformIcons[social.platform || ""] ||
                     platformIcons.facebook;
+                  const iconColor =
+                    platformColors[social.platform || ""] ?? "text-foreground";
                   return (
                     <a
                       key={social._key}
@@ -82,9 +87,9 @@ function ProfileCard({ person }: { person: ProfilePerson }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.platform || "Social media"}
-                      className="hover:text-foreground"
+                      className="transition-opacity hover:opacity-75"
                     >
-                      <Icon className="h-5 w-5" />
+                      <Icon className={cn("h-5 w-5", iconColor)} />
                     </a>
                   );
                 })}
