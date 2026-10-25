@@ -14,9 +14,8 @@ export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
     ? urlFor(post.coverImage.asset).width(600).height(400).url()
     : null;
 
-  const displayDate = post.eventDate ?? post.publishedAt;
-  const eventDate = displayDate
-    ? new Date(displayDate).toLocaleDateString(
+  const publishedDate = post.publishedAt
+    ? new Date(post.publishedAt).toLocaleDateString(
         locale === "pl" ? "pl-PL" : "en-US",
         {
           month: "short",
@@ -55,8 +54,10 @@ export function NewsCard({ post, locale }: { post: NewsPost; locale: string }) {
                 {categoryTitle}
               </span>
             )}
-            {eventDate && (
-              <span className="text-muted-foreground text-xs">{eventDate}</span>
+            {publishedDate && (
+              <span className="text-muted-foreground text-xs">
+                {publishedDate}
+              </span>
             )}
           </div>
 
