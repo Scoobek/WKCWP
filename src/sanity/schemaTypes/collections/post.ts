@@ -78,13 +78,6 @@ export const post = defineType({
       hidden: true,
     }),
     defineField({
-      name: "eventDate",
-      type: "date",
-      description: "Date of the event (used for sorting in the news grid)",
-      hidden: ({ parent }: { parent?: { category?: string } }) =>
-        parent?.category === "announcement",
-    }),
-    defineField({
       name: "location",
       type: "string",
       description: "Town/city name where the event takes place",

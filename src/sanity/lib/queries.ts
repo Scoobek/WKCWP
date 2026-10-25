@@ -105,7 +105,6 @@ export type Post = PostListItem & {
   content: PostBlock[] | null;
   coverImage: SanityImage | null;
   category: NewsCategory | null;
-  eventDate: string | null;
   location: string | null;
   translations: DocTranslation[];
 };
@@ -154,7 +153,7 @@ const CONTENT_FRAGMENT = groq`content[]{
 
 const POST_QUERY = groq`*[_type == "post" && language == $locale && slug.current == $slug][0]{
   _id, title, "slug": slug.current, excerpt, publishedAt,
-  coverImage{ asset, alt }, category, eventDate, location,
+  coverImage{ asset, alt }, category, location,
   ${CONTENT_FRAGMENT},
   ${TRANSLATIONS_FRAGMENT}
 }`;
@@ -348,7 +347,6 @@ export type NewsPost = {
   title: string;
   slug: string;
   category: NewsCategory | null;
-  eventDate: string | null;
   location: string | null;
   coverImage: SanityImage | null;
   publishedAt: string | null;
@@ -646,7 +644,7 @@ const NEWS_POSTS_FILTER = groq`_type == "post" && language == $locale && defined
 
 const NEWS_POSTS_PAGE_QUERY = groq`{
   "items": *[${NEWS_POSTS_FILTER}] | order(coalesce(publishedAt, _createdAt) desc) [$offset...$offsetEnd]{
-    _id, title, "slug": slug.current, category, eventDate, location, publishedAt, coverImage{ asset, alt }
+    _id, title, "slug": slug.current, category, location, publishedAt, coverImage{ asset, alt }
   },
   "total": count(*[${NEWS_POSTS_FILTER}])
 }`;
