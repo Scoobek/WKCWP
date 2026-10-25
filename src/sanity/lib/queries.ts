@@ -331,11 +331,24 @@ export type Breed = BreedListItem & {
   translations: DocTranslation[];
 };
 
+export type ImageLinkItem = {
+  _key: string;
+  image: SanityImage | null;
+  url: string | null;
+};
+
+export type ImageLinksSection = {
+  _type: "imageLinksSection";
+  _key: string;
+  items: ImageLinkItem[] | null;
+};
+
 export type PageSection =
   | ArticleSection
   | BreedProfileSection
   | BreedsSection
   | HeroSection
+  | ImageLinksSection
   | NewsSection
   | ContactSection
   | SponsorsSection
@@ -355,7 +368,7 @@ export type NewsPost = {
 /** Shared projection for a page-builder `sections` array. Reused by any type
  * that has one (pages, the home singleton). Keep in sync with `PageSection`. */
 const SECTIONS_FRAGMENT = groq`sections[]{
-  _type, _key, title, heading, subheading, description, ${withLinks("body")}, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, registrationName, nip, regon, krs, oppStatus, bankAccount, bankName, sponsors[]{ _key, name, logo{ asset }, url }, links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }, author[]{ firstName, lastName, bio, photo{ asset, alt } }, images[]{ asset, alt }, facts[]{ _key, label, value }, columns, people[]{ _key, name, bio, photo{ asset, alt }, photoShape, email, phone, socials[]{ _key, platform, url } }
+  _type, _key, title, heading, subheading, description, ${withLinks("body")}, ctaLabel, ctaLink${LINK_FRAGMENT}, image{ asset, alt }, street, buildingNumber, postalCode, town, email, phone, registrationName, nip, regon, krs, oppStatus, bankAccount, bankName, sponsors[]{ _key, name, logo{ asset }, url }, items[]{ _key, image{ asset, alt }, url },links[]{ _key, platform, profileName, url, followersLabel, youtubeChannelId }, author[]{ firstName, lastName, bio, photo{ asset, alt } }, images[]{ asset, alt }, facts[]{ _key, label, value }, columns, people[]{ _key, name, bio, photo{ asset, alt }, photoShape, email, phone, socials[]{ _key, platform, url } }
 }`;
 
 export type PageDocument = {

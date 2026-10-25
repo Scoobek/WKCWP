@@ -13,6 +13,7 @@ import { breedProfileSection } from "./sections/breedProfileSection";
 import { breedsSection } from "./sections/breedsSection";
 import { contactSection } from "./sections/contactSection";
 import { heroSection } from "./sections/heroSection";
+import { imageLinksSection } from "./sections/imageLinksSection";
 import { newsSection } from "./sections/newsSection";
 import { profilesSection } from "./sections/profilesSection";
 import { socialMediaSection } from "./sections/socialMediaSection";
@@ -35,6 +36,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     breedsSection,
     contactSection,
     heroSection,
+    imageLinksSection,
     newsSection,
     profilesSection,
     socialMediaSection,

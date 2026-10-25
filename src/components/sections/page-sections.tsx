@@ -2,6 +2,7 @@ import { Article } from "@/components/sections/article";
 import { BreedProfile, Breeds } from "@/components/sections/breeds";
 import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
+import { ImageLinks } from "@/components/sections/image-links";
 import { Profiles } from "@/components/sections/profiles";
 import { News } from "@/components/sections/news";
 import { SocialMedia } from "@/components/sections/social-media";
@@ -49,6 +50,8 @@ export function PageSections({
         return <Contact key={section._key} {...section} id={id} />;
       case "heroSection":
         return <Hero key={section._key} {...section} id={id} />;
+      case "imageLinksSection":
+        return <ImageLinks key={section._key} {...section} id={id} />;
       case "newsSection":
         return (
           <News
